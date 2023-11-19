@@ -28,6 +28,8 @@ class Tranzakcio(db.Model):
     tipus = db.Column(db.String(50), unique=False, nullable=False)
     ertek = db.Column(db.Integer)
     datum = db.Column(db.String(25))
+    bolti_aru_nev = db.Column(db.String(50))
+    sajat_aru_nev = db.Column(db.String(50))
 
 
 with app.app_context():
