@@ -39,6 +39,11 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
+@app.route("/osszegfelvetel")
+def osszegf():
+    return 52
+
+
 if __name__ == '__main__':
     print(len("a4232c55ba718564b614564076384eaf0600b537bb1ef30b9b92f8d7f806804a"))
-    app.run()
+    app.run(debug=True)
