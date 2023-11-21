@@ -1,49 +1,74 @@
 # Nyugtas kiadas felvetel
 
+import io
 import requests
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
 
 
-class NyugtasKiadas:
-    @staticmethod
-    def _nyugta_olvasas() -> dict:
-        with open("nyugta.jpg", 'rb') as file:
-            nyugta = {'document': file}
+def nyugta_adatfeldolgozas(photo) -> dict:
+    nyugta = {'document': photo}
 
-            response = requests.post(
-                url="https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict",
-                files=nyugta,
-                headers={"Authorization": API_KEY},
-            )
+    response = requests.post(
+        url="https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict",
+        files=nyugta,
+        headers={"Authorization": API_KEY},
+    )
 
-        nyers_adatok: dict = response.json()
+    nyers_adatok: dict = response.json()
 
-        termekek = nyers_adatok['document']['inference']['prediction']['line_items']
-        bolt = None
-        datum = None
+    bolti_termek_nevek = [
+        sub['description'] for sub in nyers_adatok['document']['inference']['prediction']['line_items']
+    ]
 
-        return {'termekek': termekek, 'bolt': bolt, 'datum': datum}
+    bolti_termek_arak = [
+        sub['total_amount'] for sub in nyers_adatok['document']['inference']['prediction']['line_items']
+    ]
+
+    bolt_nev = nyers_adatok['document']['inference']['prediction']['supplier_name']['value']
+
+    datum = nyers_adatok['document']['inference']['prediction']['date']['value']
+
+    return {
+        "bolt_nev": bolt_nev,
+        "datum": datum,
+        "bolti_termek_nevek": bolti_termek_nevek,
+        "bolti_termek_arak": bolti_termek_arak,
+    }
 
 
-if __name__ == '__main__':
-    # Lista Dictionarikkel
-    bolti_termekek = NyugtasKiadas._nyugta_olvasas()['termekek']
-    print(bolti_termekek)
+def nyugtas_kiadas_felvetel(nyugta_adatok: dict) -> dict:
+    if uj_bolt_nev := input(f"Helytelen bolt nev eseten ird be a bolt nevet, kulonben hagy uresen ({nyugta_adatok['bolt_nev']})"): nyugta_adatok['bolt_nev'] = uj_bolt_nev
+    if uj_datum := input(f"Helytelen datum eseten ird be a datumot, kulonben hagy uresen ({nyugta_adatok['datum']})"): nyugta_adatok['datum'] = uj_datum
+
 
     sajat_termek_nevek = []
     sajat_termek_arak = []
-    for termek in bolti_termekek:
-        print(termek['description'], termek['total_amount'])
-        sajat_termek_nevek.append(input("nev: "))
-        sajat_termek_arak.append(input("ar: "))
+    for (bolti_termek_nev, bolti_termek_ar) in zip(nyugta_adatok['bolti_termek_nevek'], nyugta_adatok['bolti_termek_arak']):
+        sajat_termek_nev = input(f"{bolti_termek_nev}: ")
+        sajat_termek_ar = input(f"{bolti_termek_ar}: ")
 
-    print(sajat_termek_nevek)
-    print(sajat_termek_arak)
-    # ['dormi', 'csirkemell', 'csirkemell', 'zabfalat', 'mazsolas milka 549', 'pantastico', 'szatyor', 'baba', 'bacon',
-    #  'bacon', 'sertes mix', 'kacsazsir', 'chili', 'szegfuszeg', 'kerek', 'szalag', 'szarny', 'prof', 'morando',
-    #  'lapsajt']
-    #  '7000', '480', '960', '480', '660']
-    # ['298', '1220', '1426', '529', '549', '978', '299', '169', '1900', '1000', '1385', '1200', '500', '250', '2340',
+        if sajat_termek_nev:
+            sajat_termek_nevek.append(sajat_termek_nev)
+        else:
+            sajat_termek_nevek.append(bolti_termek_nev)
+
+        if sajat_termek_ar:
+            sajat_termek_arak.append(int(sajat_termek_ar))
+        else:
+            sajat_termek_arak.append(int(bolti_termek_ar))
 
 
+    return {
+        "bolt_nev": nyugta_adatok['bolt_nev'],
+        "datum": nyugta_adatok['datum'],
+        "bolti_termek_nevek": nyugta_adatok['bolti_termek_nevek'],
+        "sajat_termek_nevek": sajat_termek_nevek,
+        "sajat_termek_arak": sajat_termek_arak,
+    }
+
+
+if __name__ == '__main__':
+    # print(NyugtasKiadas.felvetel())
+    # file type: io.BufferReader
+    ...
