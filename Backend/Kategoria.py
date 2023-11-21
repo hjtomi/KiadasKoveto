@@ -1,4 +1,6 @@
 
+import unittest
+
 class KategoriaAjanlasok:
     """
     A beadott termékekre küld vissza egy-egy nyolc részből álló javaslatot,
