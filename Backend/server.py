@@ -1,4 +1,3 @@
-
 import random
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -13,12 +12,14 @@ db = SQLAlchemy()
 
 db.init_app(app)
 
+
 class Felhasznalo(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
     jelszo = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
     kategoriak = db.Column(db.String, unique=False, nullable=True)
     egyenleg = db.Column(db.Integer, unique=False, nullable=True)
+
 
 class Tranzakcio(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
@@ -76,17 +77,20 @@ def nyugtas_kiadas():
 
     #print(kategoriak.javaslatKeres())
 
-    uj_tranzakcio = Tranzakcio(
-        felhasznalonev=f"Proba{random.randint(10, 500000)}",
-        tranzakcio_id=0,
-        tipus='nyugtas_kiadas',
-        ertek=sum(kesz_adatok['sajat_termek_arak']),
-        datum=kesz_adatok['datum'],
-        bolti_aru_nev=',, '.join(kesz_adatok['bolti_termek_nevek']),
-        sajat_aru_nev=',, '.join(kesz_adatok['sajat_termek_nevek'])
-    )
-    db.session.add(uj_tranzakcio)
-    db.session.commit()
+    for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev) in zip(kesz_adatok['sajat_termek_arak'],
+                                                                     kesz_adatok['bolti_termek_nevek'],
+                                                                     kesz_adatok['sajat_termek_nevek']):
+        uj_tranzakcio = Tranzakcio(
+            felhasznalonev="Proba",
+            tranzakcio_id=0,
+            tipus='nyugtas_kiadas',
+            ertek=sajat_termek_ar,
+            datum=kesz_adatok['datum'],
+            bolti_aru_nev=bolti_termek_nev,
+            sajat_aru_nev=sajat_termek_nev
+        )
+        db.session.add(uj_tranzakcio)
+        db.session.commit()
     return "<p>Nyugtas kiadas felveve</p>"
 
 
