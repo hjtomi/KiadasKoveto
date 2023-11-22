@@ -1,3 +1,5 @@
+
+import random
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import NyugtasKiadas.nyugtas_kiadas as nyk
@@ -52,15 +54,28 @@ def nyugtas_kiadas():
     kesz_adatok = nyk.nyugtas_kiadas_felvetel(nyugta_adatok)
 
     felhasznalo_kategoriaiak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
+
+    tranzakciok_db_reszlet = []
+    tranzakciok = Tranzakcio.query.all()
+    for tranzakcio in tranzakciok:
+        tranzakciok_db_reszlet.append([])
+        tranzakciok_db_reszlet[-1].append(tranzakcio.felhasznalonev)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.tipus)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.bolti_aru_nev)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.sajat_aru_nev)
+
     kategoriak = Kategoria.KategoriaAjanlasok(
         termekek=nyugta_adatok["bolti_termek_nevek"],
         bolt=nyugta_adatok["bolt_nev"],
         felhasznalonev=felhasznalonev,
         kategoriak=felhasznalo_kategoriaiak,
+        tranzakciok=tranzakciok_db_reszlet,
     )
 
+    #print(kategoriak.javaslatKeres())
+
     uj_tranzakcio = Tranzakcio(
-        felhasznalonev="Proba2",
+        felhasznalonev=f"Proba{random.randint(10, 500000)}",
         tranzakcio_id=0,
         tipus='nyugtas_kiadas',
         ertek=sum(kesz_adatok['sajat_termek_arak']),
@@ -75,4 +90,4 @@ def nyugtas_kiadas():
 
 if __name__ == '__main__':
     print(len("a4232c55ba718564b614564076384eaf0600b537bb1ef30b9b92f8d7f806804a"))
-    app.run()
+    app.run(debug=True)

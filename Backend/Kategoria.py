@@ -14,23 +14,25 @@ class KategoriaAjanlasok:
 
     Amennyiben a kategória javaslat típusokba több elem is tartozik, azon belüli valószínűségeket is számolunk.
     Pl: A felhasználók 99%-a szerint az alma gyümölcs, 1%-a szerint zöldség, akkor a javaslatban
-        [[alma, 1.98][zöldség, 0.02] jelenik meg.
+        {gyümölcs:1.98, zöldség:0.02} jelenik meg.
 
     @:param:
         termekek: list [bolti áru név, saját áru név]
         bolt: string
         felhasznalonev: string
+        kategoriak: string
+        tranzakciok: list || az eddigi tranzakciók azon elemei, amik információval szolgálnak a kategória javaslathoz
 
      """
-    def __init__(self, termekek:list, bolt, felhasznalonev, kategoriak): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
+    def __init__(self, termekek:list, bolt, felhasznalonev, kategoriak, tranzakciok): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
         self.javaslatok = []
         self.termekek = termekek
         self.bolt = bolt
         self.felhasznalo = felhasznalonev
         self.kategoriak = kategoriak
+        self.tranzakciok = tranzakciok
         for termek in self.termekek:
             self.javaslatok.append(self.kategoriaJavaslat(termek))
-
 
         self.javaslatKeres()
 
@@ -46,27 +48,50 @@ class KategoriaAjanlasok:
 
         return javaslat
 
-    def kategoriaFelhasznaloSzerint(self, termek) -> list:
+    def kategoriaFelhasznaloSzerint(self, termek) -> dict:
         """javaslat készítés felhasználói előzményekből"""
-        javaslat = []
+
+        reszlet = []
+        for tranzakcio in self.tranzakciok:
+            if tranzakcio[0] == self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
+                reszlet.append(tranzakcio[1])
+
+        javaslat = {}
+
+        for resz in reszlet:
+            if javaslat.get(resz):
+                javaslat[resz] += 1
+            else:
+                javaslat[resz] = 1
 
         return javaslat
 
-    def kategoriaMasFelhasznaloSzerint(self, termek) -> list:
+    def kategoriaMasFelhasznaloSzerint(self, termek) -> dict:
         """javaslat készítés a többi felhasználó előzményéből"""
-        javaslat = []
+        reszlet = []
+        for tranzakcio in self.tranzakciok:
+            if tranzakcio[0] == self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
+                reszlet.append(tranzakcio[1])
+
+        javaslat = {}
+
+        for resz in reszlet:
+            if javaslat.get(resz):
+                javaslat[resz] += 1
+            else:
+                javaslat[resz] = 1
 
         return javaslat
 
-    def kategoriaStandardSzerint(self, termek) -> list:
+    def kategoriaStandardSzerint(self, termek) -> dict:
         """javaslat készítés előre megadott adatok alapján"""
-        javaslat = []
+        javaslat = {}
 
         return javaslat
 
-    def kategoriaBoltSzerint(self, termek) -> list:
+    def kategoriaBoltSzerint(self, termek) -> dict:
         """javaslat készítés a bolt alapján"""
-        javaslat = []
+        javaslat = {}
 
         return javaslat
 
