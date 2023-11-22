@@ -28,7 +28,7 @@ class Tranzakcio(db.Model):
     datum = db.Column(db.String(25))
     bolti_aru_nev = db.Column(db.String(50))
     sajat_aru_nev = db.Column(db.String(50))
-    bolt = db.Column(db.String(50))
+    #bolt = db.Column(db.String(50))
 
 
 with app.app_context():
@@ -64,7 +64,7 @@ def nyugtas_kiadas():
         tranzakciok_db_reszlet[-1].append(tranzakcio.tipus)
         tranzakciok_db_reszlet[-1].append(tranzakcio.bolti_aru_nev)
         tranzakciok_db_reszlet[-1].append(tranzakcio.sajat_aru_nev)
-        tranzakciok_db_reszlet[-1].append(tranzakcio.bolt)
+        #tranzakciok_db_reszlet[-1].append(tranzakcio.bolt)
 
     kategoriak = Kategoria.KategoriaAjanlasok(
         termekek=nyugta_adatok["bolti_termek_nevek"],
