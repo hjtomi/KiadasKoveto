@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import NyugtasKiadas.nyugtas_kiadas as nyk
+import Kategoria
 
 app = Flask(__name__)
 
@@ -10,14 +11,12 @@ db = SQLAlchemy()
 
 db.init_app(app)
 
-
 class Felhasznalo(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
     jelszo = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
     kategoriak = db.Column(db.String, unique=False, nullable=True)
     egyenleg = db.Column(db.Integer, unique=False, nullable=True)
-
 
 class Tranzakcio(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
@@ -40,6 +39,7 @@ def hello_world():
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
+    felhasznalonev = "Proba"
     print(bool(0))
     # with open('nyugta3.jpg', 'rb') as file:
     #     adatok = nyk.nyugta_adatfeldolgozas(file)
@@ -50,8 +50,17 @@ def nyugtas_kiadas():
     'bolti_termek_arak': [298.0, 220.0, 436.0, 529.0, 549.0, 978.0, 299.0, 169.0, 899.0, 999.0, 385.0, 199.0, 499.0, 249.0, 339.0, 699.0, 479.0, 958.0, 479.0, 659.0]
 }
     kesz_adatok = nyk.nyugtas_kiadas_felvetel(nyugta_adatok)
+
+    felhasznalo_kategoriaiak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
+    kategoriak = Kategoria.KategoriaAjanlasok(
+        termekek=nyugta_adatok["bolti_termek_nevek"],
+        bolt=nyugta_adatok["bolt_nev"],
+        felhasznalonev=felhasznalonev,
+        kategoriak=felhasznalo_kategoriaiak,
+    )
+
     uj_tranzakcio = Tranzakcio(
-        felhasznalonev="Proba",
+        felhasznalonev="Proba2",
         tranzakcio_id=0,
         tipus='nyugtas_kiadas',
         ertek=sum(kesz_adatok['sajat_termek_arak']),
@@ -66,4 +75,4 @@ def nyugtas_kiadas():
 
 if __name__ == '__main__':
     print(len("a4232c55ba718564b614564076384eaf0600b537bb1ef30b9b92f8d7f806804a"))
-    app.run(debug=True)
+    app.run()

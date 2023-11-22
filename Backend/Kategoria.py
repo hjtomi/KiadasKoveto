@@ -22,11 +22,12 @@ class KategoriaAjanlasok:
         felhasznalonev: string
 
      """
-    def __init__(self, termekek:list, bolt, felhasznalonev): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
+    def __init__(self, termekek:list, bolt, felhasznalonev, kategoriak): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
         self.javaslatok = []
         self.termekek = termekek
         self.bolt = bolt
         self.felhasznalo = felhasznalonev
+        self.kategoriak = kategoriak
         for termek in self.termekek:
             self.javaslatok.append(self.kategoriaJavaslat(termek))
 
