@@ -31,25 +31,44 @@ class KategoriaAjanlasok:
         self.felhasznalo = felhasznalonev
         self.kategoriak = kategoriak
         self.tranzakciok = tranzakciok
+
+
         for termek in self.termekek:
-            self.javaslatok.append(self.kategoriaJavaslat(termek))
+            self.javaslatok.append({})
+            javaslat = self.kategoriaJavaslat(termek)
+            for k, v in javaslat.items():
+                self.javaslatok[-1][k] = v
 
-        self.javaslatKeres()
 
-    def kategoriaJavaslat(self, termek) -> list:
+    def kategoriaJavaslat(self, termek) -> dict:
         """összefűzi a különboző javaslatokat"""
-        javaslat = []
-        javaslat.append(self.kategoriaFelhasznaloSzerint(termek))
-        javaslat.append(self.kategoriaMasFelhasznaloSzerint(termek))
-        javaslat.append(self.kategoriaStandardSzerint(termek))
-        javaslat.append(self.kategoriaBoltSzerint(termek))
-
-        self.javaslatok.append(javaslat)
+        javaslat = {}
+        for k, v in self.kategoriaFelhasznaloSzerint(termek).items():
+            if javaslat.get(k):
+                javaslat[k] += v
+            else:
+                javaslat[k] = v
+        for k, v in self.kategoriaMasFelhasznaloSzerint(termek).items():
+            if javaslat.get(k):
+                javaslat[k] += v
+            else:
+                javaslat[k] = v
+        for k, v in self.kategoriaStandardSzerint(termek).items():
+            if javaslat.get(k):
+                javaslat[k] += v
+            else:
+                javaslat[k] = v
+        for k, v in self.kategoriaBoltSzerint(termek).items():
+            if javaslat.get(k):
+                javaslat[k] += v
+            else:
+                javaslat[k] = v
 
         return javaslat
 
     def kategoriaFelhasznaloSzerint(self, termek) -> dict:
         """javaslat készítés felhasználói előzményekből"""
+
 
         reszlet = []
         for tranzakcio in self.tranzakciok:

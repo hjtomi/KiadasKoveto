@@ -23,9 +23,9 @@ class Felhasznalo(db.Model):
 
 class Tranzakcio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    felhasznalonev = db.Column(db.String(25), primary_key=False, unique=False)
-    tranzakcio_id = db.Column(db.Integer, unique=False, nullable=False)
-    tipus = db.Column(db.String(50), unique=False, nullable=False)
+    felhasznalonev = db.Column(db.String(25))
+    tranzakcio_id = db.Column(db.Integer, nullable=False)
+    tipus = db.Column(db.String(50), nullable=False)
     ertek = db.Column(db.Integer)
     datum = db.Column(db.String(25))
     bolti_aru_nev = db.Column(db.String(50))
@@ -51,8 +51,8 @@ def nyugtas_kiadas():
     nyugta_adatok = {
     'bolt_nev': "Spar",
     'datum': None,
-    'bolti_termek_nevek': ['B00 db DORMI EPRES 30G 149 Ft/db', 'A00 CSIRKEMELLF. SZCS', 'A00 CSIRKEMELLE SZCS', 'CO0 GYE.ZABFAL.CS02244G', 'CO0 MILKA.MAZS.MOGY 100G', 'BO0 db PANTASTICO RETRO 489 Ft/db PUF', 'CO0 BEVASARLO TASKA', 'COO SZT.KIRALYI BABA 1L', 'COO AN BACON 2X200G', 'CO0 KOCKAZOTT BACON 500G', 'AOO AN SERTES-MARHA MIX', 'CO0 PF. KACSAZSIR 200G', 'CO0 THYMOS CHILT OROLT25', 'CO0 HR SZEGFUSZEG.10 G.', 'COO KEREKANYA KERESZTK', 'COO HOBBY-SZALAG, EZUST.', 'COO MC PROF400G SZARNY', 'db 479 Ft/db', 'COO MORANDO PROFESSIONAL', 'BO0 CHED.LAPKA SAJT 150G'],
-    'bolti_termek_arak': [298.0, 220.0, 436.0, 529.0, 549.0, 978.0, 299.0, 169.0, 899.0, 999.0, 385.0, 199.0, 499.0, 249.0, 339.0, 699.0, 479.0, 958.0, 479.0, 659.0]
+    'bolti_termek_nevek': ['Fanta 0,5L', 'B00 db DORMI EPRES 30G 149 Ft/db', 'A00 CSIRKEMELLF. SZCS', 'A00 CSIRKEMELLE SZCS', 'CO0 GYE.ZABFAL.CS02244G', 'CO0 MILKA.MAZS.MOGY 100G', 'BO0 db PANTASTICO RETRO 489 Ft/db PUF', 'CO0 BEVASARLO TASKA', 'COO SZT.KIRALYI BABA 1L', 'COO AN BACON 2X200G', 'CO0 KOCKAZOTT BACON 500G', 'AOO AN SERTES-MARHA MIX', 'CO0 PF. KACSAZSIR 200G', 'CO0 THYMOS CHILT OROLT25', 'CO0 HR SZEGFUSZEG.10 G.', 'COO KEREKANYA KERESZTK', 'COO HOBBY-SZALAG, EZUST.', 'COO MC PROF400G SZARNY', 'db 479 Ft/db', 'COO MORANDO PROFESSIONAL', 'BO0 CHED.LAPKA SAJT 150G'],
+    'bolti_termek_arak': [399.0, 298.0, 220.0, 436.0, 529.0, 549.0, 978.0, 299.0, 169.0, 899.0, 999.0, 385.0, 199.0, 499.0, 249.0, 339.0, 699.0, 479.0, 958.0, 479.0, 659.0]
 }
     kesz_adatok = nyk.nyugtas_kiadas_felvetel(nyugta_adatok)
 
@@ -66,7 +66,6 @@ def nyugtas_kiadas():
         tranzakciok_db_reszlet[-1].append(tranzakcio.tipus)
         tranzakciok_db_reszlet[-1].append(tranzakcio.bolti_aru_nev)
         tranzakciok_db_reszlet[-1].append(tranzakcio.sajat_aru_nev)
-        #tranzakciok_db_reszlet[-1].append(tranzakcio.bolt)
 
     kategoriak = Kategoria.KategoriaAjanlasok(
         termekek=nyugta_adatok["bolti_termek_nevek"],
@@ -76,12 +75,11 @@ def nyugtas_kiadas():
         tranzakciok=tranzakciok_db_reszlet,
     )
 
-    #print(kategoriak.javaslatKeres())
+    print(kategoriak.javaslatKeres())
 
     for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev) in zip(kesz_adatok['sajat_termek_arak'],
                                                                      kesz_adatok['bolti_termek_nevek'],
                                                                      kesz_adatok['sajat_termek_nevek']):
-        print(tranzakciok)
         uj_tranzakcio = Tranzakcio(
             id=tranzakciok[-1].id+1,
             felhasznalonev="Proba",
