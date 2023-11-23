@@ -56,7 +56,7 @@ def nyugtas_kiadas():
 }
     kesz_adatok = nyk.nyugtas_kiadas_felvetel(nyugta_adatok)
 
-    felhasznalo_kategoriaiak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
+    felhasznalo_kategoriak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
 
     tranzakciok_db_reszlet = []
     tranzakciok = Tranzakcio.query.all()
@@ -71,7 +71,7 @@ def nyugtas_kiadas():
         termekek=nyugta_adatok["bolti_termek_nevek"],
         bolt=nyugta_adatok["bolt_nev"],
         felhasznalonev=felhasznalonev,
-        kategoriak=felhasznalo_kategoriaiak,
+        kategoriak=felhasznalo_kategoriak,
         tranzakciok=tranzakciok_db_reszlet,
     )
 
@@ -81,7 +81,6 @@ def nyugtas_kiadas():
                                                                      kesz_adatok['bolti_termek_nevek'],
                                                                      kesz_adatok['sajat_termek_nevek']):
         uj_tranzakcio = Tranzakcio(
-            id=tranzakciok[-1].id+1,
             felhasznalonev="Proba",
             tranzakcio_id=0,
             tipus='nyugtas_kiadas',
@@ -92,7 +91,7 @@ def nyugtas_kiadas():
             bolt="Spar"
         )
         db.session.add(uj_tranzakcio)
-        db.session.commit()
+    db.session.commit()
     return "<p>Nyugtas kiadas felveve</p>"
 
 

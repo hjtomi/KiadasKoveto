@@ -69,7 +69,6 @@ class KategoriaAjanlasok:
     def kategoriaFelhasznaloSzerint(self, termek) -> dict:
         """javaslat készítés felhasználói előzményekből"""
 
-
         reszlet = []
         for tranzakcio in self.tranzakciok:
             if tranzakcio[0] == self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
@@ -89,7 +88,7 @@ class KategoriaAjanlasok:
         """javaslat készítés a többi felhasználó előzményéből"""
         reszlet = []
         for tranzakcio in self.tranzakciok:
-            if tranzakcio[0] == self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
+            if tranzakcio[0] != self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
                 reszlet.append(tranzakcio[1])
 
         javaslat = {}
