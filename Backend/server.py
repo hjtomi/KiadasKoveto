@@ -20,7 +20,6 @@ class Felhasznalo(db.Model):
     kategoriak = db.Column(db.String, unique=False, nullable=True)
     egyenleg = db.Column(db.Integer, unique=False, nullable=True)
 
-
 class Tranzakcio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     felhasznalonev = db.Column(db.String(25))
@@ -31,6 +30,11 @@ class Tranzakcio(db.Model):
     bolti_aru_nev = db.Column(db.String(50))
     sajat_aru_nev = db.Column(db.String(50))
     bolt = db.Column(db.String(50))
+
+def adat_hozzadas(adatok):
+    db.session.add_all(adatok)
+    db.session.commit()
+
 
 
 with app.app_context():

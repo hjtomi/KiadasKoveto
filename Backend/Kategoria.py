@@ -115,3 +115,4 @@ class KategoriaAjanlasok:
 
     def javaslatKeres(self) -> list:
         return self.javaslatok
+
