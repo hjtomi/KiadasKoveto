@@ -1,5 +1,6 @@
 
 import unittest
+from flask_sqlalchemy import SQLAlchemy
 
 class KategoriaAjanlasok:
     """
@@ -24,20 +25,18 @@ class KategoriaAjanlasok:
         tranzakciok: list || az eddigi tranzakciók azon elemei, amik információval szolgálnak a kategória javaslathoz
 
      """
-    def __init__(self, termekek:list, bolt, felhasznalonev, kategoriak, tranzakciok): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
-        self.javaslatok = []
-        self.termekek = termekek
+    def __init__(self, bolt, felhasznalonev, kategoriak, tranzakciok): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
+        self.javaslat = []
         self.bolt = bolt
         self.felhasznalo = felhasznalonev
         self.kategoriak = kategoriak
         self.tranzakciok = tranzakciok
 
 
-        for termek in self.termekek:
-            self.javaslatok.append({})
-            javaslat = self.kategoriaJavaslat(termek)
-            for k, v in javaslat.items():
-                self.javaslatok[-1][k] = v
+    def javaslat(self, termek):
+        javaslat = self.kategoriaJavaslat(termek)
+        for k, v in javaslat.items():
+            self.javaslat.append([k, v])
 
 
     def kategoriaJavaslat(self, termek) -> dict:
@@ -114,5 +113,25 @@ class KategoriaAjanlasok:
         return javaslat
 
     def javaslatKeres(self) -> list:
-        return self.javaslatok
+        return self.javaslat
 
+def felhasznalo_kategoriak(Felhasznalo, felhasznalonev):
+    felhasznalo_kategoriak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
+
+def tranzakciok_db_szures(Tranzakcio):
+    tranzakciok_db_reszlet = []
+    tranzakciok = Tranzakcio.query.all()
+    for tranzakcio in tranzakciok:
+        tranzakciok_db_reszlet.append([])
+        tranzakciok_db_reszlet[-1].append(tranzakcio.felhasznalonev)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.tipus)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.bolti_aru_nev)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.sajat_aru_nev)
+
+
+"""kategoriak = Kategoria.KategoriaAjanlasok(
+        bolt=nyugta_adatok["bolt_nev"],
+        felhasznalonev=felhasznalonev,
+        kategoriak=felhasznalo_kategoriak,
+        tranzakciok=tranzakciok_db_reszlet,
+    )"""

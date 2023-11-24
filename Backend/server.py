@@ -48,7 +48,6 @@ def hello_world():
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
-    felhasznalonev = "Proba1"
     print(bool(0))
     # with open('nyugta3.jpg', 'rb') as file:
     #     adatok = nyk.nyugta_adatfeldolgozas(file)
@@ -59,27 +58,6 @@ def nyugtas_kiadas():
     'bolti_termek_arak': [399.0, 298.0, 220.0, 436.0, 529.0, 549.0, 978.0, 299.0, 169.0, 899.0, 999.0, 385.0, 199.0, 499.0, 249.0, 339.0, 699.0, 479.0, 958.0, 479.0, 659.0]
 }
     kesz_adatok = nyk.nyugtas_kiadas_felvetel(nyugta_adatok)
-
-    felhasznalo_kategoriak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
-
-    tranzakciok_db_reszlet = []
-    tranzakciok = Tranzakcio.query.all()
-    for tranzakcio in tranzakciok:
-        tranzakciok_db_reszlet.append([])
-        tranzakciok_db_reszlet[-1].append(tranzakcio.felhasznalonev)
-        tranzakciok_db_reszlet[-1].append(tranzakcio.tipus)
-        tranzakciok_db_reszlet[-1].append(tranzakcio.bolti_aru_nev)
-        tranzakciok_db_reszlet[-1].append(tranzakcio.sajat_aru_nev)
-
-    kategoriak = Kategoria.KategoriaAjanlasok(
-        termekek=nyugta_adatok["bolti_termek_nevek"],
-        bolt=nyugta_adatok["bolt_nev"],
-        felhasznalonev=felhasznalonev,
-        kategoriak=felhasznalo_kategoriak,
-        tranzakciok=tranzakciok_db_reszlet,
-    )
-
-    print(kategoriak.javaslatKeres())
 
     for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev) in zip(kesz_adatok['sajat_termek_arak'],
                                                                      kesz_adatok['bolti_termek_nevek'],
