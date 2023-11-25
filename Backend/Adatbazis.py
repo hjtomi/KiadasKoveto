@@ -3,11 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-#app = None
 def app_(app):
-    #global app
     db.init_app(app)
-    app = app
 
 class Felhasznalo(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
