@@ -32,3 +32,11 @@ def db_creater(app):
 def adat_hozzadas(adatok:list):
     db.session.add_all(adatok)
     db.session.commit()
+
+def adatok_lekerese(tranzakcio=True):
+    if tranzakcio:
+        tranzakciok = Tranzakcio.query.all()
+        return tranzakciok
+    else:
+        felhasznalo = Felhasznalo.query.all()
+        return felhasznalo
