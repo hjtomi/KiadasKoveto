@@ -1,9 +1,12 @@
 # Nyugtas kiadas felvetel
 
 import requests
-from Adatbazis import Felhasznalo, Tranzakcio, adatok_hozzadasa
+from Adatbazis import Tranzakcio, adatok_hozzadasa
+import Kategoria
+from alap_kategoriak import alap_kategoriak
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
+URL = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
 
 debug_nyers_nyugta_adatok = {
         'bolt_nev': "Spar",
@@ -22,61 +25,35 @@ debug_nyers_nyugta_adatok = {
 
 
 class NyugtasKiadas:
+    """Input: Vagy egy foto a nyugtarol vagy debug=True annak
+    erdekeben hogy ne fogyjon a max api request"""
+
     def __init__(self, photo=None, debug=False):
         if debug:
-            kesz_adatok = self.nyugtas_kiadas_felvetel(debug_nyers_nyugta_adatok)
-
-            uj_elemek = []
-            for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev) in zip(kesz_adatok['sajat_termek_arak'],
-                                                                             kesz_adatok['bolti_termek_nevek'],
-                                                                             kesz_adatok['sajat_termek_nevek']):
-                uj_elemek.append(
-                    Tranzakcio(
-                        felhasznalonev="Proba",
-                        tranzakcio_id=0,
-                        tipus='nyugtas_kiadas',
-                        ertek=sajat_termek_ar,
-                        datum=kesz_adatok['datum'],
-                        bolti_aru_nev=bolti_termek_nev,
-                        sajat_aru_nev=sajat_termek_nev,
-                        bolt=kesz_adatok['bolt_nev']
-                    )
-                )
+            kesz_adatok = self._nyugtas_kiadas_felvetel(debug_nyers_nyugta_adatok)
+            uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
 
             adatok_hozzadasa(uj_elemek)
 
         else:
 
-            nyers_nyugta_adatok = self.nyugta_adatfeldolgozas(photo)
-            kesz_adatok = self.nyugtas_kiadas_felvetel(nyers_nyugta_adatok)
-
-            uj_elemek = []
-            for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev) in zip(kesz_adatok['sajat_termek_arak'],
-                                                                             kesz_adatok['bolti_termek_nevek'],
-                                                                             kesz_adatok['sajat_termek_nevek']):
-                uj_elemek.append(
-                    Tranzakcio(
-                        felhasznalonev="Proba",
-                        tranzakcio_id=0,
-                        tipus='nyugtas_kiadas',
-                        ertek=sajat_termek_ar,
-                        datum=kesz_adatok['datum'],
-                        bolti_aru_nev=bolti_termek_nev,
-                        sajat_aru_nev=sajat_termek_nev,
-                        bolt=kesz_adatok['bolt_nev']
-                    )
-                )
+            nyers_nyugta_adatok = self._nyugta_adatfeldolgozas(photo)
+            kesz_adatok = self._nyugtas_kiadas_felvetel(nyers_nyugta_adatok)
+            uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
 
             adatok_hozzadasa(uj_elemek)
 
     @staticmethod
-    def nyugta_adatfeldolgozas(photo) -> dict:
-        nyugta = {'document': photo}
+    def _nyugta_adatfeldolgozas(photo) -> dict:
+        """Hasznalja a mindee API-t es a visszakapott adatokbol
+        kiszuri a szamunkra fontosakat, ezeket hivjuk nyers_nyugta_adatok-nak"""
 
+        files = {'document': photo}
+        headers = {"Authorization": API_KEY}
         response = requests.post(
-            url="https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict",
-            files=nyugta,
-            headers={"Authorization": API_KEY},
+            url=URL,
+            files=files,
+            headers=headers,
         )
 
         nyers_adatok: dict = response.json()
@@ -101,16 +78,26 @@ class NyugtasKiadas:
         }
 
     @staticmethod
-    def nyugtas_kiadas_felvetel(nyugta_adatok: dict) -> dict:
+    def _nyugtas_kiadas_felvetel(nyugta_adatok: dict) -> dict:
+        """A nyers_nyugta_adatokon vegig megy es mindegyiknel
+        lehetoseget ad az ertekek modositasara (es a kategoria megadasara is fog majd)
+        Ezeket hivjuk a kesz_adatok-nak"""
+
         if uj_bolt_nev := input(f"Helytelen bolt nev eseten ird be a bolt nevet, kulonben hagy uresen ({nyugta_adatok['bolt_nev']})"): nyugta_adatok['bolt_nev'] = uj_bolt_nev
         if uj_datum := input(f"Helytelen datum eseten ird be a datumot, kulonben hagy uresen ({nyugta_adatok['datum']})"): nyugta_adatok['datum'] = uj_datum
 
 
         sajat_termek_nevek = []
         sajat_termek_arak = []
+        kategoriak = []
         for (bolti_termek_nev, bolti_termek_ar) in zip(nyugta_adatok['bolti_termek_nevek'], nyugta_adatok['bolti_termek_arak']):
             sajat_termek_nev = input(f"{bolti_termek_nev}: ")
             sajat_termek_ar = input(f"{bolti_termek_ar}: ")
+
+            # kategoria_javaslatok = Kategoria.KategoriaAjanlasok.javaslat()
+
+            megadott_kategoria = input(f"{', '.join(alap_kategoriak)}\n")
+            kategoriak.append(megadott_kategoria)
 
             if sajat_termek_nev:
                 sajat_termek_nevek.append(sajat_termek_nev)
@@ -122,14 +109,38 @@ class NyugtasKiadas:
             else:
                 sajat_termek_arak.append(int(bolti_termek_ar))
 
-
         return {
             "bolt_nev": nyugta_adatok['bolt_nev'],
             "datum": nyugta_adatok['datum'],
             "bolti_termek_nevek": nyugta_adatok['bolti_termek_nevek'],
             "sajat_termek_nevek": sajat_termek_nevek,
             "sajat_termek_arak": sajat_termek_arak,
+            "kategoriak": kategoriak,
         }
+
+    @staticmethod
+    def _uj_adatbazis_elemek_keszitese(kesz_adatok):
+        """Vegigmegy a kesz adatokon es elmenti oket
+        Tranzakcio (adatbazis tabla elem) osztalykent egy listaba"""
+        uj_elemek = []
+        for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev, kategoria) in zip(kesz_adatok['sajat_termek_arak'],
+                                                                                    kesz_adatok['bolti_termek_nevek'],
+                                                                                    kesz_adatok['sajat_termek_nevek'],
+                                                                                    kesz_adatok['kategoriak']):
+            uj_elemek.append(
+                Tranzakcio(
+                    felhasznalonev="Proba",
+                    tranzakcio_id=0,
+                    tipus=kategoria,
+                    ertek=sajat_termek_ar,
+                    datum=kesz_adatok['datum'],
+                    bolti_aru_nev=bolti_termek_nev,
+                    sajat_aru_nev=sajat_termek_nev,
+                    bolt=kesz_adatok['bolt_nev']
+                )
+            )
+
+        return uj_elemek
 
 
 if __name__ == '__main__':
