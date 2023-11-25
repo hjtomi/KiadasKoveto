@@ -2,12 +2,9 @@ from flask import Flask
 import Adatbazis
 from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
-<<<<<<< HEAD
 import Kategoria
-=======
 from  registration import Login
-from  registration import Regisztacio
->>>>>>> d47467498500fa6d81c5e780639649ef0eb047ef
+from  registration import Regisztracio
 
 app = Flask(__name__)
 
@@ -21,14 +18,14 @@ Adatbazis.db_creater(app)
 def hello_world():
     return "<p>Udv a KiadasKoveto applikacioban</p>"
 
-@app.route("/regisztacio")
+@app.route("/regisztracio")
 def regisztracio():
-    #Regisztracio()
+    Regisztracio()
     return "<p>Sikeres regisztracio</p>"
 
 @app.route("/belepes")
-def regisztracio():
-    Login(app=app, password=123, felhasznalo_nev='apu')
+def belepes():
+    Login(felhasznalo_nev=input("Nev"), password=input("jelszo"))
     return "<p>Sikeres belepes</p>"
 
 

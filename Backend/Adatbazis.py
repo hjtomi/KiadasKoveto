@@ -11,7 +11,7 @@ def app_(app):
 
 class Felhasznalo(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
-    jelszo = db.Column(db.String(64), unique=True, nullable=False)
+    jelszo = db.Column(db.String(64), unique=False, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
     kategoriak = db.Column(db.String, unique=False, nullable=True)
     penz_fiokok = db.Column(db.String(100), unique=False, nullable=False)
