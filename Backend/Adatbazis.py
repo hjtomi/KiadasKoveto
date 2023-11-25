@@ -11,8 +11,8 @@ class Felhasznalo(db.Model):
     jelszo = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
     kategoriak = db.Column(db.String, unique=False, nullable=True)
-    penz_fiokok = db.Column(db.String(100), unique=True, nullable=False)
-    osszegek = db.Column(db.Integer, unique=False, nullable=True)
+    penz_fiokok = db.Column(db.String(100), unique=False, nullable=False)
+    osszegek = db.Column(db.String(100), unique=False, nullable=True)
 
 class Tranzakcio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
