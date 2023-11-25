@@ -14,12 +14,12 @@ Adatbazis.db_creater(app)
 @app.route("/")
 def hello_world():
     return "<p>Udv a KiadasKoveto applikacioban</p>"
-
+"""
 @app.route("/regisztacio")
 def regisztracio():
     nyk.NyugtasKiadas(debug=True)
     return "<p>Sikeres regisztracio</p>"
-
+"""
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():

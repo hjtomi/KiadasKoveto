@@ -10,6 +10,10 @@ class Regisztacio():
         self.kategoriak = kategoriak
         self.egyenleg = egyenleg
 
-    @staticmethod
+
     def regist(self):
-        felhasznalonev = input()
+        self.felhasznalonev = input()
+        self.jelszo = input()
+        self.email = input()
+        self.kategoriak = input()
+        self.egyenleg = input()
