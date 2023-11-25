@@ -3,8 +3,8 @@ import Adatbazis
 from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
 import Kategoria
-from  registration import Login
-from  registration import Regisztracio
+from  felhasznalo_kezelo import Login
+from  felhasznalo_kezelo import Regisztracio
 
 app = Flask(__name__)
 

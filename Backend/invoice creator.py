@@ -16,25 +16,5 @@ with open("D:/Munka/Vod/Info/Python2/muhely/IMG2.jpg", "rb") as myfile:
 with open("response3.json", "r") as i:
     data = json.load(i)
 
-#kulcsok az egyik fő kulcsban
-#print(data['document'])
-
-#lényeges kulcsok
-#print(data['document']['inference']['pages'][0]['prediction'].keys())
-
-"""
-#aruk
-print(data['document']['inference']['pages'][0]['prediction']['line_items'])
-
-for x in data['document']['inference']['pages'][0]['prediction']['line_items']:
-    #print(x)
-    if 'Ft/db' in x['description']:
-        x['description'] = x['description'].replace(x['description'], 'aaaaaa')
-        with open('new_data.json', 'w') as f:
-            json.dump(data, f)
-
-for x in data['document']['inference']['pages'][0]['prediction']['line_items']:
-    print(x)
-"""
 for x in data['document']['inference']['pages'][0]['prediction']['line_items']:
     print(x)

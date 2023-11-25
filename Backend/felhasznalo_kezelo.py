@@ -57,3 +57,6 @@ class Login():
             if adatok.felhasznalonev == felhasznalo_nev and adatok.jelszo == password:
                 megfelelo_adatok = adatok
         print(megfelelo_adatok.kategoriak)
+
+class Modositasok():
+    pass
