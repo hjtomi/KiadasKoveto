@@ -23,7 +23,7 @@ def nyugtas_kiadas():
 
 
 @app.route("/nyugtas_kiadas_megtekintese")
-def nyugtas_kiadas():
+def nyugta_megtekintese():
     NyugtaMegtekintese(app=app, tranzakcio_id=0)
     return "<p>Nyugtas megtekintheto</p>"
 
