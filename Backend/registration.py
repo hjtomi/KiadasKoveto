@@ -1,1 +1,0 @@
-https://github.com/hjtomi/KiadasKoveto.git
