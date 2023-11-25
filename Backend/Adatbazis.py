@@ -29,6 +29,6 @@ def db_creater(app):
         db.create_all()
 
 
-def adat_hozzadas(adatok:list):
+def adatok_hozzadasa(adatok:list):
     db.session.add_all(adatok)
     db.session.commit()
