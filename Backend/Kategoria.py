@@ -1,137 +1,143 @@
 
-import unittest
-from flask_sqlalchemy import SQLAlchemy
+import Adatbazis
+import operator
 
-class KategoriaAjanlasok:
-    """
-    A beadott termékekre küld vissza egy-egy nyolc részből álló javaslatot,
-    melyek sorrendje egyben valószínűségi sorrend is.
-
-    Kategória javaslat típusok szorzói:
-    Felhasználó előzményei: 3x
-    Más felhasználók előzményei: 2x
-    Standard adatok: 2x
-    Bolt: 1x
-
-    Amennyiben a kategória javaslat típusokba több elem is tartozik, azon belüli valószínűségeket is számolunk.
-    Pl: A felhasználók 99%-a szerint az alma gyümölcs, 1%-a szerint zöldség, akkor a javaslatban
-        {gyümölcs:1.98, zöldség:0.02} jelenik meg.
-
-    @:param:
-        termekek: list [bolti áru név, saját áru név]
-        bolt: string
-        felhasznalonev: string
-        kategoriak: string
-        tranzakciok: list || az eddigi tranzakciók azon elemei, amik információval szolgálnak a kategória javaslathoz
-
-     """
-    def __init__(self, bolt, felhasznalonev, kategoriak, tranzakciok): # termekek[[bolti_aru_nev, sajat_aru_nev], []]
-        self.javaslat = []
-        self.bolt = bolt
-        self.felhasznalo = felhasznalonev
-        self.kategoriak = kategoriak
-        self.tranzakciok = tranzakciok
-
-
-    def javaslat(self, termek):
-        javaslat = self.kategoriaJavaslat(termek)
-        for k, v in javaslat.items():
-            self.javaslat.append([k, v])
-
-
-    def kategoriaJavaslat(self, termek) -> dict:
-        """összefűzi a különboző javaslatokat"""
-        javaslat = {}
-        for k, v in self.kategoriaFelhasznaloSzerint(termek).items():
-            if javaslat.get(k):
-                javaslat[k] += v
-            else:
-                javaslat[k] = v
-        for k, v in self.kategoriaMasFelhasznaloSzerint(termek).items():
-            if javaslat.get(k):
-                javaslat[k] += v
-            else:
-                javaslat[k] = v
-        for k, v in self.kategoriaStandardSzerint(termek).items():
-            if javaslat.get(k):
-                javaslat[k] += v
-            else:
-                javaslat[k] = v
-        for k, v in self.kategoriaBoltSzerint(termek).items():
-            if javaslat.get(k):
-                javaslat[k] += v
-            else:
-                javaslat[k] = v
-
-        return javaslat
-
-    def kategoriaFelhasznaloSzerint(self, termek) -> dict:
-        """javaslat készítés felhasználói előzményekből"""
-
-        reszlet = []
-        for tranzakcio in self.tranzakciok:
-            if tranzakcio[0] == self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
-                reszlet.append(tranzakcio[1])
-
-        javaslat = {}
-
-        for resz in reszlet:
-            if javaslat.get(resz):
-                javaslat[resz] += 1
-            else:
-                javaslat[resz] = 1
-
-        return javaslat
-
-    def kategoriaMasFelhasznaloSzerint(self, termek) -> dict:
-        """javaslat készítés a többi felhasználó előzményéből"""
-        reszlet = []
-        for tranzakcio in self.tranzakciok:
-            if tranzakcio[0] != self.felhasznalo and (tranzakcio[2] == termek or tranzakcio[3] == termek):
-                reszlet.append(tranzakcio[1])
-
-        javaslat = {}
-
-        for resz in reszlet:
-            if javaslat.get(resz):
-                javaslat[resz] += 1
-            else:
-                javaslat[resz] = 1
-
-        return javaslat
-
-    def kategoriaStandardSzerint(self, termek) -> dict:
-        """javaslat készítés előre megadott adatok alapján"""
-        javaslat = {}
-
-        return javaslat
-
-    def kategoriaBoltSzerint(self, termek) -> dict:
-        """javaslat készítés a bolt alapján"""
-        javaslat = {}
-
-        return javaslat
-
-    def javaslatKeres(self) -> list:
-        return self.javaslat
-
-def felhasznalo_kategoriak(Felhasznalo, felhasznalonev):
+def felhasznalo_kategoriak(felhasznalonev):
+    Felhasznalo = Adatbazis.adat_()
     felhasznalo_kategoriak = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().kategoriak
+    return felhasznalo_kategoriak
 
-def tranzakciok_db_szures(Tranzakcio):
+def tranzakciok_db_szures():
     tranzakciok_db_reszlet = []
-    tranzakciok = Tranzakcio.query.all()
+    tranzakciok = Adatbazis.adatok_lekerese()
     for tranzakcio in tranzakciok:
         tranzakciok_db_reszlet.append([])
         tranzakciok_db_reszlet[-1].append(tranzakcio.felhasznalonev)
         tranzakciok_db_reszlet[-1].append(tranzakcio.tipus)
         tranzakciok_db_reszlet[-1].append(tranzakcio.bolti_aru_nev)
-        tranzakciok_db_reszlet[-1].append(tranzakcio.sajat_aru_nev)
+        tranzakciok_db_reszlet[-1].append(tranzakcio.bolt)
+
+    return tranzakciok_db_reszlet
+
+class KategoriaAjanlas:
+    def __init__(self, felhasznalonev):
+        self.tranzakciok = tranzakciok_db_szures()
+        self.felhasznalo = felhasznalonev
+        self.kategoriak = felhasznalo_kategoriak(felhasznalonev).split(";")
+
+    def uj_ajanlas(self, bolt, termek):
+
+        return self.javaslatok_osszefuzese(termek, bolt)
+
+    def kategoriaFelhasznaloSzerint(self, termek) -> dict:
+        """javaslat készítés a felhasználó előzményéből"""
+        javaslat = {}
+        db = 0
+        for tranzakcio in self.tranzakciok:
+            if tranzakcio[0] == self.felhasznalo and tranzakcio[2] == termek and tranzakcio[1] in self.kategoriak:
+                if javaslat.get(tranzakcio[1]):
+                    javaslat[tranzakcio[1]] += 1
+                    db += 1
+                else:
+                    javaslat[tranzakcio[1]] = 1
+                    db += 1
+
+        javaslat_ = {k:v/db for k, v in javaslat.items()}
+
+        return javaslat_
+
+    def kategoriaMasFelhasznaloSzerint(self, termek) -> dict:
+        """javaslat készítés a többi felhasználó előzményéből"""
+        javaslat = {}
+        db = 0
+        for tranzakcio in self.tranzakciok:
+            if tranzakcio[0] != self.felhasznalo and tranzakcio[2] == termek and tranzakcio[1] in self.kategoriak:
+                if javaslat.get(tranzakcio[1]):
+                    javaslat[tranzakcio[1]] += 1
+                    db += 1
+                else:
+                    javaslat[tranzakcio[1]] = 1
+                    db += 1
+
+        javaslat_ = {k:v/db for k, v in javaslat.items()}
+
+        return javaslat_
+
+    def kategoriaStandardSzerint(self, termek) -> dict:
+        """javaslat készítés előre megadott adatok alapján"""
+        #Standard adatok elkészítése
+        javaslat_ = {}
+        '''db = 0
+        for adat in standard.adatok():
+            if adat[0] == termek  and adat[1] in self.kategoriak:
+                if javaslat.get(adat[1]):
+                    javaslat[adat[1]] += 1
+                    db += 1
+                else:
+                    javaslat[adat[1]] = 1
+                    db += 1
+
+        javaslat_ = {k: v / db for k, v in javaslat.items()}'''
+
+        return javaslat_
+
+    def kategoriaBoltSzerint(self, termek, bolt) -> dict:
+        """javaslat készítés a bolt alapján"""
+        javaslat = {}
+        db = 0
+        for tranzakcio in self.tranzakciok:
+            if tranzakcio[3] == bolt and tranzakcio[2] == termek and tranzakcio[1] in self.kategoriak:
+                if javaslat.get(tranzakcio[1]):
+                    javaslat[tranzakcio[1]] += 1
+                    db += 1
+                else:
+                    javaslat[tranzakcio[1]] = 1
+                    db += 1
+
+        javaslat_ = {k:v/db for k, v in javaslat.items()}
+
+        return javaslat_
+
+    def javaslatok_osszefuzese(self, termek, bolt):
+        javaslatok = {}
+
+        javaslat = self.kategoriaFelhasznaloSzerint(termek)
+        for k, v in javaslat.items():
+            if javaslatok.get(k):
+                javaslatok[k] += v*3
+            else:
+                javaslatok[k] = v*3
+
+        javaslat = self.kategoriaMasFelhasznaloSzerint(termek)
+        for k, v in javaslat.items():
+            if javaslatok.get(k):
+                javaslatok[k] += v*2
+            else:
+                javaslatok[k] = v*2
+
+        javaslat = self.kategoriaStandardSzerint(termek)
+        for k, v in javaslat.items():
+            if javaslatok.get(k):
+                javaslatok[k] += v*2
+            else:
+                javaslatok[k] = v*2
+
+        javaslat = self.kategoriaBoltSzerint(termek, bolt)
+        for k, v in javaslat.items():
+            if javaslatok.get(k):
+                javaslatok[k] += v
+            else:
+                javaslatok[k] = v
+
+        rendezett_javaslatok = dict(sorted(javaslatok.items(), key=operator.itemgetter(1), reverse=True))
+        javaslat = [k for k in rendezett_javaslatok.keys()]
 
 
-"""kategoriak = Kategoria.KategoriaAjanlasok(
-        bolt=nyugta_adatok["bolt_nev"],
-        felhasznalonev=felhasznalonev,
-        kategoriak=felhasznalo_kategoriak,
-        tranzakciok=tranzakciok_db_reszlet,
-    )"""
+        i = 0
+        while len(javaslat) < 8:
+            if self.kategoriak[i] not in javaslat:
+                javaslat.append(self.kategoriak[i])
+            else:
+                i += 1
+
+        return javaslat

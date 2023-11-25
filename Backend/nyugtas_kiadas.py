@@ -5,6 +5,17 @@ from Adatbazis import Tranzakcio, adatok_hozzadasa
 import Kategoria
 from alap_kategoriak import alap_kategoriak
 
+"""
+    Ezt a nyugta beolvasásakor, csak a felhasználót kell megadni hozzá
+    kategoria = Kategoria.KategoriaAjanlas("Proba1")
+    
+    Ezt minden termékre
+    Ilyet ad vissza: ['Ital', 'Étel', 'Öltözködés', 'Elektronika', 'Háztartás', 'Testápolás', 'Szórakozás', 'Albérlet']
+    kategoria.uj_ajanlas("Spar", "C00 FANTA N. 0,5L")
+
+"""
+
+
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
 URL = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
 

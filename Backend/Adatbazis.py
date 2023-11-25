@@ -3,8 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+#app = None
 def app_(app):
+    #global app
     db.init_app(app)
+    app = app
 
 class Felhasznalo(db.Model):
     felhasznalonev = db.Column(db.String(25), primary_key=True, unique=True)
@@ -29,16 +32,18 @@ def db_creater(app):
     with app.app_context():
         db.create_all()
 
-
 def adatok_hozzadasa(adatok:list):
     db.session.add_all(adatok)
     db.session.commit()
 
-def adatok_lekerese(app, tranzakcio=True):
-    with app.app_context():
-        if tranzakcio:
-            tranzakciok = Tranzakcio.query.all()
-            return tranzakciok
-        else:
-            felhasznalo = Felhasznalo.query.all()
-            return felhasznalo
+def adat_():
+    return Felhasznalo
+
+def adatok_lekerese(tranzakcio=True):
+    if tranzakcio:
+        tranzakciok = Tranzakcio.query.all()
+        return tranzakciok
+    else:
+        felhasznalo = Felhasznalo.query.all()
+        return felhasznalo
+

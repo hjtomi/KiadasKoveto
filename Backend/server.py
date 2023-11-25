@@ -2,6 +2,7 @@ from flask import Flask
 import Adatbazis
 from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
+import Kategoria
 
 app = Flask(__name__)
 
@@ -31,7 +32,6 @@ def nyugtas_kiadas():
 def nyugta_megtekintese():
     NyugtaMegtekintese(app=app, tranzakcio_id=0)
     return "<p>Nyugtas megtekintheto</p>"
-
 
 if __name__ == '__main__':
     app.run(debug=False)
