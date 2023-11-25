@@ -1,6 +1,7 @@
 from flask import Flask
 import Adatbazis
-import nyugtas_kiadas as nyk
+from nyugtas_kiadas import NyugtasKiadas
+from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
 
 app = Flask(__name__)
 
@@ -17,8 +18,14 @@ def hello_world():
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
-    nyk.NyugtasKiadas(debug=True)
+    NyugtasKiadas(debug=True)
     return "<p>Nyugtas kiadas felveve</p>"
+
+
+@app.route("/nyugtas_kiadas_megtekintese")
+def nyugtas_kiadas():
+    NyugtaMegtekintese(app=app, tranzakcio_id=0)
+    return "<p>Nyugtas megtekintheto</p>"
 
 
 if __name__ == '__main__':

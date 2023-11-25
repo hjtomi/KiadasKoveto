@@ -33,10 +33,11 @@ def adatok_hozzadasa(adatok:list):
     db.session.add_all(adatok)
     db.session.commit()
 
-def adatok_lekerese(tranzakcio=True):
-    if tranzakcio:
-        tranzakciok = Tranzakcio.query.all()
-        return tranzakciok
-    else:
-        felhasznalo = Felhasznalo.query.all()
-        return felhasznalo
+def adatok_lekerese(app, tranzakcio=True):
+    with app.app_context():
+        if tranzakcio:
+            tranzakciok = Tranzakcio.query.all()
+            return tranzakciok
+        else:
+            felhasznalo = Felhasznalo.query.all()
+            return felhasznalo
