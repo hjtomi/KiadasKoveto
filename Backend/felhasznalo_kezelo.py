@@ -50,8 +50,10 @@ class Login():
     def __init__(self, felhasznalo_nev, password):
 
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
         #megfelelo_adatok = list(
         #    filter(lambda x: x.felhasznalo_nev == felhasznalo_nev and x.password == password, felhasznalo_adatok))
+
         megfelelo_adatok = ""
         for adatok in felhasznalo_adatok:
             if adatok.felhasznalonev == felhasznalo_nev and adatok.jelszo == password:
@@ -60,3 +62,12 @@ class Login():
 
 class Modositasok():
     pass
+
+class Kategoria_hozzaadas():
+    def __init__(self, felhasznalo_nev, new_kategoria):
+
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                adatok.kategoriak += new_kategoria

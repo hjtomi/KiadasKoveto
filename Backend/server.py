@@ -3,8 +3,9 @@ import Adatbazis
 from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
 import Kategoria
-from  felhasznalo_kezelo import Login
-from  felhasznalo_kezelo import Regisztracio
+from felhasznalo_kezelo import Login
+from felhasznalo_kezelo import Regisztracio
+from felhasznalo_kezelo import Kategoria_hozzaadas
 
 app = Flask(__name__)
 
@@ -28,6 +29,10 @@ def belepes():
     Login(felhasznalo_nev=input("Nev"), password=input("jelszo"))
     return "<p>Sikeres belepes</p>"
 
+@app.route("/kategoria_hozaadas")
+def kateg_hozaadas():
+    Kategoria_hozzaadas(felhasznalo_nev=input("Nev"), new_kategoria=input("Uj kategoria"))
+    return "<p>Sikeres hozzaadas</p>"
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
