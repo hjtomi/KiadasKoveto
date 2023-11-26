@@ -5,6 +5,7 @@ from Adatbazis import Tranzakcio, adatok_hozzadasa
 import Kategoria
 from alap_kategoriak import alap_kategoriak
 
+<<<<<<< HEAD
 """
     Ezt a nyugta beolvasásakor, csak a felhasználót kell megadni hozzá
     kategoria = Kategoria.KategoriaAjanlas("Proba1")
@@ -14,6 +15,8 @@ from alap_kategoriak import alap_kategoriak
     kategoria.uj_ajanlas("Spar", "C00 FANTA N. 0,5L")
 """
 
+=======
+>>>>>>> b42702e745598905c222106dcc3027fe807a0c0a
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
 URL = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
@@ -93,6 +96,18 @@ class NyugtasKiadas:
         lehetoseget ad az ertekek modositasara (es a kategoria megadasara is fog majd)
         Ezeket hivjuk a kesz_adatok-nak"""
 
+        """
+            Ezt a nyugta beolvasásakor, csak a felhasználót kell megadni hozzá
+            kategoria = Kategoria.KategoriaAjanlas("Proba1")
+
+            Ezt minden termékre
+            Ilyet ad vissza: ['Ital', 'Étel', 'Öltözködés', 'Elektronika', 'Háztartás', 'Testápolás', 'Szórakozás', 'Albérlet']
+            kategoria.uj_ajanlas("Spar", "C00 FANTA N. 0,5L")
+
+        """
+
+        kategoria = Kategoria.KategoriaAjanlas("Jancsi")
+
         if uj_bolt_nev := input(f"Helytelen bolt nev eseten ird be a bolt nevet, kulonben hagy uresen ({nyugta_adatok['bolt_nev']})"): nyugta_adatok['bolt_nev'] = uj_bolt_nev
         if uj_datum := input(f"Helytelen datum eseten ird be a datumot, kulonben hagy uresen ({nyugta_adatok['datum']})"): nyugta_adatok['datum'] = uj_datum
 
@@ -101,12 +116,11 @@ class NyugtasKiadas:
         sajat_termek_arak = []
         kategoriak = []
         for (bolti_termek_nev, bolti_termek_ar) in zip(nyugta_adatok['bolti_termek_nevek'], nyugta_adatok['bolti_termek_arak']):
+
             sajat_termek_nev = input(f"{bolti_termek_nev}: ")
             sajat_termek_ar = input(f"{bolti_termek_ar}: ")
 
-            # kategoria_javaslatok = Kategoria.KategoriaAjanlasok.javaslat()
-
-            megadott_kategoria = input(f"{', '.join(alap_kategoriak)}\n")
+            megadott_kategoria = input(f"{', '.join(kategoria.uj_ajanlas(uj_bolt_nev, bolti_termek_nev))}\n")
             kategoriak.append(megadott_kategoria)
 
             if sajat_termek_nev:
