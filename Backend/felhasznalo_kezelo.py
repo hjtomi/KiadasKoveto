@@ -38,12 +38,12 @@ class Regisztracio():
         self.osszegek = input("penz_mennyisegek")
 
         felhasznalo = Felhasznalo(
-                        felhasznalonev = self.felhasznalonev,
-                        jelszo = self.jelszo,
-                        email = self.email,
-                        kategoriak = self.kategoriak,
-                        penz_fiokok = self.penz_fiokok,
-                        osszegek = self.osszegek
+                        felhasznalonev=self.felhasznalonev,
+                        jelszo=self.jelszo,
+                        email=self.email,
+                        kategoriak=self.kategoriak,
+                        penz_fiokok=self.penz_fiokok,
+                        osszegek=self.osszegek
                         )
 
         adatok_hozzadasa([felhasznalo])
