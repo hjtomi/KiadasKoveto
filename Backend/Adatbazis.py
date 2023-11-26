@@ -1,6 +1,5 @@
 
 from flask_sqlalchemy import SQLAlchemy
-
 db = SQLAlchemy()
 
 def app_(app):
@@ -44,3 +43,19 @@ def adatok_lekerese(tranzakcio=True):
         felhasznalo = Felhasznalo.query.all()
         return felhasznalo
 
+def adat_modositas(felhasznalo_nev, neve, adat):
+    admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
+    if neve == "jelszo":
+        admin.jelszo = adat
+    if neve == "email":
+        admin.email = adat
+    if neve == "penz_fiokok":
+        admin.penz_fiokok = adat
+    if neve == "osszegek":
+        admin.osszegek = adat
+    db.session.commit()
+
+def kategoria_hozzaadas(felhasznalo_nev, adat):
+    admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
+    admin.kategoriak = adat
+    db.session.commit()
