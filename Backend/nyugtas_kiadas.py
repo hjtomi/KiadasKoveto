@@ -12,7 +12,6 @@ from alap_kategoriak import alap_kategoriak
     Ezt minden termékre
     Ilyet ad vissza: ['Ital', 'Étel', 'Öltözködés', 'Elektronika', 'Háztartás', 'Testápolás', 'Szórakozás', 'Albérlet']
     kategoria.uj_ajanlas("Spar", "C00 FANTA N. 0,5L")
-
 """
 
 
