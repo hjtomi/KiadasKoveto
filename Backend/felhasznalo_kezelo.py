@@ -141,13 +141,13 @@ class Egyeb_kiadas():
         self.bolt = input(f"bolt")
 
         tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
-        utolso_tranzakcio_id = ""
+        utolso_tranzakcio_id = 0
         for adatok in tranzakcio_adatok:
             utolso_tranzakcio_id = adatok.tranzakcio_id
 
         feltoltes = Tranzakcio(
                 felhasznalonev=self.felhasznalo_nev,
-                tranzakcio_id=int(utolso_tranzakcio_id)+1,
+                tranzakcio_id=utolso_tranzakcio_id+1,
                 tipus=self.tipus,
                 ertek=self.ertek,
                 datum=self.datum,
