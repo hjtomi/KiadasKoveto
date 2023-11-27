@@ -1,6 +1,7 @@
 from Adatbazis import Felhasznalo, adatok_hozzadasa
 import Adatbazis
 from alap_kategoriak import alap_kategoriak
+from  Adatbazis import Tranzakcio
 
 
 
@@ -46,7 +47,7 @@ class Regisztracio():
                         osszegek=self.osszegek
                         )
 
-        adatok_hozzadasa([felhasznalo])
+        Adatbazis.adatok_hozzadasa([felhasznalo])
 
 class Login():
     def __init__(self, felhasznalo_nev, password):
@@ -94,3 +95,64 @@ class Kategoria_hozzaadas():
 
         if new_kategoriak:
             Adatbazis.kategoria_hozzaadas(felhasznalo_nev, osszes_kategoria)
+
+class Bevetel_hozzaadas():
+    def __init__(self, felhasznalo_nev):
+        penz_fiok_bevetel = input(f"bevetel melyik penz_fiokba")
+        osszeg = input(f"osszeg")
+
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+        penz_fiokok = ""
+        penz_osszegek = ""
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                penz_fiokok = adatok.penz_fiokok
+                penz_osszegek = adatok.osszegek
+
+        szetszedett_penz_fiokok = penz_fiokok.split(";")
+        penz_fiok_indexe = szetszedett_penz_fiokok.index(penz_fiok_bevetel)
+
+        szetszedett_penz_osszegek = penz_osszegek.split(";")
+        szetszedett_penz_osszegek[penz_fiok_indexe] = str(int(szetszedett_penz_osszegek[penz_fiok_indexe]) + int(osszeg))
+
+        veg_osszegek = ""
+        for penz in szetszedett_penz_osszegek:
+            veg_osszegek = veg_osszegek + ";" + penz
+
+        Adatbazis.bevetel_hozzaadas(felhasznalo_nev, veg_osszegek[1:])
+
+class Egyeb_kiadas():
+    def __init__(self, felhasznalo_nev):
+        self.felhasznalo_nev = felhasznalo_nev
+        self.tranzakcio_id = None,
+        self.tipus = None,
+        self.ertek = None,
+        self.datum = None,
+        self.bolti_aru_nev = None,
+        self.sajat_aru_nev = None,
+        self.bolt = None
+
+        self.kiadas_felvetel()
+    def kiadas_felvetel(self):
+        self.tipus = input(f"kategoria")
+        self.ertek = input(f"összeg")
+        self.datum = input(f"datum")
+        self.sajat_aru_nev = input(f"aru neve")
+        self.bolt = input(f"bolt")
+
+        tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
+        utolso_tranzakcio_id = ""
+        for adatok in tranzakcio_adatok:
+            utolso_tranzakcio_id = adatok.tranzakcio_id
+
+        feltoltes = Tranzakcio(
+                felhasznalonev=self.felhasznalo_nev,
+                tranzakcio_id=int(utolso_tranzakcio_id)+1,
+                tipus=self.tipus,
+                ertek=self.ertek,
+                datum=self.datum,
+                bolti_aru_nev=None,
+                sajat_aru_nev=self.sajat_aru_nev,
+                bolt=self.bolt
+        )
+        Adatbazis.adatok_hozzadasa([feltoltes])

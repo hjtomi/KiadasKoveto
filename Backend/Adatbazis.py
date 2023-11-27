@@ -59,3 +59,8 @@ def kategoria_hozzaadas(felhasznalo_nev, adat):
     admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
     admin.kategoriak = adat
     db.session.commit()
+
+def bevetel_hozzaadas(felhasznalo_nev, adat):
+    admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
+    admin.osszegek = adat
+    db.session.commit()

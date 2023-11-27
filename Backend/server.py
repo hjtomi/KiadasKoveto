@@ -30,12 +30,22 @@ def belepes():
 @app.route("/kateg_hozzaadas")
 def kateg_hozzaadas():
     Kategoria_hozzaadas(felhasznalo_nev=input("Nev"))
-    return "<p>Sikeres hozzaadas</p>"
+    return "<p>Sikeres kategoria hozzaadas</p>"
 
 @app.route("/felhasznalo_modositas")
 def felhasznalo_modositas():
     Modositasok(felhasznalo_nev=input("Nev"))
     return "<p>Sikeres modositas</p>"
+
+@app.route("/bevetel_hozzaadas")
+def bevetel_hozzaadas():
+    Bevetel_hozzaadas(felhasznalo_nev=input("Nev"))
+    return "<p>Sikeres bevetel hozzaadas</p>"
+
+@app.route("/egyeb_kiadas_felvetel")
+def egyeb_kiadas_felvetel():
+    Egyeb_kiadas(felhasznalo_nev=input("Nev"))
+    return "<p>Sikeres egyeb kiadas felvétel</p>"
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
