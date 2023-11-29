@@ -43,7 +43,7 @@ def adatok_lekerese(tranzakcio=True):
         return felhasznalo
 
 def adat_modositas(felhasznalo_nev, neve, adat):
-    admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
+    admin = Felhasznalo.query.filter_by(felhasznalonev=felhasznalo_nev).first()
     if neve == "jelszo":
         admin.jelszo = adat
     if neve == "email":
