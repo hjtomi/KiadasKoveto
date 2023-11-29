@@ -1,4 +1,4 @@
-
+from typing import List
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -42,6 +42,14 @@ def adatok_lekerese(tranzakcio=True):
     else:
         felhasznalo = Felhasznalo.query.all()
         return felhasznalo
+
+def oszlopok_lekerese(tabla: str, oszlopok: List):
+    if tabla == "tranzakcio":
+        adatok = Tranzakcio.query.with_entities(*oszlopok)
+        return adatok
+    else:
+        adatok = Felhasznalo.query.with_entities(*oszlopok)
+        return adatok
 
 def adat_modositas(felhasznalo_nev, neve, adat):
     admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
