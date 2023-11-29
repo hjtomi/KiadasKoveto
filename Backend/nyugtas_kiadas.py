@@ -1,11 +1,11 @@
 # Nyugtas kiadas felvetel
 
 import requests
-from Adatbazis import Tranzakcio, adatok_hozzadasa
+from Adatbazis import Tranzakcio, adatok_hozzadasa, adatok_lekerese, adat_, adat_modositas
 import Kategoria
 from alap_kategoriak import alap_kategoriak
+import datetime
 
-<<<<<<< HEAD
 """
     Ezt a nyugta beolvasásakor, csak a felhasználót kell megadni hozzá
     kategoria = Kategoria.KategoriaAjanlas("Proba1")
@@ -14,9 +14,6 @@ from alap_kategoriak import alap_kategoriak
     Ilyet ad vissza: ['Ital', 'Étel', 'Öltözködés', 'Elektronika', 'Háztartás', 'Testápolás', 'Szórakozás', 'Albérlet']
     kategoria.uj_ajanlas("Spar", "C00 FANTA N. 0,5L")
 """
-
-=======
->>>>>>> b42702e745598905c222106dcc3027fe807a0c0a
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
 URL = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
@@ -43,7 +40,9 @@ class NyugtasKiadas:
 
     def __init__(self, photo=None, debug=False):
         if debug:
-            kesz_adatok = self._nyugtas_kiadas_felvetel(debug_nyers_nyugta_adatok)
+            kesz_adatok = self._adatok_megadasa(debug_nyers_nyugta_adatok)
+            osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'], kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
+            adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)
             uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
 
             adatok_hozzadasa(uj_elemek)
@@ -51,7 +50,9 @@ class NyugtasKiadas:
         else:
 
             nyers_nyugta_adatok = self._nyugta_adatfeldolgozas(photo)
-            kesz_adatok = self._nyugtas_kiadas_felvetel(nyers_nyugta_adatok)
+            kesz_adatok = self._adatok_megadasa(nyers_nyugta_adatok)
+            osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'],kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
+            adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)
             uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
 
             adatok_hozzadasa(uj_elemek)
@@ -91,7 +92,7 @@ class NyugtasKiadas:
         }
 
     @staticmethod
-    def _nyugtas_kiadas_felvetel(nyugta_adatok: dict) -> dict:
+    def _adatok_megadasa(nyugta_adatok: dict) -> dict:
         """A nyers_nyugta_adatokon vegig megy es mindegyiknel
         lehetoseget ad az ertekek modositasara (es a kategoria megadasara is fog majd)
         Ezeket hivjuk a kesz_adatok-nak"""
@@ -107,9 +108,22 @@ class NyugtasKiadas:
         """
 
         kategoria = Kategoria.KategoriaAjanlas("Jancsi")
+        Felhasznalo = adat_()
+        penz_fiokok = list(Felhasznalo.query.filter_by(felhasznalonev="Jancsi").first().penz_fiokok.split(';'))
 
-        if uj_bolt_nev := input(f"Helytelen bolt nev eseten ird be a bolt nevet, kulonben hagy uresen ({nyugta_adatok['bolt_nev']})"): nyugta_adatok['bolt_nev'] = uj_bolt_nev
-        if uj_datum := input(f"Helytelen datum eseten ird be a datumot, kulonben hagy uresen ({nyugta_adatok['datum']})"): nyugta_adatok['datum'] = uj_datum
+        # Walrus operator azert hogy ilyen fancy egysoros legyen a bekerdezes es az alap adat megadas
+        if uj_bolt_nev := input(f"Helytelen bolt nev eseten ird be a bolt nevet, kulonben hagy uresen ({nyugta_adatok['bolt_nev']}) "): nyugta_adatok['bolt_nev'] = uj_bolt_nev
+        if uj_datum := input(f"Helytelen datum eseten ird be a datumot, kulonben hagy uresen ({nyugta_adatok['datum']}) "): nyugta_adatok['datum'] = uj_datum
+        penz_fiok = input(f'Melyik penz fiokbol vonjuk le a penzt? {" ".join(penz_fiokok)} ')
+
+        if not nyugta_adatok['bolt_nev']:
+            nyugta_adatok['bolt_nev'] = 'xbolt'
+
+        if not nyugta_adatok['datum']:
+            nyugta_adatok['datum'] = datetime.date.today()
+
+        if not penz_fiok:
+            penz_fiok = 'keszpenz'
 
 
         sajat_termek_nevek = []
@@ -120,8 +134,12 @@ class NyugtasKiadas:
             sajat_termek_nev = input(f"{bolti_termek_nev}: ")
             sajat_termek_ar = input(f"{bolti_termek_ar}: ")
 
-            megadott_kategoria = input(f"{', '.join(kategoria.uj_ajanlas(uj_bolt_nev, bolti_termek_nev))}\n")
-            kategoriak.append(megadott_kategoria)
+            ajanlott_kategoriak = kategoria.uj_ajanlas(uj_bolt_nev, bolti_termek_nev)
+            megadott_kategoria = input(f"{', '.join(ajanlott_kategoriak)}\n")
+            if megadott_kategoria == "":
+                kategoriak.append(ajanlott_kategoriak[0])
+            else:
+                kategoriak.append(megadott_kategoria)
 
             if sajat_termek_nev:
                 sajat_termek_nevek.append(sajat_termek_nev)
@@ -134,18 +152,40 @@ class NyugtasKiadas:
                 sajat_termek_arak.append(int(bolti_termek_ar))
 
         return {
+            "felhasznalonev": "Jancsi",
             "bolt_nev": nyugta_adatok['bolt_nev'],
             "datum": nyugta_adatok['datum'],
+            "penz_fiok": penz_fiok,
             "bolti_termek_nevek": nyugta_adatok['bolti_termek_nevek'],
             "sajat_termek_nevek": sajat_termek_nevek,
             "sajat_termek_arak": sajat_termek_arak,
+            "osszeg": sum(sajat_termek_arak),
             "kategoriak": kategoriak,
         }
+
+    @staticmethod
+    def _uj_felhasznalo_osszegek_kalkulalasa(felhasznalonev, penz_fiok, osszeg) -> str:
+        Felhasznalo = adat_()
+        penz_fiokok = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().penz_fiokok.split(';')
+        osszegek = Felhasznalo.query.filter_by(felhasznalonev=felhasznalonev).first().osszegek.split(';')
+        penz_fiok_lista_szama = penz_fiokok.index(penz_fiok)
+        osszegek[penz_fiok_lista_szama] = str(int(osszegek[penz_fiok_lista_szama]) - osszeg)
+
+        return ';'.join(osszegek)
 
     @staticmethod
     def _uj_adatbazis_elemek_keszitese(kesz_adatok):
         """Vegigmegy a kesz adatokon es elmenti oket
         Tranzakcio (adatbazis tabla elem) osztalykent egy listaba"""
+
+        # Megnezzuk, hogy melyik a legnagyobb tranzakcio_id es ennek a vasarlasnak
+        # a tranzakcio_id-je egyel nagyobb lesz (ha nincs tranzakcio akkor ez 0 lesz)
+        tranzakcio_idk = list(map(lambda x: x.tranzakcio_id, adatok_lekerese()))
+        if tranzakcio_idk:
+            kovetkezo_id = max(tranzakcio_idk) + 1
+        else:
+            kovetkezo_id = 0
+
         uj_elemek = []
         for (sajat_termek_ar, bolti_termek_nev, sajat_termek_nev, kategoria) in zip(kesz_adatok['sajat_termek_arak'],
                                                                                     kesz_adatok['bolti_termek_nevek'],
@@ -153,8 +193,8 @@ class NyugtasKiadas:
                                                                                     kesz_adatok['kategoriak']):
             uj_elemek.append(
                 Tranzakcio(
-                    felhasznalonev="Proba",
-                    tranzakcio_id=0,
+                    felhasznalonev="Jancsi",
+                    tranzakcio_id=kovetkezo_id,
                     tipus=kategoria,
                     ertek=sajat_termek_ar,
                     datum=kesz_adatok['datum'],
