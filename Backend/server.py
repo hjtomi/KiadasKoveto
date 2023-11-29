@@ -4,6 +4,7 @@ from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
 import Kategoria
 from felhasznalo_kezelo import *
+from manualis_kiadas_felvetel import ManualisKiadasFelvetel
 
 app = Flask(__name__)
 
@@ -56,6 +57,11 @@ def nyugtas_kiadas():
 def nyugta_megtekintese():
     NyugtaMegtekintese(tranzakcio_id=0)
     return "<p>Nyugtas megtekintheto</p>"
+
+@app.route("/manualis_kiadas_felvetel")
+def manualis_kiadas_felvetel():
+    ManualisKiadasFelvetel()
+    return "<p>Manualis kiadas felveve</p>"
 
 if __name__ == '__main__':
     app.run(debug=False)
