@@ -14,6 +14,32 @@ debug_nyers_nyugta_adatok = {
         'osszegek': "5000;80000;12"
     }
 
+def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
+    felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+    penz_fiokok = ""
+    penz_osszegek = ""
+    for adatok in felhasznalo_adatok:
+        if adatok.felhasznalonev == felhasznalo_nev:
+            penz_fiokok = adatok.penz_fiokok
+            penz_osszegek = adatok.osszegek
+
+    szetszedett_penz_fiokok = penz_fiokok.split(";")
+    penz_fiok_indexe = szetszedett_penz_fiokok.index(fiok_nev)
+
+    szetszedett_penz_osszegek = penz_osszegek.split(";")
+
+    if muvelet == "-":
+        szetszedett_penz_osszegek[penz_fiok_indexe] = str(int(szetszedett_penz_osszegek[penz_fiok_indexe]) - int(osszeg))
+    else:
+        szetszedett_penz_osszegek[penz_fiok_indexe] = str(int(szetszedett_penz_osszegek[penz_fiok_indexe]) + int(osszeg))
+
+    veg_osszegek = ""
+    for penz in szetszedett_penz_osszegek:
+        veg_osszegek = veg_osszegek + ";" + penz
+
+    Adatbazis.bevetel_hozzaadas_elveves(felhasznalo_nev, veg_osszegek[1:])
+
 class Regisztracio():
     def __init__(self):
         self.felhasznalonev = None
@@ -101,6 +127,8 @@ class Bevetel_hozzaadas():
         penz_fiok_bevetel = input(f"bevetel melyik penz_fiokba")
         osszeg = input(f"osszeg")
 
+        penz_tranzakciok(felhasznalo_nev, penz_fiok_bevetel, "+", osszeg)
+        """
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
         penz_fiokok = ""
         penz_osszegek = ""
@@ -119,8 +147,8 @@ class Bevetel_hozzaadas():
         for penz in szetszedett_penz_osszegek:
             veg_osszegek = veg_osszegek + ";" + penz
 
-        Adatbazis.bevetel_hozzaadas(felhasznalo_nev, veg_osszegek[1:])
-
+        Adatbazis.bevetel_hozzaadas_elveves(felhasznalo_nev, veg_osszegek[1:])
+        """
 class Egyeb_kiadas():
     def __init__(self, felhasznalo_nev):
         self.felhasznalo_nev = felhasznalo_nev
@@ -158,7 +186,9 @@ class Egyeb_kiadas():
         Adatbazis.adatok_hozzadasa([feltoltes])
 
         self.penz_fiok = input('penzfiok')
+        penz_tranzakciok(self.felhasznalo_nev, self.penz_fiok, "-", self.ertek)
 
+        """
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
         penz_fiokok = ""
         penz_osszegek = ""
@@ -177,4 +207,5 @@ class Egyeb_kiadas():
         for penz in szetszedett_penz_osszegek:
             veg_osszegek = veg_osszegek + ";" + penz
 
-        Adatbazis.bevetel_hozzaadas(self.felhasznalo_nev, veg_osszegek[1:])
+        Adatbazis.bevetel_hozzaadas_elveves(self.felhasznalo_nev, veg_osszegek[1:])
+        """
