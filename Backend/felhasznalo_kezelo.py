@@ -156,3 +156,25 @@ class Egyeb_kiadas():
                 bolt=self.bolt
         )
         Adatbazis.adatok_hozzadasa([feltoltes])
+
+        self.penz_fiok = input('penzfiok')
+
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+        penz_fiokok = ""
+        penz_osszegek = ""
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == self.felhasznalo_nev:
+                penz_fiokok = adatok.penz_fiokok
+                penz_osszegek = adatok.osszegek
+
+        szetszedett_penz_fiokok = penz_fiokok.split(";")
+        penz_fiok_indexe = szetszedett_penz_fiokok.index(self.penz_fiok)
+
+        szetszedett_penz_osszegek = penz_osszegek.split(";")
+        szetszedett_penz_osszegek[penz_fiok_indexe] = str(int(szetszedett_penz_osszegek[penz_fiok_indexe]) - int(self.ertek))
+
+        veg_osszegek = ""
+        for penz in szetszedett_penz_osszegek:
+            veg_osszegek = veg_osszegek + ";" + penz
+
+        Adatbazis.bevetel_hozzaadas(self.felhasznalo_nev, veg_osszegek[1:])
