@@ -52,14 +52,6 @@ def adat_modositas(felhasznalo_nev, neve, adat):
         admin.penz_fiokok = adat
     if neve == "osszegek":
         admin.osszegek = adat
-    db.session.commit()
-
-def kategoria_hozzaadas(felhasznalo_nev, adat):
-    admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
-    admin.kategoriak = adat
-    db.session.commit()
-
-def bevetel_hozzaadas_elveves(felhasznalo_nev, adat):
-    admin = Felhasznalo.query.filter_by(felhasznalonev={felhasznalo_nev}).first()
-    admin.osszegek = adat
+    if neve == "kategoriak":
+        admin.kategoriak = adat
     db.session.commit()

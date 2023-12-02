@@ -1,7 +1,7 @@
-from Adatbazis import Felhasznalo, adatok_hozzadasa
+from Adatbazis import Felhasznalo
 import Adatbazis
 from alap_kategoriak import alap_kategoriak
-from  Adatbazis import Tranzakcio
+from Adatbazis import Tranzakcio
 
 
 def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
@@ -21,14 +21,25 @@ def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
 
     if muvelet == "-":
         szetszedett_penz_osszegek[penz_fiok_indexe] = str(int(szetszedett_penz_osszegek[penz_fiok_indexe]) - int(osszeg))
-    else:
+    elif muvelet == "+":
         szetszedett_penz_osszegek[penz_fiok_indexe] = str(int(szetszedett_penz_osszegek[penz_fiok_indexe]) + int(osszeg))
+    elif muvelet == "torles":
+        szetszedett_penz_osszegek.pop(penz_fiok_indexe)
+        szetszedett_penz_fiokok.pop(penz_fiok_indexe)
+
+        veg_fiok = ""
+        for fiok in szetszedett_penz_fiokok:
+            veg_fiok = veg_fiok + ";" + fiok
+
+        Adatbazis.adat_modositas(felhasznalo_nev, "penz_fiokok", veg_fiok[1:])
+    elif muvelet == "penz_atiras":
+        szetszedett_penz_osszegek[penz_fiok_indexe] = osszeg
 
     veg_osszegek = ""
     for penz in szetszedett_penz_osszegek:
         veg_osszegek = veg_osszegek + ";" + penz
 
-    Adatbazis.bevetel_hozzaadas_elveves(felhasznalo_nev, veg_osszegek[1:])
+    Adatbazis.adat_modositas(felhasznalo_nev, "osszegek", veg_osszegek[1:])
 
 class Regisztracio():
     def __init__(self):
@@ -87,13 +98,22 @@ class Modositasok():
         if email:
             Adatbazis.adat_modositas(felhasznalo_nev, "email", email)
 
-        penz_fiokok = input(f"penz_fiokok")
+        penz_fiokok = input(f"modositando penz_fiok")
         if penz_fiokok:
             Adatbazis.adat_modositas(felhasznalo_nev, "penz_fiokok", penz_fiokok)
 
-        osszegek = input(f"osszegek")
+        osszeghez_penzfiok = input("osszeghez penzfiok")
+        osszegek = input(f"osszeg")
         if osszegek:
-            Adatbazis.adat_modositas(felhasznalo_nev, "osszegek", osszegek)
+            #Adatbazis.adat_modositas(felhasznalo_nev, "osszegek", osszegek)
+            penz_tranzakciok(felhasznalo_nev, osszeghez_penzfiok, "penz_atiras", osszegek)
+
+class Adat_torles():
+    def __init__(self, felhasznalo_nev):
+
+        penz_fiok = input(f"törölni kivant penzfiok")
+
+        penz_tranzakciok(felhasznalo_nev, penz_fiok, "torles", 0)
 
 
 
@@ -110,7 +130,7 @@ class Kategoria_hozzaadas():
         osszes_kategoria = kateg_adatok + ";" + new_kategoriak
 
         if new_kategoriak:
-            Adatbazis.kategoria_hozzaadas(felhasznalo_nev, osszes_kategoria)
+            Adatbazis.adat_modositas(felhasznalo_nev, "kategoriak", osszes_kategoria)
 
 class Bevetel_hozzaadas():
     def __init__(self, felhasznalo_nev):
