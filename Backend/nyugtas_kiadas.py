@@ -16,7 +16,7 @@ import datetime
 """
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
-URL = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
+URL = "https://api.mindee.net/v1/products/mindee/invoice/v5/predict"
 
 debug_nyers_nyugta_adatok = {
         'bolt_nev': "Spar",
