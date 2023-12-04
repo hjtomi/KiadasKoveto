@@ -132,7 +132,6 @@ class KategoriaAjanlas:
         rendezett_javaslatok = dict(sorted(javaslatok.items(), key=operator.itemgetter(1), reverse=True))
         javaslat = [k for k in rendezett_javaslatok.keys()]
 
-
         i = 0
         while len(javaslat) < 8:
             if self.kategoriak[i] not in javaslat:
