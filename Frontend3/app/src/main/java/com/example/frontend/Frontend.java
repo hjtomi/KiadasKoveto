@@ -3,15 +3,39 @@ package com.example.frontend;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import java.io.IOException;
+
 public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     final Context context;
     public Loop loop;
+    private UrlKezelo urlKezelo;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                double x = event.getX();
+                double y = event.getY();
+                loop.setSzoveg(x, y);
+
+                if (x > 400 && y < 400){
+                    urlKezelo.nyugtasKiadas();
+                    loop.setSzoveg2("ASD");
+
+                }
+
+                return true;
+        }
+        return super.onTouchEvent(event);
+    }
 
 
     public Frontend(Context context) {
@@ -20,11 +44,13 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
 
         this.context = context;
+        urlKezelo = new UrlKezelo(context);
         loop = new Loop(this, surfaceHolder);
 
         setFocusable(true);
 
     }
+
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
@@ -44,15 +70,25 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas){
         super.draw(canvas);
         drawSzoveg(canvas);
+        drawSzoveg2(canvas);
     }
 
     public void drawSzoveg(Canvas canvas){
-        String szoveg = Loop.getSzoveg();
+        String szoveg = Loop.getSzoveg2();
         Paint paint = new Paint();
         int color = ContextCompat.getColor(context, R.color.magenta);
         paint.setTextSize(50);
         paint.setColor(color);
         canvas.drawText("Szöveg: "+szoveg, 100, 100, paint);
+    }
+
+    public void drawSzoveg2(Canvas canvas){
+        String szoveg = Loop.getSzoveg();
+        Paint paint = new Paint();
+        int color = ContextCompat.getColor(context, R.color.magenta);
+        paint.setTextSize(50);
+        paint.setColor(color);
+        canvas.drawText("Szöveg: "+szoveg, 100, 200, paint);
     }
 
     public void update() {
