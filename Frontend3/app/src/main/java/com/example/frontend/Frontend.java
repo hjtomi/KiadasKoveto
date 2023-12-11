@@ -3,6 +3,7 @@ package com.example.frontend;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -14,8 +15,11 @@ import java.io.IOException;
 
 public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     final Context context;
+    private final Fooldal fooldal;
     public Loop loop;
     private UrlKezelo urlKezelo;
+    private NincsBejelentkezve nincsBejelentkezve;
+    private boolean nincsBejelentkezve_=true;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -28,8 +32,6 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
 
                 if (x > 400 && y < 400){
                     urlKezelo.nyugtasKiadas();
-                    loop.setSzoveg2("ASD");
-
                 }
 
                 return true;
@@ -38,14 +40,22 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-    public Frontend(Context context) {
+    public Frontend(Context context, int width, int height) {
         super(context);
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
 
+
         this.context = context;
-        urlKezelo = new UrlKezelo(context);
         loop = new Loop(this, surfaceHolder);
+        urlKezelo = new UrlKezelo(context, loop);
+
+        nincsBejelentkezve = new NincsBejelentkezve(context, width, height);
+        fooldal = new Fooldal(context, width, height);
+
+        loop.setSzoveg2(Float.toString(width)+"   "+Float.toString(height));
+
+
 
         setFocusable(true);
 
@@ -69,8 +79,10 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
 
     public void draw(Canvas canvas){
         super.draw(canvas);
-        drawSzoveg(canvas);
-        drawSzoveg2(canvas);
+        //drawSzoveg(canvas);
+        //drawSzoveg2(canvas);
+        if (nincsBejelentkezve_)
+            nincsBejelentkezve.draw(canvas);
     }
 
     public void drawSzoveg(Canvas canvas){

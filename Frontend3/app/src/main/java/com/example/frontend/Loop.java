@@ -50,7 +50,7 @@ public class Loop extends Thread {
     }
 
     public void setSzoveg2(String szo) {
-        szoveg2 = "Siker";
+        szoveg2 = szo;
     }
     public static String getSzoveg() {
         return szoveg;

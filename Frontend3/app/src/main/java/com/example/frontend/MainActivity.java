@@ -3,6 +3,7 @@ package com.example.frontend;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,7 +18,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private Frontend frontend;
-    String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +30,12 @@ public class MainActivity extends AppCompatActivity {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
 
-        
-        frontend = new Frontend(this);
+        frontend = new Frontend(this, width, height);
         setContentView(frontend);
     }
 

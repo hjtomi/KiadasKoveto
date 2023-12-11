@@ -5,6 +5,7 @@ from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
 import Kategoria
 from felhasznalo_kezelo import *
 from manualis_kiadas_felvetel import ManualisKiadasFelvetel
+import json
 
 app = Flask(__name__)
 
@@ -62,6 +63,11 @@ def nyugta_megtekintese():
 def manualis_kiadas_felvetel():
     ManualisKiadasFelvetel()
     return "<p>Manualis kiadas felveve</p>"
+
+@app.route("/proba")
+def proba():
+    adat = {"datum":"2023-12-11", "osszeg":15000}
+    return json.dumps(adat)
 
 if __name__ == '__main__':
     app.run(debug=False)

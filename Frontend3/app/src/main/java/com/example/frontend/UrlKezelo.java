@@ -12,23 +12,29 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.net.URL;
+
 public class UrlKezelo {
     Context context;
+    Loop loop;
 
-    UrlKezelo(Context context){
+    UrlKezelo(Context context, Loop loop){
         this.context = context;
+        this.loop = loop;
     }
 
-    public JsonObjectRequest URLhivas(String path) {
+    public void URLhivas(String path) {
 
-        String url ="http://127.0.0.1:5000/" + path;
+        String url ="https://127.0.0.1:5000/" + path;
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String datetime = response.getString("datetime");
+                    String datum = response.getString("datum");
+                    loop.setSzoveg2("ASD");
                 } catch (Exception e ){
+                    loop.setSzoveg2(e.toString());
 
                 }
             }
@@ -36,18 +42,21 @@ public class UrlKezelo {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+                loop.setSzoveg2(error.toString());
+
             }
         });
 
+        loop.setSzoveg2(request.toString());*/
+        // return request;
 
-
-        return request;
+        return;
 
 
     }
 
-    public JsonObjectRequest nyugtasKiadas() {
+    public void nyugtasKiadas() {
 
-        return URLhivas("nyugtas_kiadas_felvetel/");
+        URLhivas("proba/");
     }
 }
