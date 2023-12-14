@@ -16,7 +16,7 @@ import datetime
 """
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
-URL = "https://api.mindee.net/v1/products/mindee/invoice/v5/predict"
+URL = "https://api.mindee.net/v1/products/mindee/invoices/v4/predict"
 
 debug_nyers_nyugta_adatok = {
         'bolt_nev': "Spar",
@@ -50,6 +50,7 @@ class NyugtasKiadas:
         else:
 
             nyers_nyugta_adatok = self._nyugta_adatfeldolgozas(photo)
+            print(nyers_nyugta_adatok)
             kesz_adatok = self._adatok_megadasa(nyers_nyugta_adatok)
             osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'],kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
             adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)

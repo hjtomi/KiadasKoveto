@@ -50,7 +50,8 @@ def egyeb_kiadas_felvetel():
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
-    NyugtasKiadas(debug=True)
+    with open('nyugta3.jpg', 'rb') as file:
+        NyugtasKiadas(photo=file)
     return "<p>Nyugtas kiadas felveve</p>"
 
 @app.route("/nyugtas_kiadas_megtekintese")
