@@ -3,7 +3,6 @@ package com.example.frontend;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -11,15 +10,18 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import java.io.IOException;
-
 public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     final Context context;
     private final Fooldal fooldal;
     public Loop loop;
     private UrlKezelo urlKezelo;
+    private UrlKetelo2 urlKetelo2;
+    private UrlKezelo3 urlKezelo3;
     private NincsBejelentkezve nincsBejelentkezve;
     private boolean nincsBejelentkezve_=true;
+    private boolean fooldal_ = false;
+    private boolean bejelentkezes_ = false;
+    private boolean regisztracio_ = false;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -28,10 +30,35 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_DOWN:
                 double x = event.getX();
                 double y = event.getY();
-                loop.setSzoveg(x, y);
+                //loop.setSzoveg(x, y);
 
-                if (x > 400 && y < 400){
-                    urlKezelo.nyugtasKiadas();
+
+                if (nincsBejelentkezve_){
+                    int c=nincsBejelentkezve.touch(x, y);
+                    if (c==1) {
+                        nincsBejelentkezve_ = false;
+                        //bejelentkezes_ = true;
+                        fooldal_ = true;
+                    }
+                    else if(c==2){
+                        nincsBejelentkezve_ = false;
+                        regisztracio_ = true;
+                    }
+                }
+
+                if (fooldal_){
+
+                    urlKezelo3.fuggveny();
+
+                    /*try {
+                        loop.setSzoveg2("Talán");
+                        loop.setSzoveg2(UrlKetelo2.UrlMeghivo(""));
+                    } catch (IOException e) {
+                        loop.setSzoveg2("Nem sikerült");
+                        throw new RuntimeException(e);
+
+                    }*/
+
                 }
 
                 return true;
@@ -49,6 +76,8 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
         this.context = context;
         loop = new Loop(this, surfaceHolder);
         urlKezelo = new UrlKezelo(context, loop);
+        urlKetelo2 = new UrlKetelo2(context);
+        urlKezelo3 = new UrlKezelo3(context, loop);
 
         nincsBejelentkezve = new NincsBejelentkezve(context, width, height);
         fooldal = new Fooldal(context, width, height);
@@ -80,12 +109,14 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas){
         super.draw(canvas);
         //drawSzoveg(canvas);
-        //drawSzoveg2(canvas);
+        drawSzoveg2(canvas);
         if (nincsBejelentkezve_)
             nincsBejelentkezve.draw(canvas);
+        if (fooldal_)
+            fooldal.draw(canvas);
     }
 
-    public void drawSzoveg(Canvas canvas){
+    public void drawSzoveg2(Canvas canvas){
         String szoveg = Loop.getSzoveg2();
         Paint paint = new Paint();
         int color = ContextCompat.getColor(context, R.color.magenta);
@@ -94,7 +125,7 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawText("Szöveg: "+szoveg, 100, 100, paint);
     }
 
-    public void drawSzoveg2(Canvas canvas){
+    public void drawSzoveg(Canvas canvas){
         String szoveg = Loop.getSzoveg();
         Paint paint = new Paint();
         int color = ContextCompat.getColor(context, R.color.magenta);
