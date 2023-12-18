@@ -15,7 +15,7 @@ public class UrlKezelo3 {
 
     Context context;
     RequestQueue queue;
-    String url= "https://reqbin.com/";
+    String url= "127.0.0.1:5000/";
     Loop loop;
 
 
@@ -40,6 +40,8 @@ public class UrlKezelo3 {
                 loop.setSzoveg2(error.toString());
 
             }
+
+
         });
 
         queue.add(request);

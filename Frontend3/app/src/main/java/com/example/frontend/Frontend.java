@@ -10,6 +10,8 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import java.io.IOException;
+
 public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     final Context context;
     private final Fooldal fooldal;

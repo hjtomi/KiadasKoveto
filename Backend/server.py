@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 import Adatbazis
 from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
@@ -17,6 +17,7 @@ Adatbazis.db_creater(app)
 
 @app.route("/")
 def hello_world():
+
     return "<p>Udv a KiadasKoveto applikacioban</p>"
 
 @app.route("/regisztracio")
@@ -64,10 +65,13 @@ def manualis_kiadas_felvetel():
     ManualisKiadasFelvetel()
     return "<p>Manualis kiadas felveve</p>"
 
-@app.route("/proba")
+@app.route("/proba",methods=['GET'])
 def proba():
-    adat = {"datum":"2023-12-11", "osszeg":15000}
-    return json.dumps(adat)
+    d = {}
+    d['Query'] = str(request.args['Query'])
+
+    return jsonify(d)
+    #return "siker"
 
 if __name__ == '__main__':
     app.run(debug=False)
