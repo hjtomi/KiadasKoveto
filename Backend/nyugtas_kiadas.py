@@ -4,6 +4,7 @@ import requests
 from Adatbazis import Tranzakcio, adatok_hozzadasa, adatok_lekerese, adat_, adat_modositas
 import Kategoria
 from alap_kategoriak import alap_kategoriak
+import copy
 import datetime
 
 """
@@ -16,11 +17,12 @@ import datetime
 """
 
 API_KEY = "d2692ea9750aa3db29e8489cdd9b97f0"
-URL = "https://api.mindee.net/v1/products/mindee/invoice/v5/predict"
+URL_INV = "https://api.mindee.net/v1/products/mindee/invoices/v4/predict"
+URL_REC = "https://api.mindee.net/v1/products/mindee/expense_receipts/v5/predict"
 
 debug_nyers_nyugta_adatok = {
         'bolt_nev': "Spar",
-        'datum': None,
+        'datum': "2023-12-18",
         'bolti_termek_nevek': ['Fanta 0,5L', 'B00 db DORMI EPRES 30G 149 Ft/db', 'A00 CSIRKEMELLF. SZCS',
                                'A00 CSIRKEMELLE SZCS', 'CO0 GYE.ZABFAL.CS02244G', 'CO0 MILKA.MAZS.MOGY 100G',
                                'BO0 db PANTASTICO RETRO 489 Ft/db PUF', 'CO0 BEVASARLO TASKA',
@@ -38,25 +40,6 @@ class NyugtasKiadas:
     """Input: Vagy egy foto a nyugtarol vagy debug=True annak
     erdekeben hogy ne fogyjon a max api request"""
 
-    def __init__(self, photo=None, debug=False):
-        if debug:
-            kesz_adatok = self._adatok_megadasa(debug_nyers_nyugta_adatok)
-            osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'], kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
-            adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)
-            uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
-
-            adatok_hozzadasa(uj_elemek)
-
-        else:
-
-            nyers_nyugta_adatok = self._nyugta_adatfeldolgozas(photo)
-            kesz_adatok = self._adatok_megadasa(nyers_nyugta_adatok)
-            osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'],kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
-            adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)
-            uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
-
-            adatok_hozzadasa(uj_elemek)
-
     @staticmethod
     def _nyugta_adatfeldolgozas(photo) -> dict:
         """Hasznalja a mindee API-t es a visszakapott adatokbol
@@ -65,7 +48,7 @@ class NyugtasKiadas:
         files = {'document': photo}
         headers = {"Authorization": API_KEY}
         response = requests.post(
-            url=URL,
+            url=URL_INV,
             files=files,
             headers=headers,
         )
@@ -206,8 +189,55 @@ class NyugtasKiadas:
 
         return uj_elemek
 
+    def felvetel(self, photo=None, debug=False):
+        if debug:
+            kesz_adatok = self._adatok_megadasa(debug_nyers_nyugta_adatok)
+            osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'], kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
+            adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)
+            uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
+
+            adatok_hozzadasa(uj_elemek)
+
+        else:
+
+            nyers_nyugta_adatok = self._nyugta_adatfeldolgozas(photo)
+            print(nyers_nyugta_adatok)
+            kesz_adatok = self._adatok_megadasa(nyers_nyugta_adatok)
+            osszegek = self._uj_felhasznalo_osszegek_kalkulalasa(kesz_adatok['felhasznalonev'],kesz_adatok['penz_fiok'], kesz_adatok['osszeg'])
+            adat_modositas(kesz_adatok['felhasznalonev'], neve='osszegek', adat=osszegek)
+            uj_elemek = self._uj_adatbazis_elemek_keszitese(kesz_adatok)
+
+            adatok_hozzadasa(uj_elemek)
+
+    def fronted_felvetel(self, photo=None, felhasznalonev='Jancsi', debug=False):
+        """Argumentumkent vagy a fotot es a felhasznalonevet adjuk meg
+        vagy csak annyit hogy debug=True"""
+
+        kategoria_kezelo = Kategoria.KategoriaAjanlas(felhasznalonev)
+
+        if debug:
+            adatok = copy.deepcopy(debug_nyers_nyugta_adatok)
+
+            adatok['termekek_szama'] = len(adatok['bolti_termek_nevek'])
+            adatok['kategoriak'] = [
+                kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_termek_nevek'],
+                                                                                            adatok['bolti_termek_arak'])
+            ]
+            return adatok
+
+        else:
+            with open('nyugta2.jpg', 'rb') as photo:
+                adatok = self._nyugta_adatfeldolgozas(photo)
+
+            adatok['termekek_szama'] = len(adatok['bolti_termek_nevek'])
+            adatok['kategoriak'] = [
+                kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_termek_nevek'],
+                                                                                            adatok['bolti_termek_arak'])
+            ]
+            return adatok
+
 
 if __name__ == '__main__':
     # print(NyugtasKiadas.felvetel())
     # file type: io.BufferReader
-    ...
+    pass

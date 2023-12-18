@@ -52,7 +52,8 @@ def egyeb_kiadas_felvetel():
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
-    NyugtasKiadas(debug=True)
+    with open('nyugta3.jpg', 'rb') as file:
+        NyugtasKiadas().felvetel(debug=True)
     return "<p>Nyugtas kiadas felveve</p>"
 
 @app.route("/nyugtas_kiadas_megtekintese")
@@ -72,6 +73,13 @@ def proba():
 
     return jsonify(d)
     #return "siker"
+
+@app.route('/frontend/nyugtas_kiadas_felvetel')
+def frontend_nyugtas_kiadas_felvetel():
+    debug = request.args.get('debug', 'False').lower() == "true"
+    felhasznalonev = request.args.get('felhasznalonev', '')
+    return jsonify(NyugtasKiadas().fronted_felvetel(felhasznalonev=felhasznalonev, debug=debug))
+
 
 if __name__ == '__main__':
     app.run(debug=False)
