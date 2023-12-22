@@ -17,7 +17,7 @@ Adatbazis.db_creater(app)
 
 @app.route("/")
 def hello_world():
-
+    print("Juhuuuu! Az Android app csatlakozott!")
     return "<p>Udv a KiadasKoveto applikacioban</p>"
 
 @app.route("/regisztracio")
@@ -79,6 +79,48 @@ def frontend_nyugtas_kiadas_felvetel():
     debug = request.args.get('debug', 'False').lower() == "true"
     felhasznalonev = request.args.get('felhasznalonev', '')
     return jsonify(NyugtasKiadas().fronted_felvetel(felhasznalonev=felhasznalonev, debug=debug))
+
+@app.route("/regisztralt-felhasznalok", methods=['GET'])
+def regisztralt_felhasznalok():
+    john = {
+            "nev": "John Doe",
+            "felhasznalonev": "jdoe32",
+            "email": "jdoe@gmail.com"
+        }
+    john_json = json.dumps(john)
+    jack = {
+            "nev": "Jack Doe",
+            "felhasznalonev": "doejack1996",
+            "email": "doejack@gmail.com"
+        }
+    jack_json = json.dumps(jack)
+    return [john_json, jack_json]
+
+@app.route("/regisztralas", methods=['POST'])
+def regisztralas():
+    adatok = request.json
+    nev =  adatok['nev']
+    jelszo = adatok['jelszo']
+    felhasznalo = User(nev, jelszo, "felhasznalo@gmail.com")
+    return felhasznalo.to_json()
+
+class User():
+    def __init__(self, nev, jelszo, email_cim) :
+        self.name = nev
+        self.password = jelszo
+        self.email = email_cim
+
+    def to_json(self):
+        return json.dumps({
+            'name': self.name,
+            'password': self.password,
+            'email': self.email
+        })
+
+    @classmethod
+    def from_json(cls, json_string):
+        json_data = json.loads(json_string)
+        return cls(json_data['name'], json_data['password'], json_data['email'])
 
 
 if __name__ == '__main__':
