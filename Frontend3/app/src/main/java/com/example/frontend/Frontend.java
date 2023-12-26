@@ -50,7 +50,9 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
 
                 if (fooldal_){
 
-                    urlKezelo3.fuggveny();
+//                    urlKezelo3.fuggveny();
+                    urlKezelo3.fuggveny1();
+                    urlKezelo3.fuggveny2();
 
                     /*try {
                         loop.setSzoveg2("Talán");
@@ -77,8 +79,8 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
 
         this.context = context;
         loop = new Loop(this, surfaceHolder);
-        urlKezelo = new UrlKezelo(context, loop);
-        urlKetelo2 = new UrlKetelo2(context);
+//        urlKezelo = new UrlKezelo(context, loop);
+//        urlKetelo2 = new UrlKetelo2(context);
         urlKezelo3 = new UrlKezelo3(context, loop);
 
         nincsBejelentkezve = new NincsBejelentkezve(context, width, height);
