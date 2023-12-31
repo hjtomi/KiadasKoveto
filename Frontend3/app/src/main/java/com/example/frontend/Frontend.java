@@ -1,30 +1,43 @@
 package com.example.frontend;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import java.io.IOException;
-
 public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
     final Context context;
+    //EditText editText;
+    //Button button;
+    TextView text;
     private final Fooldal fooldal;
     public Loop loop;
     private UrlKezelo urlKezelo;
-    private UrlKetelo2 urlKetelo2;
-    private UrlKezelo3 urlKezelo3;
     private NincsBejelentkezve nincsBejelentkezve;
     private boolean nincsBejelentkezve_=true;
     private boolean fooldal_ = false;
     private boolean bejelentkezes_ = false;
     private boolean regisztracio_ = false;
+    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            switch (actionId){
+                //case EditorInfo
+            }
+            return false;
+        }
+    };
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -51,8 +64,9 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
                 if (fooldal_){
 
 //                    urlKezelo3.fuggveny();
-                    urlKezelo3.fuggveny1();
-                    urlKezelo3.fuggveny2();
+                    /*urlKezelo.fuggveny1();
+                    urlKezelo.fuggveny2();*/
+                    text.setVisibility(View.VISIBLE);
 
                     /*try {
                         loop.setSzoveg2("Talán");
@@ -79,15 +93,28 @@ public class  Frontend extends SurfaceView implements SurfaceHolder.Callback {
 
         this.context = context;
         loop = new Loop(this, surfaceHolder);
-//        urlKezelo = new UrlKezelo(context, loop);
-//        urlKetelo2 = new UrlKetelo2(context);
-        urlKezelo3 = new UrlKezelo3(context, loop);
+
+        //urlKezelo = new UrlKezelo(context, loop);
 
         nincsBejelentkezve = new NincsBejelentkezve(context, width, height);
         fooldal = new Fooldal(context, width, height);
 
         loop.setSzoveg2(Float.toString(width)+"   "+Float.toString(height));
 
+
+        //button = findViewById(R.id.button);
+        //editText = findViewById(R.id.edit_text);
+
+        /*button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String input = "akna"; //editText.getText().toString();
+                loop.setSzoveg2(input);
+
+            }
+        });*/
+        //editText.setOnEditorActionListener(editorActionListener);
 
 
         setFocusable(true);

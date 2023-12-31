@@ -1,44 +1,104 @@
 package com.example.frontend;
 
 import android.content.Context;
+import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
 
 public class UrlKezelo {
+
     Context context;
-    Loop loop;
-
-    UrlKezelo(Context context, Loop loop){
+    RequestQueue queue;
+    String url= "http://10.0.2.2:5000/";
+    public UrlKezelo(Context context){
         this.context = context;
-        this.loop = loop;
+    }
+    public void fuggveny1(){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + "regisztralt-felhasznalok", null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("fuggveny", "HTTP request OK " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("fuggveny", "HTTP request failed", error);
+            }
+        });
+        queue.add(request);
     }
 
-    public String URLhivas(String path) throws IOException {
+    public void fuggveny2() {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String requestBody = "{\"nev\": \"Jane Doe\", \"jelszo\": \"Xjelszo1234\"}";
 
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "regisztralas", requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("fuggveny2", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("fuggveny2", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
 
-        URL url = new URL("https://127.0.0.1:5000/");
-
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        return urlConnection.getResponseMessage();
-        /*try {
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            readStream(in);
-        } finally {
-            urlConnection.disconnect();
-        }*/
-
-
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+                Log.d("fuggveny2", "HTTP request OK " + response.headers);
+                Log.d("fuggveny2", responseText);
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
     }
 
-    private void readStream(InputStream in) {
-        loop.setSzoveg2(in.toString());
-    }
+    public void regisztral(String felhasznalonev, String email, String jelszo) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String requestBody = "{\"nev\": \""+felhasznalonev+"\", \"email\":\""+email+"\" ,\"jelszo\": \""+jelszo+"\"}";
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "regisztral", requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("regisztáció", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("regisztráció", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
 
-    public String nyugtasKiadas() throws IOException {
-
-        return URLhivas("proba/");
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+                Log.d("registráció", "HTTP request OK " + response.headers);
+                Log.d("registráció", responseText);
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
     }
 }

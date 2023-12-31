@@ -1,20 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/nincs_bejelentkezve_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/bejelentkezes_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bejelentkezés"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/cardview_dark_background"/>
+
+        <Button
+            android:id="@+id/regisztracios_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/cardview_dark_background"
+            android:text="Regisztráció" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/bejelentkezes_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+                >
+
+        <EditText
+            android:id="@+id/bejelentkez_felhasznalonev_editText"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:hint="Felhasználónév"/>
+
+
+        
+        <Button
+            android:id="@+id/bejelentkez_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/cardview_dark_background"
+            android:text="Bejelentkez" />
+        
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/regisztracio_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/regisztracio_felhasznalonev_text"
+            android:text="Felhasználónév:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/regisztracio_felhasznalonev_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:hint="Felhasználónév"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/regisztracio_email_text"
+            android:text="E-mail cím:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/regisztracio_email_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:hint="E-mail cím"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/regisztracio_jelszo_text"
+            android:text="Jelszó:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/regisztracio_jelszo_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:hint="Jelszó"/>
+
+
+        <Button
+            android:id="@+id/regisztracio_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/cardview_dark_background"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Regisztrál" />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
