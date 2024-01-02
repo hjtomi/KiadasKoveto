@@ -47,13 +47,39 @@
         android:layout_marginTop="50dp"
                 >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bejelentkezes_felhasznalonev_text"
+            android:text="Felhasználónév:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
         <EditText
             android:id="@+id/bejelentkez_felhasznalonev_editText"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
+            android:inputType="textPersonName"
             android:hint="Felhasználónév"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bejelentkezes_jelszo_text"
+            android:text="Jelszó:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/bejelentkez_jelszo_editText"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:inputType="textPassword"
+            android:hint="Jelszó"/>
 
 
         
@@ -84,6 +110,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/regisztracio_felhasznalonev_text"
             android:text="Felhasználónév:"
+            android:inputType="textPersonName"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"/>
 

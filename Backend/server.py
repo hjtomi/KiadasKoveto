@@ -104,8 +104,34 @@ def regisztralas():
     felhasznalo = User(nev, jelszo, "felhasznalo@gmail.com")
     return felhasznalo.to_json()
 
+
+def vizsgal_r(nev, email, jelszo):
+    #1-helytelen adat 0-helyes adat
+    return json.dumps({"nev":1, "email":0, "jelszo":1})
+
+
+@app.route("/regisztral", methods=['POST'])
+def regisztral():
+    adatok = request.json
+    nev = adatok['nev']
+    email = adatok['email']
+    jelszo = adatok['jelszo']
+    print(nev, email, jelszo)
+    return vizsgal_r(nev, email, jelszo)
+
+@app.route("/bejelenzkez", methods=['POST'])
+def bejelenzkez():
+    adatok = request.json
+    nev = adatok['nev']
+    jelszo = adatok['jelszo']
+    print(nev, jelszo)
+    log = Login(nev, jelszo)
+
+    return log.vizsgalat()
+
+
 class User():
-    def __init__(self, nev, jelszo, email_cim) :
+    def __init__(self, nev, jelszo, email_cim):
         self.name = nev
         self.password = jelszo
         self.email = email_cim

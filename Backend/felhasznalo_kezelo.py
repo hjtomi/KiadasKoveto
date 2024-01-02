@@ -2,7 +2,7 @@ from Adatbazis import Felhasznalo
 import Adatbazis
 from alap_kategoriak import alap_kategoriak
 from Adatbazis import Tranzakcio
-
+import json
 
 def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
     felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
@@ -62,7 +62,7 @@ class Regisztracio():
         self.jelszo = input("jelszo")
         self.email = input("email")
         self.kategoriak = kategoria
-        self.penz_fiokok = input("penz_fiokok")
+        self.penz_fiokok = "készpénz" #input("penz_fiokok")
         self.osszegek = input("penz_mennyisegek")
 
         felhasznalo = Felhasznalo(
@@ -81,11 +81,16 @@ class Login():
 
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
-        megfelelo_adatok = ""
+        self.megfelelo_adatok = ""
         for adatok in felhasznalo_adatok:
             if adatok.felhasznalonev == felhasznalo_nev and adatok.jelszo == password:
-                megfelelo_adatok = adatok
-        print(megfelelo_adatok.kategoriak)
+                self.megfelelo_adatok = adatok
+
+    def vizsgalat(self):
+        if self.megfelelo_adatok == "":
+            return json.dumps({"helytelen":1})
+        else:
+            return json.dumps({"helytelen":0})
 
 class Modositasok():
     def __init__(self, felhasznalo_nev):

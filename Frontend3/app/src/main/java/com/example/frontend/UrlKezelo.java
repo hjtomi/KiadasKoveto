@@ -22,8 +22,11 @@ public class UrlKezelo {
     Context context;
     RequestQueue queue;
     String url= "http://10.0.2.2:5000/";
-    public UrlKezelo(Context context){
+
+    Frontend1 frontend;
+    public UrlKezelo(Context context, Frontend1 frontend1){
         this.context = context;
+        this.frontend = frontend1;
     }
     public void fuggveny1(){
         RequestQueue queue = Volley.newRequestQueue(context);
@@ -96,9 +99,58 @@ public class UrlKezelo {
                 String responseText = new String(response.data, StandardCharsets.UTF_8);
                 Log.d("registráció", "HTTP request OK " + response.headers);
                 Log.d("registráció", responseText);
+
+
+                if (responseText.contains("1")){
+                    frontend.regisztracio_hibas_adatok(responseText);
+                }
+                else{
+                    frontend.sikeres_regisztracio();
+                }
+
                 return Response.success(null, null);
             }
         };
         queue.add(request);
+    }
+
+    public void bejelentkezes(String felhasznalonev, String jelszo) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String requestBody = "{\"nev\": \""+felhasznalonev+"\", \"jelszo\": \""+jelszo+"\"}";
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "bejelenzkez", requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("bejelentkezés", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("bejelentkezés", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
+
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+                Log.d("bejelentkezés", "HTTP request OK " + response.headers);
+                Log.d("bejelentkezés", responseText);
+
+
+                if (responseText.contains("1")){
+                    frontend.bejelentkezes_hibas_adatok();
+                }
+                else{
+                    frontend.sikeres_bejelentkezes();
+                }
+
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
+
     }
 }

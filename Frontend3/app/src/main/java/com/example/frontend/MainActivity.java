@@ -12,9 +12,8 @@ public class MainActivity extends AppCompatActivity {
     private Frontend1 frontend;
     Button bejelentkezes_button, regisztracios_button, jelentkez_button, regisztracio_button;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout;
-    EditText bejelentkez_felhasznalonev_editText, regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText;
-
-    TextView regisztracio_felhasznalonev_text, regisztracio_jelszo_text, regisztracio_email_text;
+    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +30,23 @@ public class MainActivity extends AppCompatActivity {
         bejelentkezes_layout = findViewById(R.id.bejelentkezes_layout);
         regisztracio_layout = findViewById(R.id.regisztracio_layout);
 
-        bejelentkez_felhasznalonev_editText = findViewById(R.id.bejelentkez_felhasznalonev_editText);
         regisztracio_felhasznalonev_editText = findViewById(R.id.regisztracio_felhasznalonev_editText);
         regisztracio_jelszo_editText = findViewById(R.id.regisztracio_jelszo_editText);
         regisztracio_email_editText = findViewById(R.id.regisztracio_email_editText);
+        bejelentkezes_felhasznalonev_editText = findViewById(R.id.bejelentkez_felhasznalonev_editText);
+        bejelentkezes_jelszo_editText = findViewById(R.id.bejelentkez_jelszo_editText);
 
         regisztracio_felhasznalonev_text = findViewById(R.id.regisztracio_felhasznalonev_text);
         regisztracio_email_text = findViewById(R.id.regisztracio_email_text);
         regisztracio_jelszo_text = findViewById(R.id.regisztracio_jelszo_text);
+        bejelentkezes_felhasznalonev_text = findViewById(R.id.bejelentkezes_felhasznalonev_text);
+        bejelentkezes_jelszo_text = findViewById(R.id.bejelentkezes_jelszo_text);
 
 
         frontend = new Frontend1(this, bejelentkezes_button, regisztracios_button, jelentkez_button, regisztracio_button,
                 nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout,
-                bejelentkez_felhasznalonev_editText, regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText,
-                regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text);
+                regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText,
+                regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text);
 
         frontend.futas = true;
         frontend.start();
