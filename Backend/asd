@@ -1,9 +1,0 @@
-@app.route("/regisztral", methods=['POST'])
-def regisztral():
-    adatok = request.json
-    nev = adatok['nev']
-    email = adatok['email']
-    jelszo = adatok['jelszo']
-    egyenleg = adatok['egyenleg']
-    print(nev, email, jelszo, egyenleg)
-    return vizsgal_r(nev, email, jelszo, egyenleg)

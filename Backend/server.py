@@ -99,9 +99,9 @@ def regisztralas():
     return felhasznalo.to_json()
 
 
-def vizsgal_r(nev, email, jelszo):
+def vizsgal_r(nev, email, jelszo, egyenleg):
     #1-helytelen adat 0-helyes adat
-    return json.dumps({"nev":1, "email":0, "jelszo":1})
+    return json.dumps({"nev":0, "email":0, "jelszo":1})
 
 
 @app.route("/regisztral", methods=['POST'])
@@ -110,8 +110,9 @@ def regisztral():
     nev = adatok['nev']
     email = adatok['email']
     jelszo = adatok['jelszo']
-    print(nev, email, jelszo)
-    return vizsgal_r(nev, email, jelszo)
+    egyenleg = adatok['egyenleg']
+    print(nev, email, jelszo, egyenleg)
+    return vizsgal_r(nev, email, jelszo, egyenleg)
 
 @app.route("/bejelenzkez", methods=['POST'])
 def bejelenzkez():
