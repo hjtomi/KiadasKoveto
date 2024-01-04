@@ -47,29 +47,14 @@ def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
     Adatbazis.adat_modositas(felhasznalo_nev, "osszegek", veg_osszegek[1:])
 
 class Regisztracio():
-    """
-    def __init__(self):
-        self.felhasznalonev = None
-        self.jelszo = None
-        self.email = None
-        self.kategoriak = None
-        self.penz_fiokok = None
-        self.osszegek = None
 
-        self.regist()
-    """
-    def regist(self, felhasznalonev, jelszo, email, kategoriak, penz_fiokok, osszegek):
+    def regist(self, felhasznalonev, jelszo, email, osszegek):
 
         kategoria = ""
         for x in alap_kategoriak:
             kategoria += f";{x}"
         kategoria = kategoria[1:]
-        """
-        felhasznalonev = input("Nev")
-        jelszo = input("jelszo")
-        email = input("email")
-                osszegek = input("penz_mennyisegek")
-        """
+
         penz_fiokok = "kézpénz"
         kategoriak = kategoria
 
@@ -81,8 +66,18 @@ class Regisztracio():
                         penz_fiokok=penz_fiokok,
                         osszegek=osszegek
                         )
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
-        Adatbazis.adatok_hozzadasa([felhasznalo])
+        megfelelo = 0
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalonev:
+                megfelelo = 1
+
+        if megfelelo == 0:
+            Adatbazis.adatok_hozzadasa([felhasznalo])
+            return json.dumps({"helytelen": 0})
+        else:
+            return json.dumps({"helytelen": 1})
 
 class Login():
     def __init__(self, felhasznalo_nev, password):
@@ -101,31 +96,89 @@ class Login():
             return json.dumps({"helytelen":0})
 
 class Modositasok():
-    def __init__(self, felhasznalo_nev, jelszo, email, penz_fiokok, osszeghez_penzfiok, osszegek):
+        def jelszo_mod(self, felhasznalo_nev, old_jelszo, new_jelszo):
+            felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
-        if jelszo:
-            Adatbazis.adat_modositas(felhasznalo_nev, "jelszo", jelszo)
+            jelszo = ""
+            for adatok in felhasznalo_adatok:
+                if adatok.felhasznalonev == felhasznalo_nev and adatok.jelszo == old_jelszo:
+                    jelszo = adatok.jelszo
+            if jelszo == old_jelszo:
+                Adatbazis.adat_modositas(felhasznalo_nev, "jelszo", new_jelszo)
+                return json.dumps({"helytelen":0})
+            else:
+                return json.dumps({"helytelen":1})
 
-        if email:
-            Adatbazis.adat_modositas(felhasznalo_nev, "email", email)
+        def email_mod(self, felhasznalo_nev, old_email, new_email):
+            felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
-        if penz_fiokok:
-            Adatbazis.adat_modositas(felhasznalo_nev, "penz_fiokok", penz_fiokok)
+            email = ""
+            for adatok in felhasznalo_adatok:
+                if adatok.felhasznalonev == felhasznalo_nev:
+                    email = adatok.email
+            if email == old_email:
+                Adatbazis.adat_modositas(felhasznalo_nev, "email", new_email)
+                return json.dumps({"helytelen": 0})
+            else:
+                return json.dumps({"helytelen": 1})
 
-        if osszegek:
-            penz_tranzakciok(felhasznalo_nev, osszeghez_penzfiok, "penz_atiras", osszegek)
+
+        def penz_fiokok_mod(self, felhasznalo_nev, old_penz_fiok, new_penz_fiok):
+            felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+            penz_fiokok = ""
+            for adatok in felhasznalo_adatok:
+                if adatok.felhasznalonev == felhasznalo_nev:
+                    penz_fiokok = adatok.penz_fiokok
+            szetszedett_penz_fiokok = penz_fiokok.split(";")
+
+            if old_penz_fiok in szetszedett_penz_fiokok:
+                szetszedett_penz_fiokok[old_penz_fiok] = new_penz_fiok
+                veg_fiok = ""
+                for fiok in szetszedett_penz_fiokok:
+                    veg_fiok = veg_fiok + ";" + fiok
+
+                Adatbazis.adat_modositas(felhasznalo_nev, "penz_fiokok", veg_fiok[1:])
+                return json.dumps({"helytelen":0})
+            else:
+                return json.dumps({"helytelen":1})
+
+        def osszeg_mod(self, felhasznalo_nev, osszeghez_penzfiok, osszegek):
+            felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+            penz_fiokok = ""
+            for adatok in felhasznalo_adatok:
+                if adatok.felhasznalonev == felhasznalo_nev:
+                    penz_fiokok = adatok.penz_fiokok
+            szetszedett_penz_fiokok = penz_fiokok.split(";")
+
+            if osszeghez_penzfiok in szetszedett_penz_fiokok:
+                penz_tranzakciok(felhasznalo_nev, osszeghez_penzfiok, "penz_atiras", osszegek)
+                return json.dumps({"helytelen": 0})
+            else:
+                return json.dumps({"helytelen": 1})
+
 
 class Adat_torles():
-    def __init__(self, felhasznalo_nev, penz_fiok):
-        """
-        penz_fiok = input(f"törölni kivant penzfiok")
-        """
-        penz_tranzakciok(felhasznalo_nev, penz_fiok, "torles", 0)
+    def adat_torles(self, felhasznalo_nev, penz_fiok):
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        penz_fiokok = ""
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                penz_fiokok = adatok.penz_fiokok
+        szetszedett_penz_fiokok = penz_fiokok.split(";")
+
+        if penz_fiok in szetszedett_penz_fiokok:
+            penz_tranzakciok(felhasznalo_nev, penz_fiok, "torles", 0)
+            return json.dumps({"helytelen": 0})
+        else:
+            return json.dumps({"helytelen": 1})
 
 
 
 class Kategoria_hozzaadas():
-    def __init__(self, felhasznalo_nev, new_kategoria):
+    def kateg_hozzaadas(self, felhasznalo_nev, new_kategoria):
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
         kateg_adatok = ""
@@ -138,41 +191,42 @@ class Kategoria_hozzaadas():
         if new_kategoria:
             Adatbazis.adat_modositas(felhasznalo_nev, "kategoriak", osszes_kategoria)
 
-class penz_fiok_hozzaadas():
-    def __init__(self, felhasznalo_nev, new_fiok, new_osszeg):
-        penz_tranzakciok(felhasznalo_nev, new_fiok, "new", new_osszeg)
+class Penz_fiok_hozzaadas():
+    def penz_fiok_hozzaadas(self, felhasznalo_nev, new_fiok, new_osszeg):
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        penz_fiokok = ""
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                penz_fiokok = adatok.penz_fiokok
+        szetszedett_penz_fiokok = penz_fiokok.split(";")
+
+        if new_fiok in szetszedett_penz_fiokok:
+            return json.dumps({"helytelen": 1})
+        else:
+            penz_tranzakciok(felhasznalo_nev, new_fiok, "new", new_osszeg)
+            return json.dumps({"helytelen": 0})
 
 
 class Bevetel_hozzaadas():
-    def __init__(self, felhasznalo_nev, penz_fiok_bevetel, osszeg):
-        """
-        penz_fiok_bevetel = input(f"bevetel melyik penz_fiokba")
-        osszeg = input(f"osszeg")
-        """
-        penz_tranzakciok(felhasznalo_nev, penz_fiok_bevetel, "+", osszeg)
+    def bevetel_hozaadas(self, felhasznalo_nev, penz_fiok_bevetel, osszeg):
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        penz_fiokok = ""
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                penz_fiokok = adatok.penz_fiokok
+        szetszedett_penz_fiokok = penz_fiokok.split(";")
+
+        if penz_fiok_bevetel in szetszedett_penz_fiokok:
+            penz_tranzakciok(felhasznalo_nev, penz_fiok_bevetel, "+", osszeg)
+            return json.dumps({"helytelen": 0})
+        else:
+            return json.dumps({"helytelen": 1})
 
 class Egyeb_kiadas():
-    """
-    def __init__(self, felhasznalo_nev):
-        self.felhasznalo_nev = felhasznalo_nev
-        self.tranzakcio_id = None,
-        self.tipus = None,
-        self.ertek = None,
-        self.datum = None,
-        self.bolti_aru_nev = None,
-        self.sajat_aru_nev = None,
-        self.bolt = None
-
-        self.kiadas_felvetel()
-    """
     def kiadas_felvetel(self, felhasznalo_nev, tipus, ertek, datum, sajat_aru_nev, bolt, penz_fiok):
-        """
-        self.tipus = input(f"kategoria")
-        self.ertek = input(f"összeg")
-        self.datum = input(f"datum")
-        self.sajat_aru_nev = input(f"aru neve")
-        self.bolt = input(f"bolt")
-        """
+
         tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
         utolso_tranzakcio_id = 0
         for adatok in tranzakcio_adatok:
@@ -191,3 +245,4 @@ class Egyeb_kiadas():
         Adatbazis.adatok_hozzadasa([feltoltes])
 
         penz_tranzakciok(felhasznalo_nev, penz_fiok, "-", ertek)
+        return json.dumps({"helytelen": 0})
