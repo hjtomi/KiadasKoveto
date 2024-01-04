@@ -20,35 +20,29 @@ def hello_world():
     print("Juhuuuu! Az Android app csatlakozott!")
     return "<p>Udv a KiadasKoveto applikacioban</p>"
 
-@app.route("/regisztracio")
+@app.route("/regisztracio", methods=['POST'])
 def regisztracio():
-    Regisztracio()
-    return "<p>Sikeres regisztracio</p>"
-
-@app.route("/belepes")
+    return Regisztracio()
+"""
+@app.route("/belepes", methods=['POST'])
 def belepes():
-    Login(felhasznalo_nev=input("Nev"), password=input("jelszo"))
-    return "<p>Sikeres belepes</p>"
-
-@app.route("/kateg_hozzaadas")
+    return Login()
+"""
+@app.route("/kateg_hozzaadas", methods=['POST'])
 def kateg_hozzaadas():
-    Kategoria_hozzaadas(felhasznalo_nev=input("Nev"))
-    return "<p>Sikeres kategoria hozzaadas</p>"
+    return Kategoria_hozzaadas()
 
-@app.route("/felhasznalo_modositas")
+@app.route("/felhasznalo_modositas", methods=['POST'])
 def felhasznalo_modositas():
-    Modositasok(felhasznalo_nev=input("Nev"))
-    return "<p>Sikeres modositas</p>"
+    return Modositasok()
 
-@app.route("/bevetel_hozzaadas")
+@app.route("/bevetel_hozzaadas", methods=['POST'])
 def bevetel_hozzaadas():
-    Bevetel_hozzaadas(felhasznalo_nev=input("Nev"))
-    return "<p>Sikeres bevetel hozzaadas</p>"
+    return Bevetel_hozzaadas()
 
-@app.route("/egyeb_kiadas_felvetel")
+@app.route("/egyeb_kiadas_felvetel", methods=['POST'])
 def egyeb_kiadas_felvetel():
-    Egyeb_kiadas(felhasznalo_nev=input("Nev"))
-    return "<p>Sikeres egyeb kiadas felvétel</p>"
+    return Egyeb_kiadas()
 
 @app.route("/nyugtas_kiadas_felvetel")
 def nyugtas_kiadas():
