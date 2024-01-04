@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/regisztracio_felhasznalonev_text"
             android:text="Felhasználónév:"
-            android:inputType="textPersonName"
+
             android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"/>
 
@@ -120,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
+            android:inputType="textPersonName"
             android:hint="Felhasználónév"/>
 
         <TextView
@@ -136,6 +137,7 @@
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
+            android:inputType="textPersonName"
             android:hint="E-mail cím"/>
 
         <TextView
@@ -152,8 +154,25 @@
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
+            android:inputType="textPassword"
             android:hint="Jelszó"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/regisztracio_egyenleg_text"
+            android:text="Egyenleg:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/regisztracio_egyenleg_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:inputType="number"
+            android:hint="Egyenleg"/>
 
         <Button
             android:id="@+id/regisztracio_button"
