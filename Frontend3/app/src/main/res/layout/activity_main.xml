@@ -23,8 +23,7 @@
             android:text="Bejelentkezés"
             android:layout_marginTop="100dp"
             android:layout_marginRight="50dp"
-            android:layout_marginLeft="50dp"
-            android:background="@color/cardview_dark_background"/>
+            android:layout_marginLeft="50dp"/>
 
         <Button
             android:id="@+id/regisztracios_button"
@@ -33,7 +32,6 @@
             android:layout_marginTop="100dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:background="@color/cardview_dark_background"
             android:text="Regisztráció" />
 
     </LinearLayout>
@@ -90,7 +88,6 @@
             android:layout_marginTop="100dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:background="@color/cardview_dark_background"
             android:text="Bejelentkez" />
         
         
@@ -179,7 +176,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:background="@color/cardview_dark_background"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             android:text="Regisztrál" />
@@ -187,6 +183,43 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/fooldal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        >
+        <Button
+            android:id="@+id/fooldal_felvetel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Felvétel" />
 
+        <Button
+            android:id="@+id/fooldal_kategoria_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Kategóriák" />
+
+        <Button
+            android:id="@+id/fooldal_statisztika_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Statisztikák" />
+
+
+
+    </LinearLayout>
 
 </RelativeLayout>
