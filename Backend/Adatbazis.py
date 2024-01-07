@@ -55,3 +55,20 @@ def adat_modositas(felhasznalo_nev, neve, adat):
     if neve == "kategoriak":
         admin.kategoriak = adat
     db.session.commit()
+
+def tranz_modositas(id, sajat_aru, neve, adat):
+    admin = Tranzakcio.query.filter_by(tranzakcio_id=id).first()
+    admin = Tranzakcio.query.filter_by(sajat_aru_nev=sajat_aru).first()
+    if neve == "tipus":
+        admin.tipus = adat
+    if neve == "ertek":
+        admin.ertek = adat
+    if neve == "datum":
+        admin.datum = adat
+    if neve == "bolti_aru_nev":
+        admin.bolti_aru_nev = adat
+    if neve == "sajat_aru_nev":
+        admin.sajat_aru_nev = adat
+    if neve == "bolt":
+        admin.bolt = adat
+    db.session.commit()

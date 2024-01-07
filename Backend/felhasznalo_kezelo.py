@@ -158,6 +158,8 @@ class Modositasok():
             else:
                 return json.dumps({"helytelen": 1})
 
+class Tranzakcio_mododitas():
+    pass
 
 class Adat_torles():
     def adat_torles(self, felhasznalo_nev, penz_fiok):
