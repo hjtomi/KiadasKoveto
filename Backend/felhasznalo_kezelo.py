@@ -47,7 +47,7 @@ def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
     Adatbazis.adat_modositas(felhasznalo_nev, "osszegek", veg_osszegek[1:])
 
 class Regisztracio():
-
+    #több adat visszakuldese
     def regist(self, felhasznalonev, jelszo, email, osszegek):
 
         kategoria = ""
@@ -68,14 +68,21 @@ class Regisztracio():
                         )
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
-        megfelelo = 0
+        felhaszn_megfelelo = 0
         for adatok in felhasznalo_adatok:
             if adatok.felhasznalonev == felhasznalonev:
-                megfelelo = 1
+                felhaszn_megfelelo = 1
+        email_megfelelo = 0
+        for x in email:
+            if x == "@":
+                email_megfelelo = 1
 
-        if megfelelo == 0:
-            Adatbazis.adatok_hozzadasa([felhasznalo])
-            return json.dumps({"helytelen": 0})
+        if felhaszn_megfelelo == 0:
+            if email_megfelelo == 0:
+                Adatbazis.adatok_hozzadasa([felhasznalo])
+                return json.dumps({"helytelen": 0})
+            else:
+                return json.dumps({"helytelen": 1})
         else:
             return json.dumps({"helytelen": 1})
 
@@ -91,9 +98,9 @@ class Login():
 
     def vizsgalat(self):
         if self.megfelelo_adatok == "":
-            return json.dumps({"helytelen":1})
+            return json.dumps({"helytelen": 1})
         else:
-            return json.dumps({"helytelen":0})
+            return json.dumps({"helytelen": 0})
 
 class Modositasok():
         def jelszo_mod(self, felhasznalo_nev, old_jelszo, new_jelszo):
@@ -139,9 +146,9 @@ class Modositasok():
                     veg_fiok = veg_fiok + ";" + fiok
 
                 Adatbazis.adat_modositas(felhasznalo_nev, "penz_fiokok", veg_fiok[1:])
-                return json.dumps({"helytelen":0})
+                return json.dumps({"helytelen": 0})
             else:
-                return json.dumps({"helytelen":1})
+                return json.dumps({"helytelen": 1})
 
         def osszeg_mod(self, felhasznalo_nev, osszeghez_penzfiok, osszegek):
             felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
