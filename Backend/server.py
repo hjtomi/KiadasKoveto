@@ -7,6 +7,7 @@ from felhasznalo_kezelo import *
 from manualis_kiadas_felvetel import ManualisKiadasFelvetel
 import json
 
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///kiadaskoveto.db'
