@@ -44,18 +44,18 @@ def bevetel_hozzaadas():
 def egyeb_kiadas_felvetel():
     return Egyeb_kiadas()
 
-@app.route("/nyugtas_kiadas_felvetel")
+@app.route("/nyugtas_kiadas_felvetel", methods=['GET', 'POST'])
 def nyugtas_kiadas():
     with open('nyugta3.jpg', 'rb') as file:
         NyugtasKiadas().felvetel(debug=True)
     return "<p>Nyugtas kiadas felveve</p>"
 
-@app.route("/nyugtas_kiadas_megtekintese")
+@app.route("/nyugtas_kiadas_megtekintese", methods=['GET'])
 def nyugta_megtekintese():
     NyugtaMegtekintese(tranzakcio_id=0)
     return "<p>Nyugtas megtekintheto</p>"
 
-@app.route("/manualis_kiadas_felvetel")
+@app.route("/manualis_kiadas_felvetel", methods=['POST'])
 def manualis_kiadas_felvetel():
     ManualisKiadasFelvetel()
     return "<p>Manualis kiadas felveve</p>"
