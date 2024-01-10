@@ -37,6 +37,10 @@ def kateg_hozzaadas():
 def felhasznalo_modositas():
     return Modositasok()
 
+@app.route("/tranzakcio_modositas", methods=['POST'])
+def tranzakcio_modositas():
+    return Tranzakcio_mododitas()
+
 @app.route("/bevetel_hozzaadas", methods=['POST'])
 def bevetel_hozzaadas():
     return Bevetel_hozzaadas()

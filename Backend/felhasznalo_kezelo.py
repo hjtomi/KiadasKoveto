@@ -222,6 +222,7 @@ class Tranzakcio_mododitas():
         for adatok in tranzakcio_adatok:
             if adatok.id == id:
                 ertek = adatok.ertek
+
         #regi es uj penz kozotti kulonbseg-----penzfiokbol valo elvétele/hozzaadasa
         kulonbseg = new_ertek - old_ertek
         if kulonbseg > 0:
