@@ -1,19 +1,25 @@
 package com.example.frontend;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private UrlKezelo urlKezelo;
-    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button;
-    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout;
+    ActivityResultLauncher<Uri> takePictureLauncher;
+    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button;
+    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, nyugtas_kiadas_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText;
     TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text;
+
+    FrameLayout nyugtas_kiadas_frame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +34,13 @@ public class MainActivity extends AppCompatActivity {
         fooldal_felvetel_button = findViewById(R.id.fooldal_felvetel_button);
         fooldal_kategoria_button = findViewById(R.id.fooldal_kategoria_button);
         fooldal_statisztika_button = findViewById(R.id.fooldal_statisztika_button);
+        nyugtas_kiadas_button = findViewById(R.id.nyugtas_kiadas_button);
 
         nincs_bejelentkezve_layout = findViewById(R.id.nincs_bejelentkezve_layout);
         bejelentkezes_layout = findViewById(R.id.bejelentkezes_layout);
         regisztracio_layout = findViewById(R.id.regisztracio_layout);
         fooldal_layout = findViewById(R.id.fooldal_layout);
+        nyugtas_kiadas_layout = findViewById(R.id.nyugtas_kiadas_layout);
 
         regisztracio_felhasznalonev_editText = findViewById(R.id.regisztracio_felhasznalonev_editText);
         regisztracio_jelszo_editText = findViewById(R.id.regisztracio_jelszo_editText);
@@ -48,10 +56,14 @@ public class MainActivity extends AppCompatActivity {
         bejelentkezes_felhasznalonev_text = findViewById(R.id.bejelentkezes_felhasznalonev_text);
         bejelentkezes_jelszo_text = findViewById(R.id.bejelentkezes_jelszo_text);
 
-        urlKezelo = new UrlKezelo(this, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button,
-                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout,
+        nyugtas_kiadas_frame = findViewById(R.id.nyugtas_kiadas_frame);
+
+        urlKezelo = new UrlKezelo(this, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button,
+                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, nyugtas_kiadas_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText,
-                regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text);
+                regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text,
+                nyugtas_kiadas_frame);
+
 
         /*Window window = getWindow();
 
@@ -69,7 +81,5 @@ public class MainActivity extends AppCompatActivity {
         //frontend.start();
 
     }
-
-
 
 }
