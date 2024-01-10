@@ -56,9 +56,8 @@ def adat_modositas(felhasznalo_nev, neve, adat):
         admin.kategoriak = adat
     db.session.commit()
 
-def tranz_modositas(id, sajat_aru, neve, adat):
-    admin = Tranzakcio.query.filter_by(tranzakcio_id=id).first()
-    admin = Tranzakcio.query.filter_by(sajat_aru_nev=sajat_aru).first()
+def tranz_modositas(id, neve, adat):
+    admin = Tranzakcio.query.filter_by(id=id).first()
     if neve == "tipus":
         admin.tipus = adat
     if neve == "ertek":

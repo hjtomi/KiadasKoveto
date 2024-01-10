@@ -3,6 +3,7 @@ import Adatbazis
 from alap_kategoriak import alap_kategoriak
 from Adatbazis import Tranzakcio
 import json
+from datetime import date
 
 
 def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
@@ -47,7 +48,6 @@ def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
     Adatbazis.adat_modositas(felhasznalo_nev, "osszegek", veg_osszegek[1:])
 
 class Regisztracio():
-    #több adat visszakuldese
     def regist(self, felhasznalonev, jelszo, email, osszegek):
 
         kategoria = ""
@@ -80,11 +80,15 @@ class Regisztracio():
         if felhaszn_megfelelo == 0:
             if email_megfelelo == 0:
                 Adatbazis.adatok_hozzadasa([felhasznalo])
-                return json.dumps({"helytelen": 0})
+                return json.dumps({"nev": 0, "email": 0, "jelszo": 0})
             else:
-                return json.dumps({"helytelen": 1})
+                return json.dumps({"nev": 0, "email": 1, "jelszo": 0})
         else:
-            return json.dumps({"helytelen": 1})
+            if email_megfelelo == 0:
+                Adatbazis.adatok_hozzadasa([felhasznalo])
+                return json.dumps({"nev": 1, "email": 0, "jelszo": 0})
+            else:
+                return json.dumps({"nev": 1, "email": 1, "jelszo": 0})
 
 class Login():
     def __init__(self, felhasznalo_nev, password):
@@ -166,7 +170,84 @@ class Modositasok():
                 return json.dumps({"helytelen": 1})
 
 class Tranzakcio_mododitas():
-    pass
+    def tipus_mod(self, felhasznalo_nev, id, old_tipus, new_tipus):
+        tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        tipus = ""
+        for adatok in tranzakcio_adatok:
+            if adatok.id == id:
+                tipus = adatok.tipus
+        kateg = []
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                kateg.append(adatok.kategoriak)
+
+        if tipus == old_tipus and new_tipus in kateg:
+            Adatbazis.tranz_modositas(id, "tipus", new_tipus)
+            return json.dumps({"helytelen": 0})
+        else:
+            return json.dumps({"helytelen": 1})
+
+    def datum(self, id, old_datum, new_datum):
+        tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
+
+        datum = ""
+        for adatok in tranzakcio_adatok:
+            if adatok.id == id:
+                datum = adatok.datum
+        #mai datum
+        today = date.today()
+        #helyes datum vizsgalas
+        if datum == old_datum and today.strftime("%Y") > new_datum[:4]:
+            Adatbazis.tranz_modositas(id, "datum", new_datum)
+        elif datum == old_datum and today.strftime("%Y") == new_datum[:4]:
+            if today.strftime("%m") > new_datum[5:7]:
+                Adatbazis.tranz_modositas(id, "datum", new_datum)
+            elif today.strftime("%m") == new_datum[5:7]:
+                if today.strftime("%d") >= new_datum[8:10]:
+                    Adatbazis.tranz_modositas(id, "datum", new_datum)
+                    return json.dumps({"helytelen": 0})
+                return json.dumps({"helytelen": 1})
+            else:
+                return json.dumps({"helytelen": 1})
+        else:
+            return json.dumps({"helytelen": 1})
+
+    def ertek(self, felhasznalo_nev, penz_fiok, id, old_ertek, new_ertek,):
+        tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        ertek = ""
+        for adatok in tranzakcio_adatok:
+            if adatok.id == id:
+                ertek = adatok.ertek
+        #regi es uj penz kozotti kulonbseg-----penzfiokbol valo elvétele/hozzaadasa
+        kulonbseg = new_ertek - old_ertek
+        if kulonbseg > 0:
+            penz_tranzakciok(felhasznalo_nev, penz_fiok, "-", kulonbseg)
+        elif kulonbseg < 0:
+            penz_tranzakciok(felhasznalo_nev, penz_fiok, "+", (kulonbseg * -1))
+
+        if ertek == old_ertek and new_ertek >= 0 and new_ertek == int:
+            Adatbazis.tranz_modositas(id, "ertek", new_ertek)
+            return json.dumps({"helytelen": 0})
+        else:
+            return json.dumps({"helytelen": 1})
+
+
+    def bolti_aru_nev_mod(self, id, new_aru_nev):
+        Adatbazis.tranz_modositas(id, "bolti_aru_nev", new_aru_nev)
+        return json.dumps({"helytelen": 0})
+
+    def sajat_aru_nev_mod(self, id, new_sajat_aru_nev):
+        Adatbazis.tranz_modositas(id, "sajat_aru_nev", new_sajat_aru_nev)
+        return json.dumps({"helytelen": 0})
+
+    def bolt_mod(self, id, new_bolt):
+        Adatbazis.tranz_modositas(id, "bolt", new_bolt)
+        return json.dumps({"helytelen": 0})
+
 
 class Adat_torles():
     def adat_torles(self, felhasznalo_nev, penz_fiok):
