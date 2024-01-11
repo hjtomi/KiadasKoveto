@@ -72,10 +72,10 @@ class Regisztracio():
         for adatok in felhasznalo_adatok:
             if adatok.felhasznalonev == felhasznalonev:
                 felhaszn_megfelelo = 1
-        email_megfelelo = 0
+        email_megfelelo = 1
         for x in email:
             if x == "@":
-                email_megfelelo = 1
+                email_megfelelo = 0
 
         if felhaszn_megfelelo == 0:
             if email_megfelelo == 0:
