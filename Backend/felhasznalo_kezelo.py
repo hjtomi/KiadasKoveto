@@ -72,23 +72,13 @@ class Regisztracio():
         for adatok in felhasznalo_adatok:
             if adatok.felhasznalonev == felhasznalonev:
                 felhaszn_megfelelo = 1
+
         email_megfelelo = 1
         for x in email:
             if x == "@":
                 email_megfelelo = 0
 
-        if felhaszn_megfelelo == 0:
-            if email_megfelelo == 0:
-                Adatbazis.adatok_hozzadasa([felhasznalo])
-                return json.dumps({"nev": 0, "email": 0, "jelszo": 0})
-            else:
-                return json.dumps({"nev": 0, "email": 1, "jelszo": 0})
-        else:
-            if email_megfelelo == 0:
-                Adatbazis.adatok_hozzadasa([felhasznalo])
-                return json.dumps({"nev": 1, "email": 0, "jelszo": 0})
-            else:
-                return json.dumps({"nev": 1, "email": 1, "jelszo": 0})
+        return json.dumps({felhaszn_megfelelo, email_megfelelo, 0})
 
 class Login():
     def __init__(self, felhasznalo_nev, password):
