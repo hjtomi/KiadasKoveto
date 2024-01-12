@@ -6,6 +6,7 @@ import Kategoria
 from felhasznalo_kezelo import *
 from manualis_kiadas_felvetel import ManualisKiadasFelvetel
 import json
+import struct
 
 
 app = Flask(__name__)
@@ -123,6 +124,14 @@ def bejelenzkez():
     log = Login(nev, jelszo)
 
     return log.vizsgalat()
+
+@app.route("/nyugta", methods=['POST'])
+def nyugta():
+    adatok = request.json
+    nev = adatok['felhasznalonev']
+    kep = adatok['kep']
+    print(nev, kep)
+    return json.dumps({"siker":0})
 
 
 class User():

@@ -78,7 +78,7 @@ class Regisztracio():
             if x == "@":
                 email_megfelelo = 0
 
-        return json.dumps({felhaszn_megfelelo, email_megfelelo, 0})
+        return json.dumps({"nev":felhaszn_megfelelo, "email":email_megfelelo, "jelszo":0})
 
 class Login():
     def __init__(self, felhasznalo_nev, password):
