@@ -128,9 +128,9 @@ def bejelenzkez():
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
     adatok = request.json
-    nev = adatok['felhasznalonev']
-    kep = adatok['kep']
-    print(nev, kep)
+    nev = adatok['uzenet']
+    #kep = adatok['kep']
+    print(nev)#, kep)
     return json.dumps({"siker":0})
 
 
