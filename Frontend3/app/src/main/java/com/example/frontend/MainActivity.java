@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             urlKezelo.frontend.kep_bitmap(imageBitmap);
 
+
             kep.setImageBitmap(imageBitmap);
 
         }

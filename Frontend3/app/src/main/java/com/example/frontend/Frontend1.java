@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class Frontend1 extends Thread {
@@ -125,21 +123,13 @@ public class Frontend1 extends Thread {
         kep_ = kep;
     }
 
-    public String getStringImage(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 40, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
-        return encodedImage;
-    }
     public void nyugtas_kiadas() {
 
         kep_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                urlKezelo.kep(bejelentkezes_felhasznalonev_editText.getText().toString(), getStringImage(kep_));
+                urlKezelo.kep(bejelentkezes_felhasznalonev_editText.getText().toString(), kep_);
 
             }
         });

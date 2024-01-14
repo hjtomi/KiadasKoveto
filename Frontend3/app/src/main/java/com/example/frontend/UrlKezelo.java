@@ -1,6 +1,8 @@
 package com.example.frontend;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class UrlKezelo {
@@ -194,6 +201,15 @@ public class UrlKezelo {
         return a;
     }
 
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        String result = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        Log.d("ADFGH", result);
+        return result;
+    }
+
     public void kep_kuldes(String kep, String nev) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String requestBody = "{\"felhasznalonev\": \""+nev+"\", \"kep\": \""+kep+"\"}";
@@ -229,8 +245,40 @@ public class UrlKezelo {
         queue.add(request);
     }
 
-    public String kep(String nev, String kep){
-        kep_kuldes(kep, nev);
+    public void uzenet(String uzenet) {
+        try {
+            URL url_ = new URL(url + "nyugta"); //in the real code, there is an ip and a port
+            HttpURLConnection conn = (HttpURLConnection) url_.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("uzenet", "uzenet");
+
+
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+
+            os.flush();
+            os.close();
+
+            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+            Log.i("MSG" , conn.getResponseMessage());
+
+            conn.disconnect();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public String kep(String nev, Bitmap kep){
+        //kep_kuldes(getStringImage(kep), nev);
+        //uzenet(nev);
+        uzenet(getStringImage(kep));
         while (!vissza.contains("0") && !vissza.contains("1")){
             continue;
         }
