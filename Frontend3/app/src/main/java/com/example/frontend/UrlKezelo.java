@@ -23,10 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class UrlKezelo {
@@ -213,7 +209,7 @@ public class UrlKezelo {
     public void kep_kuldes(String kep, String nev) {
         RequestQueue queue = Volley.newRequestQueue(context);
         String requestBody = "{\"felhasznalonev\": \""+nev+"\", \"kep\": \""+kep+"\"}";
-        JsonRequest request = new JsonRequest(Request.Method.POST, url + "nyugta", requestBody, new Response.Listener<JSONObject>() {
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "nyugta/Query=", requestBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("nyugta", "HTTP request OK, JSONObject: " + response);
@@ -246,33 +242,38 @@ public class UrlKezelo {
     }
 
     public void uzenet(String uzenet) {
-        try {
-            URL url_ = new URL(url + "nyugta"); //in the real code, there is an ip and a port
-            HttpURLConnection conn = (HttpURLConnection) url_.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Accept","application/json");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.connect();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        //String requestBody = "{\"uzenet\": \""+uzenet+"\"}";
+        JsonRequest request = new JsonRequest(Request.Method.GET, url + "proba?Query=" + uzenet , null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("nyugta", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vissza = "1";
+                Log.d("nyugta", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
 
-            JSONObject jsonParam = new JSONObject();
-            jsonParam.put("uzenet", "uzenet");
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
 
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+                Log.d("nyugta", "HTTP request OK " + response.headers);
+                Log.d("nyugta", responseText);
 
-            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-            os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                vissza=responseText;
 
-            os.flush();
-            os.close();
-
-            Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-            Log.i("MSG" , conn.getResponseMessage());
-
-            conn.disconnect();
-        } catch (Exception e) {
-
-        }
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
     }
 
     public String kep(String nev, Bitmap kep){
