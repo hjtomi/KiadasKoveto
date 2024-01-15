@@ -203,13 +203,14 @@ public class UrlKezelo {
         byte[] byteArray = stream.toByteArray();
         String result = Base64.encodeToString(byteArray, Base64.DEFAULT);
         Log.d("ADFGH", result);
+
         return result;
     }
 
     public void kep_kuldes(String kep, String nev) {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String requestBody = "{\"felhasznalonev\": \""+nev+"\", \"kep\": \""+kep+"\"}";
-        JsonRequest request = new JsonRequest(Request.Method.POST, url + "nyugta/Query=", requestBody, new Response.Listener<JSONObject>() {
+        String requestBody = "{\"felhasznalonev\": "+nev+", \"kep\": "+kep+"}";
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "nyugta", requestBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("nyugta", "HTTP request OK, JSONObject: " + response);
