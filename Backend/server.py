@@ -71,6 +71,7 @@ def manualis_kiadas_felvetel():
 def proba():
     d = {}
     d['Query'] = str(request.args['Query'])
+    print(d)
 
     return jsonify(d)
     #return "siker"
