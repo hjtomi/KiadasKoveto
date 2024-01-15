@@ -78,6 +78,8 @@ class Regisztracio():
             if x == "@":
                 email_megfelelo = 0
 
+        if email_megfelelo == 0 and felhaszn_megfelelo == 0:
+            Adatbazis.adatok_hozzadasa([felhasznalo])
         return json.dumps({"nev":felhaszn_megfelelo, "email":email_megfelelo, "jelszo":0})
 
 class Login():
