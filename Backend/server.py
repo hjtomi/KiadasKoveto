@@ -130,8 +130,8 @@ def bejelenzkez():
 def nyugta():
     adatok = request.json
     nev = adatok['uzenet']
-    #kep = adatok['kep']
-    print(nev)#, kep)
+    kep = adatok['kep']
+    print(nev, kep)
     return json.dumps({"siker":0})
 
 
