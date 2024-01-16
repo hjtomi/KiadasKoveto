@@ -2,6 +2,7 @@ package com.example.frontend;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -24,13 +27,15 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UrlKezelo {
 
     Context context;
     RequestQueue queue;
-   //String url= "https://10.0.2.2:5000/";
-    String url= "http://192.168.0.110:52349/";
+    String url= "http://10.0.2.2:5000/";
+    //String url= "http://192.168.0.110:52349/";
 
     public String vissza = "";
     Frontend1 frontend;
@@ -209,6 +214,28 @@ public class UrlKezelo {
 
     public void kep_kuldes(String kep, String nev) {
         RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest request = new StringRequest(Request.Method.POST, url + "nyugta", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Log.d("nyugta", "HTTP request OK, response: " + response);
+            }
+        },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vissza = "1";
+                Log.d("nyugta", "HTTP request failed", error);
+            }
+        }) {
+            //adding parameters to send
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("kep", kep);
+                return parameters;
+            }
+        };
+
+        /*
         String requestBody = "{\"felhasznalonev\": "+nev+", \"kep\": "+kep+"}";
         JsonRequest request = new JsonRequest(Request.Method.POST, url + "nyugta", requestBody, new Response.Listener<JSONObject>() {
             @Override
@@ -239,6 +266,8 @@ public class UrlKezelo {
                 return Response.success(null, null);
             }
         };
+         */
+
         queue.add(request);
     }
 
@@ -278,12 +307,12 @@ public class UrlKezelo {
     }
 
     public String kep(String nev, Bitmap kep){
-        //kep_kuldes(getStringImage(kep), nev);
+        kep_kuldes(getStringImage(kep), nev);
         //uzenet(nev);
-        uzenet(getStringImage(kep));
-        while (!vissza.contains("0") && !vissza.contains("1")){
-            continue;
-        }
+        //uzenet(getStringImage(kep));
+        //while (!vissza.contains("0") && !vissza.contains("1")){
+        //    continue;
+        //}
         String a = vissza;
         vissza = "";
         return a;

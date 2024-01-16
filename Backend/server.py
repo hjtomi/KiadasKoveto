@@ -8,7 +8,6 @@ from manualis_kiadas_felvetel import ManualisKiadasFelvetel
 import json
 import struct
 
-
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///kiadaskoveto.db'
@@ -22,6 +21,7 @@ def hello_world():
     print("Juhuuuu! Az Android app csatlakozott!")
     return "<p>Udv a KiadasKoveto applikacioban</p>"
 
+
 '''@app.route("/regisztracio", methods=['POST'])
 def regisztracio():
     a =  Regisztracio()
@@ -31,25 +31,32 @@ def regisztracio():
 def belepes():
     return Login()
 """
+
+
 @app.route("/kateg_hozzaadas", methods=['POST'])
 def kateg_hozzaadas():
     return Kategoria_hozzaadas()
+
 
 @app.route("/felhasznalo_modositas", methods=['POST'])
 def felhasznalo_modositas():
     return Modositasok()
 
+
 @app.route("/tranzakcio_modositas", methods=['POST'])
 def tranzakcio_modositas():
     return Tranzakcio_mododitas()
+
 
 @app.route("/bevetel_hozzaadas", methods=['POST'])
 def bevetel_hozzaadas():
     return Bevetel_hozzaadas()
 
+
 @app.route("/egyeb_kiadas_felvetel", methods=['POST'])
 def egyeb_kiadas_felvetel():
     return Egyeb_kiadas()
+
 
 @app.route("/nyugtas_kiadas_felvetel", methods=['GET', 'POST'])
 def nyugtas_kiadas():
@@ -57,24 +64,28 @@ def nyugtas_kiadas():
         NyugtasKiadas().felvetel(debug=True)
     return "<p>Nyugtas kiadas felveve</p>"
 
+
 @app.route("/nyugtas_kiadas_megtekintese", methods=['GET'])
 def nyugta_megtekintese():
     NyugtaMegtekintese(tranzakcio_id=0)
     return "<p>Nyugtas megtekintheto</p>"
+
 
 @app.route("/manualis_kiadas_felvetel", methods=['POST'])
 def manualis_kiadas_felvetel():
     ManualisKiadasFelvetel()
     return "<p>Manualis kiadas felveve</p>"
 
-@app.route("/proba",methods=['GET'])
+
+@app.route("/proba", methods=['GET'])
 def proba():
     d = {}
     d['Query'] = str(request.args['Query'])
     print(d)
 
     return jsonify(d)
-    #return "siker"
+    # return "siker"
+
 
 @app.route('/frontend/nyugtas_kiadas_felvetel')
 def frontend_nyugtas_kiadas_felvetel():
@@ -82,29 +93,32 @@ def frontend_nyugtas_kiadas_felvetel():
     felhasznalonev = request.args.get('felhasznalonev', '')
     return jsonify(NyugtasKiadas().fronted_felvetel(felhasznalonev=felhasznalonev, debug=debug))
 
+
 @app.route("/regisztralt-felhasznalok", methods=['GET'])
 def regisztralt_felhasznalok():
     john = {
-            "nev": "John Doe",
-            "felhasznalonev": "jdoe32",
-            "email": "jdoe@gmail.com"
-        }
+        "nev": "John Doe",
+        "felhasznalonev": "jdoe32",
+        "email": "jdoe@gmail.com"
+    }
     john_json = json.dumps(john)
     jack = {
-            "nev": "Jack Doe",
-            "felhasznalonev": "doejack1996",
-            "email": "doejack@gmail.com"
-        }
+        "nev": "Jack Doe",
+        "felhasznalonev": "doejack1996",
+        "email": "doejack@gmail.com"
+    }
     jack_json = json.dumps(jack)
     return [john_json, jack_json]
+
 
 @app.route("/regisztralas", methods=['POST'])
 def regisztralas():
     adatok = request.json
-    nev =  adatok['nev']
+    nev = adatok['nev']
     jelszo = adatok['jelszo']
     felhasznalo = User(nev, jelszo, "felhasznalo@gmail.com")
     return felhasznalo.to_json()
+
 
 @app.route("/regisztral", methods=['POST'])
 def regisztral():
@@ -116,6 +130,7 @@ def regisztral():
     reg = Regisztracio()
     return reg.regist(nev, jelszo, email, egyenleg)
 
+
 @app.route("/bejelenzkez", methods=['POST'])
 def bejelenzkez():
     adatok = request.json
@@ -126,13 +141,36 @@ def bejelenzkez():
 
     return log.vizsgalat()
 
+
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
-    adatok = request.json
-    nev = adatok['uzenet']
-    kep = adatok['kep']
-    print(nev, kep)
-    return json.dumps({"siker":0})
+    try:
+        # Fogadd el a POST kérést
+        image_data = request.form['kep']
+
+        # Itt végezd el azokat a műveleteket, amiket szeretnél az adattal
+        # például elmenteni a képet vagy végrehajtani egy feldolgozást
+
+        # Példa: Kiírjuk a kép hosszát
+        image_length = len(image_data)
+        print(f"Received an image with length: {image_length}")
+
+        # Itt válaszolj a kérésre, például egy egyszerű üzenettel
+        return "Success"
+
+    except Exception as e:
+        print(f"Error handling the receipt: {str(e)}")
+        return "Error"
+
+
+'''
+   adatok = request.json
+   print("requestBody: " + adatok)
+   nev = adatok['uzenet']
+   kep = adatok['kep']
+   print(nev, kep)
+   return json.dumps({"siker":0})
+'''
 
 
 class User():
