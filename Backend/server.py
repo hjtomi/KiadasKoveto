@@ -72,11 +72,12 @@ def proba():
     d = {}
     d['Query'] = str(request.args['Query'])
     print(d)
+    nyugta = nyugtas_kiadas
 
     return jsonify(d)
     #return "siker"
 
-@app.route('/frontend/nyugtas_kiadas_felvetel')
+@app.route('/frontend/nyugtas_kiadas_felvetel', methods=['GET'])
 def frontend_nyugtas_kiadas_felvetel():
     debug = request.args.get('debug', 'False').lower() == "true"
     felhasznalonev = request.args.get('felhasznalonev', '')
