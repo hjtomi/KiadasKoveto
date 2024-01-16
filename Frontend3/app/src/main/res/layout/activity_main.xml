@@ -271,6 +271,23 @@
         android:adjustViewBounds="true"
         />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nyugtas_bolt_text"
+            android:text="Bolt:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/nyugtas_bolt_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:inputType="textPersonName"
+            android:hint="Bolt"/>
+
     <Button
         android:id="@+id/kep_button"
         android:layout_width="match_parent"

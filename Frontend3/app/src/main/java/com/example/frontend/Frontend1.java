@@ -30,8 +30,8 @@ public class Frontend1 extends Thread {
 
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout;
-    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText;
-    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text;
+    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text;
 
     ImageView kep;
     public Bitmap kep_;
@@ -42,8 +42,8 @@ public class Frontend1 extends Thread {
 
     public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button,
                      LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout,
-                     EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText,
-                     TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text,
+                     EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText,
+                     TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text,
                      ImageView kep){
         this.context = context;
         this.urlKezelo = urlKezelo;
@@ -70,6 +70,7 @@ public class Frontend1 extends Thread {
         this.regisztracio_egyenleg_editText = regisztracio_egyenleg_editText;
         this.bejelentkezes_felhasznalonev_editText = bejelentkezes_felhasznalonev_editText;
         this.bejelentkezes_jelszo_editText = bejelentkezes_jelszo_editText;
+        this.nyugtas_bolt_editText = nyugtas_bolt_editText;
 
         this.regisztracio_felhasznalonev_text = regisztracio_felhasznalonev_text;
         this.regisztracio_email_text = regisztracio_email_text;
@@ -77,6 +78,7 @@ public class Frontend1 extends Thread {
         this.regisztracio_egyenleg_text = regisztracio_egyenleg_text;
         this.bejelentkezes_felhasznalonev_text = bejelentkezes_felhasznalonev_text;
         this.bejelentkezes_jelszo_text = bejelentkezes_jelszo_text;
+        this.nyugtas_bolt_text = nyugtas_bolt_text;
 
         this.kep = kep;
 
@@ -129,7 +131,7 @@ public class Frontend1 extends Thread {
             @Override
             public void onClick(View v) {
 
-                urlKezelo.kep(bejelentkezes_felhasznalonev_editText.getText().toString(), kep_);
+                urlKezelo.kep(bejelentkezes_felhasznalonev_editText.getText().toString(), kep_, nyugtas_bolt_editText.getText().toString());
 
             }
         });
