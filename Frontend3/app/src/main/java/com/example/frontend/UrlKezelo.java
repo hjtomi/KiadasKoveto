@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -24,28 +26,33 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UrlKezelo {
 
     Context context;
     RequestQueue queue;
    //String url= "https://10.0.2.2:5000/";
-    String url= "http://172.20.1.107:52349/";
+    String url= "http://192.168.0.108:52349/";
 
     public String vissza = "";
+    public JSONArray vissza_1;
     Frontend1 frontend;
     //public UrlKezelo(Context context, Frontend1 frontend1){
-    public UrlKezelo(Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button,
-                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout,
-                     EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText,
-                     TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text,
+    public UrlKezelo(Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button,
+                     Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
+                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout,
+                     EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
+                     TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
                      ImageView kep){
 
         this.context = context;
-        frontend = new Frontend1(this, context, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button,
-                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout,
-                regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText,
-                regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text,
+        frontend = new Frontend1(this, context, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button,
+                kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8,
+                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout,
+                regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
+                regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
                 kep);
 
         frontend.futas = true;
@@ -202,66 +209,34 @@ public class UrlKezelo {
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         String result = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        Log.d("ADFGH", result);
 
         return result;
     }
 
-    public void kep_kuldes(String kep, String nev) {
+    public void kep_kuldes(String kep, String nev, String bolt) {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String requestBody = "{\"felhasznalonev\": "+nev+", \"kep\": "+kep+"}";
-        JsonRequest request = new JsonRequest(Request.Method.POST, url + "nyugta", requestBody, new Response.Listener<JSONObject>() {
+        StringRequest request = new StringRequest(Request.Method.POST, url + "nyugta", new Response.Listener<String>(){
             @Override
-            public void onResponse(JSONObject response) {
-                Log.d("nyugta", "HTTP request OK, JSONObject: " + response);
+            public void onResponse(String response) {
+                Log.d("nyugta", "HTTP request OK, response: " + response);
+                vissza = response;
             }
-        }, new Response.ErrorListener() {
+        },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
                 vissza = "1";
                 Log.d("nyugta", "HTTP request failed", error);
             }
         }) {
+            //adding parameters to send
             @Override
-            public int compareTo(Object o) {
-                return 0;
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("kep", kep);
+                parameters.put("bolt", bolt);
+                parameters.put("nev", nev);
+                return parameters;
             }
-
-            @Override
-            protected Response parseNetworkResponse(NetworkResponse response) {
-
-                String responseText = new String(response.data, StandardCharsets.UTF_8);
-                Log.d("nyugta", "HTTP request OK " + response.headers);
-                Log.d("nyugta", responseText);
-
-                vissza=responseText;
-
-                return Response.success(null, null);
-            }
-        };
-        queue.add(request);
-    }
-
-    public void uzenet(String uzenet) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        //String requestBody = "{\"uzenet\": \""+uzenet+"\"}";
-        JsonRequest request = new JsonRequest(Request.Method.GET, url + "proba?Query=" + uzenet , null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("nyugta", "HTTP request OK, JSONObject: " + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                vissza = "1";
-                Log.d("nyugta", "HTTP request failed", error);
-            }
-        }) {
-            @Override
-            public int compareTo(Object o) {
-                return 0;
-            }
-
             @Override
             protected Response parseNetworkResponse(NetworkResponse response) {
 
@@ -278,9 +253,9 @@ public class UrlKezelo {
     }
 
     public String kep(String nev, Bitmap kep, String bolt){
-        //kep_kuldes(getStringImage(kep), nev);
+        kep_kuldes(getStringImage(kep), nev, bolt);
         //uzenet(nev);
-        uzenet(getStringImage(kep));
+        //uzenet(getStringImage(kep));
         while (!vissza.contains("0") && !vissza.contains("1")){
             continue;
         }
@@ -289,5 +264,32 @@ public class UrlKezelo {
         return a;
     }
 
+    public void kategoriak(String nev){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + "kategoriak?nev="+nev, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("kategoriak", "HTTP request OK " + response);
+                vissza_1 = response;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("kategoriak", "HTTP request failed", error);
+                vissza = "1";
+            }
+        });
+        queue.add(request);
+    }
+
+    public JSONArray kategoria_keres(String nev){
+        kategoriak(nev);
+        while (vissza_1.length() < 1){
+            continue;
+        }
+        JSONArray a = vissza_1;
+        vissza_1 = new JSONArray();
+        return a;
+    }
 
 }

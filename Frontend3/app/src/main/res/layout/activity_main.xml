@@ -297,4 +297,89 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/kategoria_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/kategoria_text"
+            android:text="Válasszon kategóriát"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/kategora_1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1"
+            />
+        <Button
+            android:id="@+id/kategora_2_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2"
+            />
+        <Button
+            android:id="@+id/kategora_3_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3"
+            />
+        <Button
+            android:id="@+id/kategora_4_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4"
+            />
+
+        <Button
+            android:id="@+id/kategora_5_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5"
+            />
+        <Button
+            android:id="@+id/kategora_6_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6"
+            />
+        <Button
+            android:id="@+id/kategora_7_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7"
+            />
+        <Button
+            android:id="@+id/kategora_8_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="8"
+            />
+
+        <EditText
+            android:id="@+id/kategoria_egyeb_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:inputType="textPersonName"
+            android:hint="Egyéb kategória"/>
+
+        <Button
+            android:id="@+id/kategora_kuldes_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Küldés"
+            />
+
+
+    </LinearLayout>
+
 </RelativeLayout>

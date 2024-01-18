@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
+import org.json.JSONArray;
+
 import java.io.File;
 
 public class Frontend1 extends Thread {
@@ -28,22 +30,27 @@ public class Frontend1 extends Thread {
     UrlKezelo urlKezelo;
 
 
-    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button;
-    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout;
-    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText;
-    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text;
+    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button;
+    Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
+    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout;
+    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text;
 
     ImageView kep;
+
     public Bitmap kep_;
+
+    public JSONArray kategoriak_;
 
     Camera camera;
 
     public boolean futas = false;
 
-    public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button,
-                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout,
-                     EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText,
-                     TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text,
+    public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button,
+                     Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
+                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout,
+                     EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
+                     TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
                      ImageView kep){
         this.context = context;
         this.urlKezelo = urlKezelo;
@@ -56,6 +63,15 @@ public class Frontend1 extends Thread {
         this.fooldal_statisztika_button = fooldal_statisztika_button;
         this.nyugtas_kiadas_button = nyugtas_kiadas_button;
         this.kep_button = kep_button;
+        this.kategoria_kuldes_button = kategoria_kuldes_button;
+        this.kategoria_1 = kategoria_1;
+        this.kategoria_2 = kategoria_2;
+        this.kategoria_3 = kategoria_3;
+        this.kategoria_4 = kategoria_4;
+        this.kategoria_5 = kategoria_5;
+        this.kategoria_6 = kategoria_6;
+        this.kategoria_7 = kategoria_7;
+        this.kategoria_8 = kategoria_8;
 
         this.nincs_bejelentkezve_layout = nincs_bejelentkezve_layout;
         this.bejelentkezes_layout = bejelentkezes_layout;
@@ -63,6 +79,7 @@ public class Frontend1 extends Thread {
         this.fooldal_layout = fooldal_layout;
         this.felvetel_valaszto_layout = felvetel_valaszto_layout;
         this.nyugtas_kiadas_layout = nyugtas_kiadas_layout;
+        this.kategoria_layout = kategoria_layout;
 
         this.regisztracio_felhasznalonev_editText = regisztracio_felhasznalonev_editText;
         this.regisztracio_jelszo_editText = regisztracio_jelszo_editText;
@@ -71,6 +88,7 @@ public class Frontend1 extends Thread {
         this.bejelentkezes_felhasznalonev_editText = bejelentkezes_felhasznalonev_editText;
         this.bejelentkezes_jelszo_editText = bejelentkezes_jelszo_editText;
         this.nyugtas_bolt_editText = nyugtas_bolt_editText;
+        this.kategoria_egyeb_editText = kategoria_egyeb_editText;
 
         this.regisztracio_felhasznalonev_text = regisztracio_felhasznalonev_text;
         this.regisztracio_email_text = regisztracio_email_text;
@@ -79,6 +97,7 @@ public class Frontend1 extends Thread {
         this.bejelentkezes_felhasznalonev_text = bejelentkezes_felhasznalonev_text;
         this.bejelentkezes_jelszo_text = bejelentkezes_jelszo_text;
         this.nyugtas_bolt_text = nyugtas_bolt_text;
+        this.kategoria_text = kategoria_text;
 
         this.kep = kep;
 
@@ -87,6 +106,7 @@ public class Frontend1 extends Thread {
         fooldal_layout.setVisibility(View.INVISIBLE);
         nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
         felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
+        kategoria_layout.setVisibility(View.INVISIBLE);
 
 
 
@@ -102,6 +122,13 @@ public class Frontend1 extends Thread {
 
 
     }
+
+    public void kategoria(){
+
+
+
+    }
+
     public void loop(){
 
         if (nincs_bejelentkezve_layout.getVisibility() == View.VISIBLE)
@@ -119,20 +146,42 @@ public class Frontend1 extends Thread {
         if (nyugtas_kiadas_layout.getVisibility() == View.VISIBLE)
             nyugtas_kiadas();
 
+        if (kategoria_layout.getVisibility() == View.VISIBLE)
+            kategoria();
+
+
 
     }
     public void kep_bitmap(Bitmap kep){
         kep_ = kep;
     }
+    public void hibas_kepkuldes(){
+        nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
+        felvetel_valaszto_layout.setVisibility(View.VISIBLE);
+        nyugtas_bolt_text.setTextColor(Color.RED);
+        Toast.makeText(context, "Hiba a képküldés során", Toast.LENGTH_SHORT).show();
+    }
+    public void sikeres_kepkuldes(){
+        nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
+        Toast.makeText(context, "Sikeres képküldés", Toast.LENGTH_SHORT).show();
+        kategoria_layout.setVisibility(View.VISIBLE);
+    }
 
     public void nyugtas_kiadas() {
+        int asd = 0;
 
         kep_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                urlKezelo.kep(bejelentkezes_felhasznalonev_editText.getText().toString(), kep_, nyugtas_bolt_editText.getText().toString());
-
+                String kep_kuldes = urlKezelo.kep(bejelentkezes_felhasznalonev_editText.getText().toString(), kep_, nyugtas_bolt_editText.getText().toString());
+                if (kep_kuldes.contains("0")) {
+                    sikeres_kepkuldes();
+                }
+                else{
+                    hibas_kepkuldes();
+                }
+                kategoriak_ = urlKezelo.kategoria_keres(bejelentkezes_felhasznalonev_editText.getText().toString());
             }
         });
 
