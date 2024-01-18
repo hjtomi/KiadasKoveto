@@ -269,14 +269,25 @@ public class UrlKezelo {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + "kategoriak?nev="+nev, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("kategoriak", "HTTP request OK " + response);
-                vissza_1 = response;
+                try{
+                    JSONObject jo = new JSONObject("{\"Hiba\":\"0\"}");
+                    vissza_1.put(jo);
+                    vissza_1.put(response);
+                }
+                catch (Exception e) {
+                    Log.d("kategoriak", "HTTP request OK " + response);                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("kategoriak", "HTTP request failed", error);
-                vissza = "1";
+
+                try{
+                    JSONObject jo = new JSONObject("{\"Hiba\":\"1\"}");
+                    vissza_1.put(jo);}
+                catch (Exception e) {
+                    Log.d("kategoriak", "HTTP request failed", error);
+                }
+
             }
         });
         queue.add(request);

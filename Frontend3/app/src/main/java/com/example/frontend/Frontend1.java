@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.content.FileProvider;
-
 import org.json.JSONArray;
 
-import java.io.File;
+import java.security.MessageDigest;
 
 public class Frontend1 extends Thread {
 
@@ -112,20 +109,20 @@ public class Frontend1 extends Thread {
 
     }
 
-    private Uri createUri(){
-        File imageFile = new File(context.getApplicationContext().getFilesDir(), "camera_photo.jpg");
-        return FileProvider.getUriForFile(
-                context.getApplicationContext(),
-                "com.example.frontend.fileProvider",
-                imageFile
-        );
 
-
-    }
 
     public void kategoria(){
-
-
+        int i=1;
+        while (i>0){
+            try {
+                kategoriak_.getJSONObject(i);
+                kategoria_1.setText('a');
+                i++;
+            }
+            catch (Exception e){
+                i = 0;
+            }
+        }
 
     }
 
@@ -165,6 +162,20 @@ public class Frontend1 extends Thread {
         nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
         Toast.makeText(context, "Sikeres képküldés", Toast.LENGTH_SHORT).show();
         kategoria_layout.setVisibility(View.VISIBLE);
+        kategoriak_ = urlKezelo.kategoria_keres(bejelentkezes_felhasznalonev_editText.getText().toString());
+        try{
+            if (kategoriak_.getJSONObject(0).get("Hiba") == "1"){
+                Log.d("kateg", "HIBA");
+                //HIBA
+            }
+            else{
+                kategoria();
+                //OK
+            }
+        }
+        catch (Exception e){
+            int i = 0;
+        }
     }
 
     public void nyugtas_kiadas() {
@@ -181,7 +192,7 @@ public class Frontend1 extends Thread {
                 else{
                     hibas_kepkuldes();
                 }
-                kategoriak_ = urlKezelo.kategoria_keres(bejelentkezes_felhasznalonev_editText.getText().toString());
+
             }
         });
 
@@ -224,14 +235,34 @@ public class Frontend1 extends Thread {
         Toast.makeText(context, "Sikeres regisztráció", Toast.LENGTH_SHORT).show();
     }
 
+    public static String sha256(final String base) {
+        try{
+            final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            final byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            final StringBuilder hexString = new StringBuilder();
+            for (int i = 0; i < hash.length; i++) {
+                final String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1)
+                    hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
     private void regisztracio() {
 
         regisztracio_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                String jelszo = regisztracio_jelszo_editText.getText().toString();
+                String kod = sha256(jelszo);
+
                 String adat = urlKezelo.reg(regisztracio_felhasznalonev_editText.getText().toString(),
                         regisztracio_email_editText.getText().toString(),
-                        regisztracio_jelszo_editText.getText().toString(),
+                        kod,
                         regisztracio_egyenleg_editText.getText().toString());
                 Log.d("ADAT", adat);
                 if (adat.contains("1"))
@@ -275,9 +306,10 @@ public class Frontend1 extends Thread {
     private void bejelentkezes() {
         bejelentkez_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                String jelszo = regisztracio_jelszo_editText.getText().toString();
+                String kod = sha256(jelszo);
                 String adat = urlKezelo.be(bejelentkezes_felhasznalonev_editText.getText().toString(),
-                                        bejelentkezes_jelszo_editText.getText().toString());
+                                            kod);
                 if (adat.contains("1"))
                     bejelentkezes_hibas_adatok();
                 else
