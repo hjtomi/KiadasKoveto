@@ -127,13 +127,33 @@ def bejelenzkez():
 
     return log.vizsgalat()
 
+@app.route("/kategoriak", methods=['GET'])
+def kategoriak():
+    nev = str(request.args['nev'])
+    return json.dumps(alap_kategoriak)
+
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
-    adatok = request.json
-    nev = adatok['uzenet']
-    kep = adatok['kep']
-    print(nev, kep)
-    return json.dumps({"siker":0})
+    try:
+        # Fogadd el a POST kérést
+        image_data = request.form['kep']
+        nev = request.form['nev']
+        bolt = request.form['bolt']
+        print(nev, bolt)
+
+        # Itt végezd el azokat a műveleteket, amiket szeretnél az adattal
+        # például elmenteni a képet vagy végrehajtani egy feldolgozást
+
+        # Példa: Kiírjuk a kép hosszát
+        image_length = len(image_data)
+        print(f"Received an image with length: {image_length}")
+
+        # Itt válaszolj a kérésre, például egy egyszerű üzenettel
+        return json.dumps({"hiba":0})
+
+    except Exception as e:
+        print(f"Error handling the receipt: {str(e)}")
+        return json.dumps({"hiba":1})
 
 
 class User():
