@@ -226,7 +226,7 @@ public class Frontend1 extends Thread {
 
             }
 
-        Toast.makeText(context, "Sikertelen regisztráció", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Sikertelen regisztráció", Toast.LENGTH_SHORT).show();
         }
 
     public void sikeres_regisztracio() {
@@ -258,18 +258,26 @@ public class Frontend1 extends Thread {
             public void onClick(View v) {
 
                 String jelszo = regisztracio_jelszo_editText.getText().toString();
-                String kod = sha256(jelszo);
+                boolean szam = (jelszo.contains("0") || jelszo.contains("1") || jelszo.contains("2") || jelszo.contains("3") || jelszo.contains("4") || jelszo.contains("5") || jelszo.contains("6") || jelszo.contains("7") || jelszo.contains("8") || jelszo.contains("9"));
+                if (!jelszo.toUpperCase().equals(jelszo) && !jelszo.toLowerCase().equals(jelszo) && szam && jelszo.length() >= 6){
+                    Log.d("jelszo", "helyes");
+                    String kod = sha256(jelszo);
 
-                String adat = urlKezelo.reg(regisztracio_felhasznalonev_editText.getText().toString(),
-                        regisztracio_email_editText.getText().toString(),
-                        kod,
-                        regisztracio_egyenleg_editText.getText().toString());
-                Log.d("ADAT", adat);
-                if (adat.contains("1"))
-                    regisztracio_hibas_adatok(adat);
-                else
-                    sikeres_regisztracio();
-
+                    String adat = urlKezelo.reg(regisztracio_felhasznalonev_editText.getText().toString(),
+                            regisztracio_email_editText.getText().toString(),
+                            kod,
+                            regisztracio_egyenleg_editText.getText().toString());
+                    Log.d("ADAT", adat);
+                    if (adat.contains("1"))
+                        regisztracio_hibas_adatok(adat);
+                    else
+                        sikeres_regisztracio();
+                }
+                else{
+                    Log.d("jelszo", "helytelen");
+                    Toast.makeText(context, "Jelszónak tartalmaznia kell:\nNagy betű\nKis betű\nSzám\nLegalább 6 karakter", Toast.LENGTH_LONG).show();
+                    regisztracio_hibas_adatok("{nev:0, email:0, jelszo:1}");
+                }
 
             }
         });
