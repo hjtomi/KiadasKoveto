@@ -208,7 +208,6 @@ class Tranzakcio_mododitas():
 
     def ertek(self, felhasznalo_nev, penz_fiok, id, old_ertek, new_ertek,):
         tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
-        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
         ertek = ""
         for adatok in tranzakcio_adatok:
@@ -308,7 +307,7 @@ class Bevetel_hozzaadas():
             return json.dumps({"helytelen": 1})
 
 class Egyeb_kiadas():
-    def kiadas_felvetel(self, felhasznalo_nev, tipus, ertek, datum, sajat_aru_nev, bolt, penz_fiok):
+    def kiadas_felvetel(self, felhasznalo_nev, tipus, ertek, datum, sajat_aru_nev, bolt, penzfiok):
 
         tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
         utolso_tranzakcio_id = 0
@@ -323,9 +322,55 @@ class Egyeb_kiadas():
                 datum=datum,
                 bolti_aru_nev=None,
                 sajat_aru_nev=sajat_aru_nev,
-                bolt=bolt
+                bolt=bolt,
+                penz_fiok=penzfiok
         )
         Adatbazis.adatok_hozzadasa([feltoltes])
 
-        penz_tranzakciok(felhasznalo_nev, penz_fiok, "-", ertek)
+        penz_tranzakciok(felhasznalo_nev, penzfiok, "-", ertek)
         return json.dumps({"helytelen": 0})
+
+def idoszamitas(intervallum, ido):
+    today = date.today()
+    ev = today.strftime("%Y")
+    honap = today.strftime("%m")
+    nap = today.strftime("%d")
+
+    ido = ido.split(".")
+
+    if intervallum == "ev":
+        if int(ev) == int(ido[0]):
+            return True
+        else:
+            return False
+    elif intervallum == "honap":
+        if int(ev) == int(ido[0]) and int(honap) == int(ido[1]):
+            return True
+        else:
+            return False
+    elif intervallum == "nap":
+        if int(ev) == int(ido[0]) and int(honap) == int(ido[1]) and int(nap) == int(ido[2]):
+            return True
+        else:
+            return False
+
+class Statisztika():
+    def statisztika(self, felhasznalo_nev, intervallum):
+        tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
+        felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
+
+        penz_fiokok = ""
+        for adatok in felhasznalo_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                penz_fiokok = adatok.penz_fiokok
+        szetszedett_penz_fiokok = penz_fiokok.split(";")
+
+        kiadasok = []
+        for x in range(len(szetszedett_penz_fiokok)):
+            kiadasok.append(0)
+
+        for adatok in tranzakcio_adatok:
+            if adatok.felhasznalonev == felhasznalo_nev:
+                if idoszamitas(intervallum, str(adatok.datum)) == True:
+                    kiadasok[szetszedett_penz_fiokok.index(adatok.penz_fiokok)] += adatok.ertek
+

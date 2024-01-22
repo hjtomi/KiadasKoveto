@@ -22,6 +22,7 @@ class Tranzakcio(db.Model):
     bolti_aru_nev = db.Column(db.String(50))
     sajat_aru_nev = db.Column(db.String(50))
     bolt = db.Column(db.String(50))
+    penz_fiok = db.Column(db.String(100), unique=False, nullable=False)
 
 def db_creater(app):
     with app.app_context():
@@ -70,4 +71,6 @@ def tranz_modositas(id, neve, adat):
         admin.sajat_aru_nev = adat
     if neve == "bolt":
         admin.bolt = adat
+    if neve == "penz_fiok":
+        admin.penz_fiok = adat
     db.session.commit()
