@@ -27,7 +27,7 @@ public class Frontend1 extends Thread {
     UrlKezelo urlKezelo;
 
 
-    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button;
+    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText;
@@ -43,7 +43,7 @@ public class Frontend1 extends Thread {
 
     public boolean futas = false;
 
-    public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button,
+    public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home,
                      Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
                      LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
@@ -61,6 +61,7 @@ public class Frontend1 extends Thread {
         this.nyugtas_kiadas_button = nyugtas_kiadas_button;
         this.kep_button = kep_button;
         this.kategoria_kuldes_button = kategoria_kuldes_button;
+        this.home = home;
         this.kategoria_1 = kategoria_1;
         this.kategoria_2 = kategoria_2;
         this.kategoria_3 = kategoria_3;
@@ -111,22 +112,33 @@ public class Frontend1 extends Thread {
 
 
 
-    public void kategoria(){
-        int i=1;
-        while (i>0){
-            try {
-                kategoriak_.getJSONObject(i);
-                kategoria_1.setText('a');
-                i++;
-            }
-            catch (Exception e){
-                i = 0;
-            }
+    public void loop(){
+
+        if (home.getVisibility() == View.VISIBLE){
+            home.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!(nincs_bejelentkezve_layout.getVisibility() == View.VISIBLE || bejelentkezes_layout.getVisibility() == View.VISIBLE || regisztracio_layout.getVisibility() == View.VISIBLE)) {
+                        fooldal_layout.setVisibility(View.VISIBLE);
+                        bejelentkezes_layout.setVisibility(View.INVISIBLE);
+                        regisztracio_layout.setVisibility(View.INVISIBLE);
+                        nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
+                        felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
+                        kategoria_layout.setVisibility(View.INVISIBLE);
+                    }
+                    else if (regisztracio_layout.getVisibility() == View.VISIBLE){
+                        nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
+                        regisztracio_layout.setVisibility(View.INVISIBLE);
+                    }
+                    else if (bejelentkezes_layout.getVisibility() == View.VISIBLE){
+                        nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
+                        bejelentkezes_layout.setVisibility(View.INVISIBLE);
+                    }
+
+                }
+            });
         }
 
-    }
-
-    public void loop(){
 
         if (nincs_bejelentkezve_layout.getVisibility() == View.VISIBLE)
             nincs_bejelentkezve();
@@ -137,8 +149,9 @@ public class Frontend1 extends Thread {
         if (regisztracio_layout.getVisibility() == View.VISIBLE)
             regisztracio();
 
-        if (fooldal_layout.getVisibility() == View.VISIBLE)
+        if (fooldal_layout.getVisibility() == View.VISIBLE) {
             fooldal();
+        }
 
         if (nyugtas_kiadas_layout.getVisibility() == View.VISIBLE)
             nyugtas_kiadas();
@@ -149,6 +162,11 @@ public class Frontend1 extends Thread {
 
 
     }
+
+    private void kategoria() {
+        //kategoria_1.setText("Katekória1");
+    }
+
     public void kep_bitmap(Bitmap kep){
         kep_ = kep;
     }
@@ -162,7 +180,6 @@ public class Frontend1 extends Thread {
         nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
         Toast.makeText(context, "Sikeres képküldés", Toast.LENGTH_SHORT).show();
         kategoria_layout.setVisibility(View.VISIBLE);
-        kategoriak_ = urlKezelo.kategoria_keres(bejelentkezes_felhasznalonev_editText.getText().toString());
         try{
             if (kategoriak_.getJSONObject(0).get("Hiba") == "1"){
                 Log.d("kateg", "HIBA");
@@ -179,7 +196,6 @@ public class Frontend1 extends Thread {
     }
 
     public void nyugtas_kiadas() {
-        int asd = 0;
 
         kep_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,36 +214,46 @@ public class Frontend1 extends Thread {
 
     }
 
-    public void regisztracio_hibas_adatok(String hiba){
+    public void regisztracio_hibas_adatok(String hiba) {
         int nulla = 0;
         int egy = 0;
 
-        Log.d("Vissza", hiba);
+        if (hiba.equals("{internet:1}")) {
+            Toast.makeText(context, "Nem sikerült kapcsolódni a szerverhez", Toast.LENGTH_LONG).show();
+        } else {
 
-        for (int i=0; i<hiba.length();i++){
-            if (hiba.charAt(i) == '0') {nulla++;
-                if (nulla + egy == 1)
-                    regisztracio_felhasznalonev_text.setTextColor(Color.BLACK);
-                if (nulla + egy == 2)
-                    regisztracio_email_text.setTextColor(Color.BLACK);
-                if (nulla + egy == 3)
-                    regisztracio_jelszo_text.setTextColor(Color.BLACK);}
-            if (hiba.charAt(i) == '1'){
+            Log.d("Vissza", hiba);
 
-                egy++;
-                if (nulla + egy == 1)
-                {regisztracio_felhasznalonev_text.setTextColor(Color.RED);}
-                if (nulla + egy == 2){
-                    regisztracio_email_text.setTextColor(Color.RED);}
-                if (nulla + egy == 3){
-                    regisztracio_jelszo_text.setTextColor(Color.RED);}
+            for (int i = 0; i < hiba.length(); i++) {
+                if (hiba.charAt(i) == '0') {
+                    nulla++;
+                    if (nulla + egy == 1)
+                        regisztracio_felhasznalonev_text.setTextColor(Color.BLACK);
+                    if (nulla + egy == 2)
+                        regisztracio_email_text.setTextColor(Color.BLACK);
+                    if (nulla + egy == 3)
+                        regisztracio_jelszo_text.setTextColor(Color.BLACK);
+                }
+                if (hiba.charAt(i) == '1') {
+
+                    egy++;
+                    if (nulla + egy == 1) {
+                        regisztracio_felhasznalonev_text.setTextColor(Color.RED);
+                    }
+                    if (nulla + egy == 2) {
+                        regisztracio_email_text.setTextColor(Color.RED);
+                    }
+                    if (nulla + egy == 3) {
+                        regisztracio_jelszo_text.setTextColor(Color.RED);
+                    }
 
                 }
 
             }
 
-        //Toast.makeText(context, "Sikertelen regisztráció", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Sikertelen regisztráció", Toast.LENGTH_SHORT).show();
         }
+    }
 
     public void sikeres_regisztracio() {
         nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
@@ -306,7 +332,6 @@ public class Frontend1 extends Thread {
         bejelentkezes_felhasznalonev_text.setTextColor(Color.RED);
         bejelentkezes_jelszo_text.setTextColor(Color.RED);
 
-        Log.d("Bejelentkezés", "HIBA");
 
         Toast.makeText(context, "Sikertelen bejelentkezés", Toast.LENGTH_SHORT).show();
     }
@@ -314,12 +339,17 @@ public class Frontend1 extends Thread {
     private void bejelentkezes() {
         bejelentkez_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String jelszo = regisztracio_jelszo_editText.getText().toString();
+                String jelszo = bejelentkezes_jelszo_editText.getText().toString();
                 String kod = sha256(jelszo);
                 String adat = urlKezelo.be(bejelentkezes_felhasznalonev_editText.getText().toString(),
                                             kod);
                 if (adat.contains("1"))
-                    bejelentkezes_hibas_adatok();
+                    if (adat.equals("{internet:1}")){
+                        Toast.makeText(context, "Nem sikerült kapcsolódni a szerverhez", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        bejelentkezes_hibas_adatok();
+                    }
                 else
                     sikeres_bejelentkezes();
             }
@@ -350,7 +380,6 @@ public class Frontend1 extends Thread {
     }
 
     public void nincs_bejelentkezve(){
-
         bejelentkezes_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 nincs_bejelentkezve_layout.setVisibility(View.INVISIBLE);
