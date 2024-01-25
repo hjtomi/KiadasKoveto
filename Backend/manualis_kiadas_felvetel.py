@@ -29,7 +29,7 @@ class ManualisKiadasFelvetel:
         datum = input('Datum: ')
         if not datum:
             datum = date.today()
-        penz_fiok = input(f'{" ".join(penz_fiokok)} : ')
+        penz_fiok = input(f'Valassz penz fiokot! ({" ".join(penz_fiokok)}) : ')
         if not penz_fiok:
             penz_fiok = 'keszpenz'
 

@@ -7,6 +7,7 @@ from felhasznalo_kezelo import *
 from manualis_kiadas_felvetel import ManualisKiadasFelvetel
 import json
 import struct
+from typing import List
 
 
 app = Flask(__name__)
@@ -141,6 +142,15 @@ def nyugta():
         bolt = request.form['bolt']
         print(nev, bolt)
 
+        # {
+        #     'bolti_aru_nevek': List[str],
+        #     'bolti_aru_ertekek': List[str],
+        #     'kategoria_javaslatok': List[List[str*8]],
+        #     'hiba': 0,
+        # }
+
+        adatok = NyugtasKiadas().fronted_felvetel(photo=image_data, felhasznalonev=nev, bolt=bolt, debug=False)
+
         # Itt végezd el azokat a műveleteket, amiket szeretnél az adattal
         # például elmenteni a képet vagy végrehajtani egy feldolgozást
 
@@ -149,14 +159,14 @@ def nyugta():
         print(f"Received an image with length: {image_length}")
 
         # Itt válaszolj a kérésre, például egy egyszerű üzenettel
-        return json.dumps({"hiba":0})
+        return json.dumps(adatok)
 
     except Exception as e:
         print(f"Error handling the receipt: {str(e)}")
-        return json.dumps({"hiba":1})
+        return json.dumps({"hiba": 1, 'hibauzenet': 'nyugtas_kiadas hiba'})
 
 
-class User():
+class User:
     def __init__(self, nev, jelszo, email_cim):
         self.name = nev
         self.password = jelszo
