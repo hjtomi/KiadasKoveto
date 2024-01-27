@@ -2,4 +2,4 @@ from waitress import serve
 from server import app
 
 
-serve(app, host="192.168.0.110", port=52349)
+serve(app, host="172.16.8.109", port=52349)

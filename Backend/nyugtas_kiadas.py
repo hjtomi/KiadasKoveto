@@ -263,7 +263,7 @@ class NyugtasKiadas:
 
         else:
             photo = base64.b64decode(photo)
-            photo = Image.open(BytesIO(photo))
+            #photo = Image.open(BytesIO(photo))
 
             adatok = self._nyugta_adatfeldolgozas(photo)
 
