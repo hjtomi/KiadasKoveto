@@ -34,7 +34,7 @@ public class UrlKezelo {
     Context context;
     RequestQueue queue;
     //String url= "http://10.0.2.2:5000/";
-    String url= "http://192.168.0.110:52349/";
+    String url= "http://172.16.8.109:52349/";
 
     public String vissza = "";
     public JSONArray vissza_1;
@@ -187,7 +187,7 @@ public class UrlKezelo {
     public String be(String nev, String jelszo){
         bejelentkezes(nev, jelszo);
         int timer1 = 0;
-        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 5000000){
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 10000000){
             timer1 ++;
         }
         String a = vissza;
@@ -202,7 +202,7 @@ public class UrlKezelo {
     public String reg(String nev, String email, String jelszo, String egyenleg) {
         regisztral(nev, email, jelszo, egyenleg);
         int timer1 = 0;
-        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 5000000){
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 10000000){
             timer1 ++;
         }
         String a = vissza;
