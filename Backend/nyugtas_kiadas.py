@@ -57,6 +57,7 @@ class NyugtasKiadas:
         )
 
         nyers_adatok: dict = response.json()
+        print(nyers_adatok)
 
         bolti_termek_nevek = [
             sub['description'] for sub in nyers_adatok['document']['inference']['prediction']['line_items']
@@ -268,8 +269,8 @@ class NyugtasKiadas:
             adatok = self._nyugta_adatfeldolgozas(photo)
 
             adatok['kategoria_javaslatok'] = [
-                kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_aru_nevek'],
-                                                                                            adatok['bolti_aru_ertekek'])
+                kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_termek_nevek'],
+                                                                                            adatok['bolti_termek_arak'])
             ]
 
             adatok['hiba'] = 0

@@ -135,35 +135,30 @@ def kategoriak():
 
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
-    try:
-        # Fogadd el a POST kérést
-        image_data = request.form['kep']
-        nev = request.form['nev']
-        bolt = request.form['bolt']
-        print(nev, bolt)
+    # Fogadd el a POST kérést
+    image_data = request.form['kep']
+    nev = request.form['nev']
+    bolt = request.form['bolt']
+    print(nev, bolt)
 
-        # {
-        #     'bolti_aru_nevek': List[str],
-        #     'bolti_aru_ertekek': List[str],
-        #     'kategoria_javaslatok': List[List[str*8]],
-        #     'hiba': 0,
-        # }
+    # {
+    #     'bolti_aru_nevek': List[str],
+    #     'bolti_aru_ertekek': List[str],
+    #     'kategoria_javaslatok': List[List[str*8]],
+    #     'hiba': 0,
+    # }
 
-        adatok = NyugtasKiadas().fronted_felvetel(photo=image_data, felhasznalonev=nev, bolt=bolt, debug=False)
+    adatok = NyugtasKiadas().fronted_felvetel(photo=image_data, felhasznalonev=nev, bolt=bolt, debug=False)
 
-        # Itt végezd el azokat a műveleteket, amiket szeretnél az adattal
-        # például elmenteni a képet vagy végrehajtani egy feldolgozást
+    # Itt végezd el azokat a műveleteket, amiket szeretnél az adattal
+    # például elmenteni a képet vagy végrehajtani egy feldolgozást
 
-        # Példa: Kiírjuk a kép hosszát
-        image_length = len(image_data)
-        print(f"Received an image with length: {image_length}")
+    # Példa: Kiírjuk a kép hosszát
+    image_length = len(image_data)
+    print(f"Received an image with length: {image_length}")
 
-        # Itt válaszolj a kérésre, például egy egyszerű üzenettel
-        return json.dumps(adatok)
-
-    except Exception as e:
-        print(f"Error handling the receipt: {str(e)}")
-        return json.dumps({"hiba": 1, 'hibauzenet': 'nyugtas_kiadas hiba'})
+    # Itt válaszolj a kérésre, például egy egyszerű üzenettel
+    return json.dumps(adatok)
 
 
 class User:
