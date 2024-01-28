@@ -264,7 +264,9 @@ class NyugtasKiadas:
 
         else:
             photo = base64.b64decode(photo)
-            #photo = Image.open(BytesIO(photo))
+
+            # megmutatja a kepet
+            Image.open(BytesIO(photo)).show()
 
             adatok = self._nyugta_adatfeldolgozas(photo)
 
