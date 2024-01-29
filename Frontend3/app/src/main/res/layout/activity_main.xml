@@ -422,4 +422,127 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/manualis_bolt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manualis_bolt_text"
+            android:text="Bolt:"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/manualis_bolt_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:inputType="textPersonName"
+            android:hint="Bolt"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manualis_datum_text"
+            android:text="Dátum:"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <DatePicker
+            android:id="@+id/manualis_datum_pick"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <Button
+            android:id="@+id/maunalis_tovabb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tovább"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/manualis_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manualis_nev_text"
+            android:text="Termék név:"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/manualis_nev_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="textPersonName"
+            android:hint="Termék név"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manualis_ar_text"
+            android:text="Termék ár:"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/manualis_ar_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="number"
+            android:hint="Termék ár"/>
+
+        <Button
+            android:id="@+id/maunalis_mentes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Termék hozzáadása"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            />
+
+        <Button
+            android:id="@+id/maunalis_kuldes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Befejezés"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            />
+
+
+    </LinearLayout>
+
 </RelativeLayout>

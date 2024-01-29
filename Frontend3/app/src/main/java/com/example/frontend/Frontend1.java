@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,10 +30,13 @@ public class Frontend1 extends Thread {
 
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
-    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout;
-    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText;
-    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text;
-
+    Button maunalis_tovabb, maunalis_mentes, maunalis_kuldes;
+    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout;
+    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
+    EditText manualis_nev_editText, manualis_ar_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
+    TextView manualis_nev_text, manualis_ar_text, manualis_datum_text;
+    DatePicker manualis_datum_pick;
     ImageView kep;
 
     public Bitmap kep_;
@@ -45,10 +49,13 @@ public class Frontend1 extends Thread {
 
     public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home,
                      Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
-                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout,
+                     Button maunalis_kuldes, Button maunalis_mentes, Button maunalis_tovabb,
+                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
+                     EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
-                     ImageView kep){
+                     TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text,
+                     ImageView kep, DatePicker manualis_datum_pick){
         this.context = context;
         this.urlKezelo = urlKezelo;
         this.bejelentkezes_button = bejelentkezes_button;
@@ -62,6 +69,7 @@ public class Frontend1 extends Thread {
         this.kep_button = kep_button;
         this.kategoria_kuldes_button = kategoria_kuldes_button;
         this.home = home;
+
         this.kategoria_1 = kategoria_1;
         this.kategoria_2 = kategoria_2;
         this.kategoria_3 = kategoria_3;
@@ -71,6 +79,10 @@ public class Frontend1 extends Thread {
         this.kategoria_7 = kategoria_7;
         this.kategoria_8 = kategoria_8;
 
+        this.maunalis_tovabb = maunalis_tovabb;
+        this.maunalis_mentes = maunalis_mentes;
+        this.maunalis_kuldes = maunalis_kuldes;
+
         this.nincs_bejelentkezve_layout = nincs_bejelentkezve_layout;
         this.bejelentkezes_layout = bejelentkezes_layout;
         this.regisztracio_layout = regisztracio_layout;
@@ -78,6 +90,8 @@ public class Frontend1 extends Thread {
         this.felvetel_valaszto_layout = felvetel_valaszto_layout;
         this.nyugtas_kiadas_layout = nyugtas_kiadas_layout;
         this.kategoria_layout = kategoria_layout;
+        this.manualis_bolt_layout = manualis_bolt_layout;
+        this.manualis_layout = manualis_layout;
 
         this.regisztracio_felhasznalonev_editText = regisztracio_felhasznalonev_editText;
         this.regisztracio_jelszo_editText = regisztracio_jelszo_editText;
@@ -87,6 +101,9 @@ public class Frontend1 extends Thread {
         this.bejelentkezes_jelszo_editText = bejelentkezes_jelszo_editText;
         this.nyugtas_bolt_editText = nyugtas_bolt_editText;
         this.kategoria_egyeb_editText = kategoria_egyeb_editText;
+        this.manualis_bolt_editText = manualis_bolt_editText;
+        this.manualis_ar_editText = manualis_ar_editText;
+        this.manualis_nev_editText = manualis_nev_editText;
 
         this.regisztracio_felhasznalonev_text = regisztracio_felhasznalonev_text;
         this.regisztracio_email_text = regisztracio_email_text;
@@ -96,8 +113,13 @@ public class Frontend1 extends Thread {
         this.bejelentkezes_jelszo_text = bejelentkezes_jelszo_text;
         this.nyugtas_bolt_text = nyugtas_bolt_text;
         this.kategoria_text = kategoria_text;
+        this.manualis_nev_text = manualis_nev_text;
+        this.manualis_ar_text = manualis_ar_text;
+        this.manualis_bolt_text = manualis_bolt_text;
+        this.manualis_datum_text = manualis_datum_text;
 
         this.kep = kep;
+        this.manualis_datum_pick = manualis_datum_pick;
 
         bejelentkezes_layout.setVisibility(View.INVISIBLE);
         regisztracio_layout.setVisibility(View.INVISIBLE);
@@ -105,6 +127,9 @@ public class Frontend1 extends Thread {
         nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
         felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
         kategoria_layout.setVisibility(View.INVISIBLE);
+        manualis_layout.setVisibility(View.INVISIBLE);
+        manualis_bolt_layout.setVisibility(View.INVISIBLE);
+        nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
 
 
 

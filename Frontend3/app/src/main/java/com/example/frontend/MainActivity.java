@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private UrlKezelo urlKezelo;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
-    ActivityResultLauncher<Uri> takePictureLauncher;
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
-    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout;
-    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText;
-    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text;
-
+    Button maunalis_tovabb, maunalis_mentes, maunalis_kuldes;
+    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout;
+    EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
+    EditText manualis_nev_editText, manualis_ar_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
+    TextView manualis_nev_text, manualis_ar_text, manualis_datum_text;
+    DatePicker manualis_datum_pick;
     ImageView kep;
 
     @Override
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         kep_button = findViewById(R.id.kep_button);
         kategoria_kuldes_button = findViewById(R.id.kategora_kuldes_button);
         home = findViewById(R.id.home);
+
         kategoria_1 = findViewById(R.id.kategora_1_button);
         kategoria_2 = findViewById(R.id.kategora_2_button);
         kategoria_3 = findViewById(R.id.kategora_3_button);
@@ -59,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         kategoria_7 = findViewById(R.id.kategora_7_button);
         kategoria_8 = findViewById(R.id.kategora_8_button);
 
+        maunalis_kuldes = findViewById(R.id.maunalis_kuldes);
+        maunalis_mentes = findViewById(R.id.maunalis_mentes);
+        maunalis_tovabb = findViewById(R.id.maunalis_tovabb);
+
         nincs_bejelentkezve_layout = findViewById(R.id.nincs_bejelentkezve_layout);
         bejelentkezes_layout = findViewById(R.id.bejelentkezes_layout);
         regisztracio_layout = findViewById(R.id.regisztracio_layout);
@@ -66,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
         felvetel_valaszto_layout = findViewById(R.id.felvetel_valaszto_layout);
         nyugtas_kiadas_layout = findViewById(R.id.nyugtas_kiadas_layout);
         kategoria_layout = findViewById(R.id.kategoria_layout);
-
+        manualis_layout = findViewById(R.id.manualis_layout);
+        manualis_bolt_layout = findViewById(R.id.manualis_bolt_layout);
 
         regisztracio_felhasznalonev_editText = findViewById(R.id.regisztracio_felhasznalonev_editText);
         regisztracio_jelszo_editText = findViewById(R.id.regisztracio_jelszo_editText);
@@ -76,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         bejelentkezes_jelszo_editText = findViewById(R.id.bejelentkez_jelszo_editText);
         nyugtas_bolt_editText = findViewById(R.id.nyugtas_bolt_editText);
         kategoria_egyeb_editText = findViewById(R.id.kategoria_egyeb_editText);
+        manualis_nev_editText = findViewById(R.id.manualis_nev_editText);
+        manualis_ar_editText = findViewById(R.id.manualis_ar_editText);
+        manualis_bolt_editText = findViewById(R.id.manualis_bolt_editText);
 
         regisztracio_felhasznalonev_text = findViewById(R.id.regisztracio_felhasznalonev_text);
         regisztracio_email_text = findViewById(R.id.regisztracio_email_text);
@@ -85,15 +98,23 @@ public class MainActivity extends AppCompatActivity {
         bejelentkezes_jelszo_text = findViewById(R.id.bejelentkezes_jelszo_text);
         nyugtas_bolt_text = findViewById(R.id.nyugtas_bolt_text);
         kategoria_text = findViewById(R.id.kategoria_text);
+        manualis_ar_text = findViewById(R.id.manualis_ar_text);
+        manualis_bolt_text = findViewById(R.id.manualis_bolt_text);
+        manualis_datum_text = findViewById(R.id.manualis_datum_text);
+        manualis_nev_text = findViewById(R.id.manualis_nev_text);
 
         kep = findViewById(R.id.kep);
+        manualis_datum_pick = findViewById(R.id.manualis_datum_pick);
 
         urlKezelo = new UrlKezelo(this, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home,
                 kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8,
-                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout,
+                maunalis_kuldes, maunalis_mentes, maunalis_tovabb,
+                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_layout, manualis_bolt_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
+                manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText,
                 regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
-                kep);
+                manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text,
+                kep, manualis_datum_pick);
 
     }
         /*Window window = getWindow();
@@ -132,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            urlKezelo.frontend.kep_bitmap(imageBitmap);
 
+            urlKezelo.frontend.kep_bitmap(imageBitmap);
 
             kep.setImageBitmap(imageBitmap);
 
