@@ -416,7 +416,14 @@ class Statisztika():
         for x in range(len(szetszedett_penz_fiokok)):
             kiadasok.append(0)
 
+        datumok = []
+        napi_kiad = []
         for adatok in tranzakcio_adatok:
             if adatok.felhasznalonev == felhasznalo_nev:
                 if idoszamitas(kezdet, veg, adatok.datum) == True:
                     kiadasok[szetszedett_penz_fiokok.index(adatok.penz_fiokok)] += adatok.ertek
+                    if adatok.datum not in datumok:
+                        datumok.append(adatok.datum)
+                        napi_kiad.append(adatok.ertek)
+                    else:
+                        napi_kiad[datumok.index(adatok.datum)] += adatok.ertek
