@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,27 +34,33 @@ public class UrlKezelo {
 
     Context context;
     RequestQueue queue;
-   //String url= "https://10.0.2.2:5000/";
-    String url= "http://192.168.0.108:52349/";
+    //String url= "http://10.0.2.2:5000/";
+    String url= "http://157.181.201.13:52349/";
 
     public String vissza = "";
     public JSONArray vissza_1;
     Frontend1 frontend;
     //public UrlKezelo(Context context, Frontend1 frontend1){
-    public UrlKezelo(Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button,
+    public UrlKezelo(Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home,
                      Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
-                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout,
+                     Button maunalis_kuldes, Button maunalis_mentes, Button maunalis_tovabb,
+                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
+                     EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
-                     ImageView kep){
+                     TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text,
+                     ImageView kep, DatePicker manualis_datum_pick){
 
         this.context = context;
-        frontend = new Frontend1(this, context, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button,
+        frontend = new Frontend1(this, context, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home,
                 kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8,
-                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout,
+                maunalis_kuldes, maunalis_mentes, maunalis_tovabb,
+                nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_layout, manualis_bolt_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
+                manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText,
                 regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
-                kep);
+                manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text,
+                kep, manualis_datum_pick);
 
         frontend.futas = true;
         frontend.start();
@@ -158,7 +165,7 @@ public class UrlKezelo {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                vissza = "1";
+                vissza = "HIBA";
                 Log.d("bejelentkezés", "HTTP request failed", error);
             }
         }) {
@@ -171,6 +178,7 @@ public class UrlKezelo {
             protected Response parseNetworkResponse(NetworkResponse response) {
 
                 String responseText = new String(response.data, StandardCharsets.UTF_8);
+
                 Log.d("bejelentkezés", "HTTP request OK " + response.headers);
                 Log.d("bejelentkezés", responseText);
 
@@ -185,23 +193,31 @@ public class UrlKezelo {
 
     public String be(String nev, String jelszo){
         bejelentkezes(nev, jelszo);
-        while (!vissza.contains("0") && !vissza.contains("1")){
-            continue;
+        int timer1 = 0;
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
+            timer1 ++;
         }
         String a = vissza;
         vissza = "";
-        return a;
+
+        if (a.contains("0") || a.contains("1"))
+            return a;
+        else
+            return "{internet:1}";
     }
 
     public String reg(String nev, String email, String jelszo, String egyenleg) {
         regisztral(nev, email, jelszo, egyenleg);
-        while (!vissza.contains("0") && !vissza.contains("1")){
-            continue;
+        int timer1 = 0;
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
+            timer1 ++;
         }
         String a = vissza;
         vissza = "";
-        Log.d("a", a);
-        return a;
+        if (a.contains("0") || a.contains("1"))
+            return a;
+        else
+            return "{internet:1}";
     }
 
     public String getStringImage(Bitmap bmp){
@@ -224,7 +240,7 @@ public class UrlKezelo {
         },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
-                vissza = "1";
+                vissza = "HIBA";
                 Log.d("nyugta", "HTTP request failed", error);
             }
         }) {
@@ -256,51 +272,16 @@ public class UrlKezelo {
         kep_kuldes(getStringImage(kep), nev, bolt);
         //uzenet(nev);
         //uzenet(getStringImage(kep));
-        while (!vissza.contains("0") && !vissza.contains("1")){
-            continue;
+        int timer1 = 0;
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
+            timer1 ++;
         }
         String a = vissza;
         vissza = "";
-        return a;
-    }
-
-    public void kategoriak(String nev){
-        RequestQueue queue = Volley.newRequestQueue(context);
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url + "kategoriak?nev="+nev, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try{
-                    JSONObject jo = new JSONObject("{\"Hiba\":\"0\"}");
-                    vissza_1.put(jo);
-                    vissza_1.put(response);
-                }
-                catch (Exception e) {
-                    Log.d("kategoriak", "HTTP request OK " + response);                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                try{
-                    JSONObject jo = new JSONObject("{\"Hiba\":\"1\"}");
-                    vissza_1.put(jo);}
-                catch (Exception e) {
-                    Log.d("kategoriak", "HTTP request failed", error);
-                }
-
-            }
-        });
-        queue.add(request);
-    }
-
-    public JSONArray kategoria_keres(String nev){
-        kategoriak(nev);
-        while (vissza_1.length() < 1){
-            continue;
-        }
-        JSONArray a = vissza_1;
-        vissza_1 = new JSONArray();
-        return a;
+        if (a.contains("0") || a.contains("1"))
+            return a;
+        else
+            return "{internet:1}";
     }
 
 }

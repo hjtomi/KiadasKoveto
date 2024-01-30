@@ -6,6 +6,9 @@ import Kategoria
 from alap_kategoriak import alap_kategoriak
 import copy
 import datetime
+import base64
+from PIL import Image
+from io import BytesIO
 
 """
     Ezt a nyugta beolvasásakor, csak a felhasználót kell megadni hozzá
@@ -54,6 +57,7 @@ class NyugtasKiadas:
         )
 
         nyers_adatok: dict = response.json()
+        print(nyers_adatok)
 
         bolti_termek_nevek = [
             sub['description'] for sub in nyers_adatok['document']['inference']['prediction']['line_items']
@@ -209,31 +213,72 @@ class NyugtasKiadas:
 
             adatok_hozzadasa(uj_elemek)
 
-    def fronted_felvetel(self, photo=None, felhasznalonev='Jancsi', debug=False):
-        """Argumentumkent vagy a fotot es a felhasznalonevet adjuk meg
+    @staticmethod
+    def _frontend_nyugta_adatfeldolgozas(photo) -> dict:
+
+        files = {'document': photo}
+        headers = {"Authorization": API_KEY}
+        response = requests.post(
+            url=URL_INV,
+            files=files,
+            headers=headers,
+        )
+
+        nyers_adatok: dict = response.json()
+
+        bolti_termek_nevek = [
+            sub['description'] for sub in nyers_adatok['document']['inference']['prediction']['line_items']
+        ]
+
+        bolti_termek_arak = [
+            sub['total_amount'] for sub in nyers_adatok['document']['inference']['prediction']['line_items']
+        ]
+
+        return {
+            "bolti_aru_nevek": bolti_termek_nevek,
+            "bolti_aru_ertekek": bolti_termek_arak,
+        }
+
+    def fronted_felvetel(self, photo=None, felhasznalonev='Jancsi', bolt='Spar', debug=False):
+        """Argumentumkent vagy a fotot, a boltot es a felhasznalonevet adjuk meg
         vagy csak annyit hogy debug=True"""
 
         kategoria_kezelo = Kategoria.KategoriaAjanlas(felhasznalonev)
 
         if debug:
-            adatok = copy.deepcopy(debug_nyers_nyugta_adatok)
+            with open('nyugta2.jpg', 'r') as file:
+                photo = file
 
-            adatok['termekek_szama'] = len(adatok['bolti_termek_nevek'])
-            adatok['kategoriak'] = [
-                kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_termek_nevek'],
-                                                                                            adatok['bolti_termek_arak'])
+            adatok = self._nyugta_adatfeldolgozas(photo)
+
+            adatok['kategoria_javaslatok'] = [
+                kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_aru_nevek'],
+                                                                                            adatok['bolti_aru_ertekek'])
             ]
+
+            adatok['hiba'] = 0
+
+            print(adatok)
+
             return adatok
 
         else:
-            with open('nyugta2.jpg', 'rb') as photo:
-                adatok = self._nyugta_adatfeldolgozas(photo)
+            photo = base64.b64decode(photo)
 
-            adatok['termekek_szama'] = len(adatok['bolti_termek_nevek'])
-            adatok['kategoriak'] = [
+            # megmutatja a kepet
+            Image.open(BytesIO(photo)).show()
+
+            adatok = self._nyugta_adatfeldolgozas(photo)
+
+            adatok['kategoria_javaslatok'] = [
                 kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_termek_nevek'],
                                                                                             adatok['bolti_termek_arak'])
             ]
+
+            adatok['hiba'] = 0
+
+            print(adatok)
+
             return adatok
 
 
