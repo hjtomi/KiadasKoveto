@@ -330,32 +330,79 @@ class Egyeb_kiadas():
         penz_tranzakciok(felhasznalo_nev, penzfiok, "-", ertek)
         return json.dumps({"helytelen": 0})
 
-def idoszamitas(intervallum, ido):
-    today = date.today()
-    ev = today.strftime("%Y")
-    honap = today.strftime("%m")
-    nap = today.strftime("%d")
+def idoszamitas(kezdet, veg, datum):
+    kezdet = kezdet.split(".")
+    kezdev = int(kezdet[0])
+    kezdho = int(kezdet[1])
+    kezdnap = int(kezdet[2])
 
-    ido = ido.split(".")
+    veg = veg.split(".")
+    vegev = int(veg[0])
+    vegho = int(veg[1])
+    vegnap = int(veg[2])
 
-    if intervallum == "ev":
-        if int(ev) == int(ido[0]):
+    datum = datum.split(".")
+    datev = int(datum[0])
+    datho = int(datum[1])
+    datnap = int(datum[2])
+
+    if datev > kezdev:
+        if datev < vegev:
             return True
+        elif datev == vegev:
+            if datho < vegho:
+                return True
+            elif datho == vegho:
+                if datnap <= vegnap:
+                    return True
+                else:
+                    return False
+            else:
+                return False
         else:
             return False
-    elif intervallum == "honap":
-        if int(ev) == int(ido[0]) and int(honap) == int(ido[1]):
-            return True
+    elif datev == kezdev:
+        if datev < vegev:
+            if datho > kezdho:
+                return True
+            elif datho == kezdho:
+                if datnap >= kezdnap:
+                    return True
+            else:
+                return False
+        elif datev == vegev:
+            if datho > kezdho:
+                if datho < vegho:
+                    return True
+                elif datho == vegho:
+                    if datnap <= vegnap:
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            elif datho == kezdho:
+                if datho < vegho:
+                    if datnap >= kezdnap:
+                        return True
+                    else:
+                        return False
+                elif datho == vegho:
+                    if datnap >= kezdnap and datnap <= vegnap:
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return False
         else:
             return False
-    elif intervallum == "nap":
-        if int(ev) == int(ido[0]) and int(honap) == int(ido[1]) and int(nap) == int(ido[2]):
-            return True
-        else:
-            return False
+    else:
+        return False
 
 class Statisztika():
-    def statisztika(self, felhasznalo_nev, intervallum):
+    def statisztika(self, felhasznalo_nev, kezdet, veg):
         tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
@@ -371,6 +418,5 @@ class Statisztika():
 
         for adatok in tranzakcio_adatok:
             if adatok.felhasznalonev == felhasznalo_nev:
-                if idoszamitas(intervallum, str(adatok.datum)) == True:
+                if idoszamitas(kezdet, veg, adatok.datum) == True:
                     kiadasok[szetszedett_penz_fiokok.index(adatok.penz_fiokok)] += adatok.ertek
-
