@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     private UrlKezelo urlKezelo;
@@ -141,7 +144,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        String filename = Environment.getExternalStorageDirectory().getPath() + "/test/testfile.jpg";
+        Uri imageUri = Uri.fromFile(new File(filename));
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
     }
