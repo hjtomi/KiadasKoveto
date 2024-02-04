@@ -133,6 +133,12 @@ def kategoriak():
     nev = str(request.args['nev'])
     return json.dumps(alap_kategoriak)
 
+@app.route("/manualis", methods=['POST'])
+def manualis():
+    adatok = request.json
+    nev = adatok['nev']
+    return json.dumps({"asd":"asd"})
+
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
     # Fogadd el a POST kérést
