@@ -136,15 +136,7 @@ public class Frontend1 extends Thread {
         this.kep = kep;
         this.manualis_datum_pick = manualis_datum_pick;
 
-        bejelentkezes_layout.setVisibility(View.INVISIBLE);
-        regisztracio_layout.setVisibility(View.INVISIBLE);
-        fooldal_layout.setVisibility(View.VISIBLE);
-        nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
-        felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
-        kategoria_layout.setVisibility(View.INVISIBLE);
-        manualis_layout.setVisibility(View.INVISIBLE);
-        manualis_bolt_layout.setVisibility(View.INVISIBLE);
-        nincs_bejelentkezve_layout.setVisibility(View.INVISIBLE);
+        home();
 
         manualis_kuldeni = new JSONObject();
 
@@ -154,6 +146,17 @@ public class Frontend1 extends Thread {
     }
 
 
+    public void home(){
+        nincs_bejelentkezve_layout.setVisibility(View.INVISIBLE);
+        fooldal_layout.setVisibility(View.VISIBLE);
+        bejelentkezes_layout.setVisibility(View.INVISIBLE);
+        regisztracio_layout.setVisibility(View.INVISIBLE);
+        nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
+        felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
+        kategoria_layout.setVisibility(View.INVISIBLE);
+        manualis_layout.setVisibility(View.INVISIBLE);
+        manualis_bolt_layout.setVisibility(View.INVISIBLE);
+    }
 
     public void loop(){
 
@@ -162,12 +165,7 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     if (!(nincs_bejelentkezve_layout.getVisibility() == View.VISIBLE || bejelentkezes_layout.getVisibility() == View.VISIBLE || regisztracio_layout.getVisibility() == View.VISIBLE)) {
-                        fooldal_layout.setVisibility(View.VISIBLE);
-                        bejelentkezes_layout.setVisibility(View.INVISIBLE);
-                        regisztracio_layout.setVisibility(View.INVISIBLE);
-                        nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
-                        felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
-                        kategoria_layout.setVisibility(View.INVISIBLE);
+                        home();
                     }
                     else if (regisztracio_layout.getVisibility() == View.VISIBLE){
                         nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
@@ -224,12 +222,11 @@ public class Frontend1 extends Thread {
 
                     if (!(nev.equals("") || ar.equals("") || kat.equals(""))){
                     JSONObject termek = new JSONObject();
-                    termek.put("id", manualis_kuldeni.getInt("tart") + 1);
                     termek.put("nev", nev);
                     termek.put("ar", ar);
                     termek.put("kat", kat);
                     manualis_kuldeni.put("tart", manualis_kuldeni.getInt("tart") + 1);
-                    manualis_kuldeni.put(termek.get("id").toString(), termek);
+                    manualis_kuldeni.put(manualis_kuldeni.get("tart").toString(), termek);
 
                     manualis_nev_editText.setText("");
                     manualis_ar_editText.setText("");
@@ -272,6 +269,8 @@ public class Frontend1 extends Thread {
                         Log.d("datum", manualis_kuldeni.getJSONObject(Integer.toString(i)).get("kat").toString());
                     }
 
+                    manualis_kuldeni = new JSONObject();
+
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -286,7 +285,6 @@ public class Frontend1 extends Thread {
         felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
         manualis_bolt_layout.setVisibility(View.VISIBLE);
 
-
         manualis_tovabb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,11 +294,22 @@ public class Frontend1 extends Thread {
 
 
                 try {
-                    manualis_kuldeni.put("nev", "sad");
+                    int day = manualis_datum_pick.getDayOfMonth();
+                    int month = manualis_datum_pick.getMonth() + 1;
+                    int year = manualis_datum_pick.getYear();
+                    JSONObject datum = new JSONObject();
+                    datum.put("nap", day);
+                    datum.put("honap", month);
+                    datum.put("ev", year);
+                    manualis_kuldeni.put("datum", datum);
                     manualis_kuldeni.put("bolt", manualis_bolt_editText.getText().toString());
                     manualis_kuldeni.put("tart", 0);
 
                     Log.d("datum", manualis_kuldeni.get("bolt").toString());
+
+                    Log.d("datum", Integer.toString(year));
+                    Log.d("datum", Integer.toString(month));
+                    Log.d("datum", Integer.toString(day));
 
 
 
