@@ -247,9 +247,10 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:onClick="foto"
             android:text="Fotó"
+            android:onClick="foto"
             />
+        <!--android:onClick="foto"/!-->
         <Button
             android:id="@+id/manualis_kiadas_button"
             android:layout_width="match_parent"
@@ -466,7 +467,7 @@
             />
 
         <Button
-            android:id="@+id/maunalis_tovabb"
+            android:id="@+id/manualis_tovabb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tovább"
@@ -522,8 +523,26 @@
             android:inputType="number"
             android:hint="Termék ár"/>
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/manualis_kategoria_text"
+            android:text="Kategória:"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/manualis_kategoria_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="textPersonName"
+            android:hint="Kategória"/>
+
         <Button
-            android:id="@+id/maunalis_mentes"
+            android:id="@+id/manualis_mentes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Termék hozzáadása"
@@ -533,7 +552,7 @@
             />
 
         <Button
-            android:id="@+id/maunalis_kuldes"
+            android:id="@+id/manualis_kuldes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Befejezés"
