@@ -135,8 +135,24 @@ def kategoriak():
 
 @app.route("/manualis", methods=['POST'])
 def manualis():
+    """Adatszerkezet a frontendből:
+        {
+        tart:n - n = a termékek darabszáma (Int)
+        datum:{ev:ev (Int), honap:nap (Int), nap:nap (Int)} (Json)
+        bolt:bolt (String)
+        1:{nev:termek neve (String), ar:termék ára (Int), kat: termék kategóriája (String)} (Json)
+        2:{nev:termek neve (String), ar:termék ára (Int), kat: termék kategóriája (String)} (Json)
+        .
+        .
+        .
+        n:{nev:termek neve (String), ar:termék ára (Int), kat: termék kategóriája (String)} (Json)
+
+        } (Json)
+
+
+    """
     adatok = request.json
-    nev = adatok['nev']
+
     return json.dumps({"asd":"asd"})
 
 @app.route("/nyugta", methods=['POST'])
