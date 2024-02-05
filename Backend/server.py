@@ -149,11 +149,14 @@ def manualis():
 
         } (Json)
 
+        pl: {'datum': {'nap': 5, 'honap': 2, 'ev': 2024}, 'bolt': 'Spar', 'tart': 3, '1': {'nev': 'Ktya', 'ar': '4', 'kat': 'Vga'}, '2': {'nev': 'Gshs', 'ar': '355', 'kat': 'Ggsh'}, '3': {'nev': 'Bsh', 'ar': '646', 'kat': 'Hyh'}}
 
     """
     adatok = request.json
 
-    return json.dumps({"asd":"asd"})
+    print(adatok)
+
+    return json.dumps({"hiba":"0"})
 
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
