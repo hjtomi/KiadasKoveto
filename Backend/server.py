@@ -68,6 +68,10 @@ def manualis_kiadas_felvetel():
     ManualisKiadasFelvetel()
     return "<p>Manualis kiadas felveve</p>"
 
+@app.route("/statisztika", methods=['POST'])
+def statisztika():
+    return Statisztika()
+
 @app.route("/proba",methods=['GET'])
 def proba():
     d = {}

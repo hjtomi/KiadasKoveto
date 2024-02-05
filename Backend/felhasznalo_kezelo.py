@@ -446,6 +446,6 @@ class Statisztika():
                         napi_kiad[datumok.index(adatok.datum)][szetszedett_penz_fiokok.index(adatok.penz_fiok)] += adatok.ertek
 
         if diagramm == "kör":
-            kor(kiadasok, szetszedett_penz_fiokok)
+             return kor(kiadasok, szetszedett_penz_fiokok)
         elif diagramm == "vonal":
-            vonal(datumok, napi_kiad, szetszedett_penz_fiokok)
+             return vonal(datumok, napi_kiad, szetszedett_penz_fiokok)
