@@ -23,11 +23,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class UrlKezelo {
@@ -35,7 +37,7 @@ public class UrlKezelo {
     Context context;
     RequestQueue queue;
     //String url= "http://10.0.2.2:5000/";
-    String url= "http://157.181.201.13:52349/";
+    String url= "http://192.168.0.113:52349/";
 
     public String vissza = "";
     public JSONArray vissza_1;
@@ -283,5 +285,81 @@ public class UrlKezelo {
         else
             return "{internet:1}";
     }
+
+    public String JsonToString(JSONObject json){
+        String str = "";
+
+        Iterator<String> keys = json.keys();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            try {
+                if (json.get(key) instanceof JSONObject) {
+                    str = str + ((JSONObject) json.get(key)).toString();
+                    // do something with jsonObject here
+                }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return str;
+    }
+
+    public void manualis_kuldes(JSONObject adatok){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        //String requestBody = "{\"nev\": \""+"dani\"}";
+        String requestBody = adatok.toString();
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "manualis", requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("manualis", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vissza = "HIBA";
+                Log.d("manualis", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
+
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
+
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+
+                Log.d("manualis", "HTTP request OK " + response.headers);
+                Log.d("manualis", responseText);
+
+                vissza=responseText;
+
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
+
+    }
+
+
+    public String manualis(JSONObject adatok){
+        manualis_kuldes(adatok);
+        //uzenet(nev);
+        //uzenet(getStringImage(kep));
+        int timer1 = 0;
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
+            timer1 ++;
+        }
+        String a = vissza;
+        vissza = "";
+        if (a.contains("0") || a.contains("1"))
+            return a;
+        else
+            return "{internet:1}";
+    }
+
+
 
 }

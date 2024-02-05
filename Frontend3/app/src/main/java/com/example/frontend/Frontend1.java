@@ -263,13 +263,30 @@ public class Frontend1 extends Thread {
             public void onClick(View v) {
                 Log.d("datum", "Kezdődik:");
                 try {
-                    for (int i=1; i<=manualis_kuldeni.getInt("tart"); i++) {
+                    /*for (int i=1; i<=manualis_kuldeni.getInt("tart"); i++) {
                         Log.d("datum", manualis_kuldeni.getJSONObject(Integer.toString(i)).get("nev").toString());
                         Log.d("datum", manualis_kuldeni.getJSONObject(Integer.toString(i)).get("ar").toString());
                         Log.d("datum", manualis_kuldeni.getJSONObject(Integer.toString(i)).get("kat").toString());
+                    }*/
+                    String vissza = urlKezelo.manualis(manualis_kuldeni);
+                    Log.d("ASD", vissza);
+                    if (vissza.equals("internet:1")){
+                        Toast.makeText(context, "Hiba a szerverkapcsolattal", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        if (vissza.contains("1"))
+                            Toast.makeText(context, "Hiba a felvétel során", Toast.LENGTH_LONG).show();
+                        else{
+                            Toast.makeText(context, "Sikeres felvétel", Toast.LENGTH_LONG).show();
+                            manualis_layout.setVisibility(View.INVISIBLE);
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        }
+
+
                     }
 
                     manualis_kuldeni = new JSONObject();
+                    manualis_kuldeni.put("tart", 0);
 
 
                 } catch (JSONException e) {
