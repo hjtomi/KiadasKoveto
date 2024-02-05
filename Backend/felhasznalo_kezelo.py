@@ -4,6 +4,7 @@ from alap_kategoriak import alap_kategoriak
 from Adatbazis import Tranzakcio
 import json
 from datetime import date
+import matplotlib.pyplot as plt
 
 
 def penz_tranzakciok(felhasznalo_nev, fiok_nev, muvelet, osszeg):
@@ -401,8 +402,21 @@ def idoszamitas(kezdet, veg, datum):
     else:
         return False
 
+def vonal(datumok, kiadasok, penzfiokok):
+    plt.plot(datumok, kiadasok, label=penzfiokok)
+    plt.title("cím")
+    plt.xlabel("Date")
+    plt.ylabel("Kiadás (Ft)")
+    plt.legend()
+    plt.show()
+
+def kor(kiadasok, penzfiokok):
+    plt.pie(kiadasok)
+    plt.legend(labels=penzfiokok)
+    plt.show()
+
 class Statisztika():
-    def statisztika(self, felhasznalo_nev, kezdet, veg):
+    def statisztika(self, felhasznalo_nev, kezdet, veg, diagramm):
         tranzakcio_adatok = Adatbazis.adatok_lekerese(tranzakcio=True)
         felhasznalo_adatok = Adatbazis.adatok_lekerese(tranzakcio=False)
 
@@ -424,6 +438,14 @@ class Statisztika():
                     kiadasok[szetszedett_penz_fiokok.index(adatok.penz_fiokok)] += adatok.ertek
                     if adatok.datum not in datumok:
                         datumok.append(adatok.datum)
-                        napi_kiad.append(adatok.ertek)
+                        napi_kiad.append([])
+                        for x in range(len(szetszedett_penz_fiokok)):
+                            napi_kiad[-1].append(0)
+                        napi_kiad[datumok.index(adatok.datum)][szetszedett_penz_fiokok.index(adatok.penz_fiok)] += adatok.ertek
                     else:
-                        napi_kiad[datumok.index(adatok.datum)] += adatok.ertek
+                        napi_kiad[datumok.index(adatok.datum)][szetszedett_penz_fiokok.index(adatok.penz_fiok)] += adatok.ertek
+
+        if diagramm == "kör":
+            kor(kiadasok, szetszedett_penz_fiokok)
+        elif diagramm == "vonal":
+            vonal(datumok, napi_kiad, szetszedett_penz_fiokok)
