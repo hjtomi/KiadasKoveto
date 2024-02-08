@@ -159,10 +159,12 @@ def manualis():
     adatok = request.json
 
     try:
+        print(adatok)
         ManualisKiadasFelvetelFrontend(adatok)
 
     except Exception as e:
-        return json.dumps({"hiba": e})
+        print(e)
+        return json.dumps({"hiba":"1"})
 
     return json.dumps({"hiba":"0"})
 

@@ -105,6 +105,9 @@ class ManualisKiadasFelvetel:
 class ManualisKiadasFelvetelFrontend:
     def __init__(self, adatok):
         self.adatok = adatok
+        felhasznalonev = self.adatok["felhasznalonev"]
+        bolt = self.adatok["bolt"]
+        penz_fiok = self.adatok["fiok"]
         # pelda_adatok = {
         #                     'datum': {
         #                         'nap': 5,
@@ -130,6 +133,7 @@ class ManualisKiadasFelvetelFrontend:
         #                     }
         #                 }
 
+        print(felhasznalonev, bolt)
         tranzakcio_idk = list(map(lambda x: x.tranzakcio_id, adatok_lekerese()))
         if tranzakcio_idk:
             kovetkezo_id = max(tranzakcio_idk) + 1
@@ -138,15 +142,17 @@ class ManualisKiadasFelvetelFrontend:
 
         tranzakciok = [
             Tranzakcio(
-                     felhasznalonev=self.adatok[str(i)]['felhasznalonev'],
+                     felhasznalonev=felhasznalonev,
                      tranzakcio_id=kovetkezo_id,
                      tipus=self.adatok[str(i)]['kat'],
                      ertek=self.adatok[str(i)]['ar'],
                      datum=date(self.adatok['datum']['ev'], self.adatok['datum']['honap'], self.adatok['datum']['nap']),
                      bolti_aru_nev=self.adatok[str(i)]['nev'],
                      sajat_aru_nev=self.adatok[str(i)]['nev'],
-                     bolt=self.adatok[str(i)]['bolt'],
+                     bolt=bolt,
+                     penz_fiok=penz_fiok,
                  )
-            for i in range(1, self.adatok['tart'])]
+            for i in range(1, int(self.adatok['tart'])+1)]
+        print(int(self.adatok['tart']), tranzakciok)
 
         adatok_hozzadasa(tranzakciok)
