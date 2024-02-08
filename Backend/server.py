@@ -4,7 +4,7 @@ from nyugtas_kiadas import NyugtasKiadas
 from nyugtas_kiadas_megtekintese import NyugtaMegtekintese
 import Kategoria
 from felhasznalo_kezelo import *
-from manualis_kiadas_felvetel import ManualisKiadasFelvetel
+from manualis_kiadas_felvetel import ManualisKiadasFelvetel, ManualisKiadasFelvetelFrontend
 import json
 import struct
 from typing import List
@@ -158,7 +158,11 @@ def manualis():
     """
     adatok = request.json
 
-    print(adatok)
+    try:
+        ManualisKiadasFelvetelFrontend(adatok)
+
+    except Exception as e:
+        return json.dumps({"hiba": e})
 
     return json.dumps({"hiba":"0"})
 
