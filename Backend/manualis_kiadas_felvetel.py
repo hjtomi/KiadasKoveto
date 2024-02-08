@@ -116,6 +116,8 @@ class ManualisKiadasFelvetelFrontend:
         #                     },
         #                     'bolt': 'Spar',
         #                     'tart': 3,
+        #                     'felhasznalonev': 'Jancsi'
+        #                     'fiok': 'kartya'
         #                     '1': {
         #                         'nev': 'Ktya',
         #                         'ar': '4',
