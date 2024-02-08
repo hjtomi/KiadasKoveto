@@ -408,11 +408,13 @@ def vonal(datumok, kiadasok, penzfiokok):
     plt.xlabel("Date")
     plt.ylabel("Kiadás (Ft)")
     plt.legend()
+    plt.savefig("foto.jpg")
     plt.show()
 
 def kor(kiadasok, penzfiokok):
     plt.pie(kiadasok)
     plt.legend(labels=penzfiokok)
+    plt.savefig("foto.jpg")
     plt.show()
 
 class Statisztika():
@@ -446,6 +448,6 @@ class Statisztika():
                         napi_kiad[datumok.index(adatok.datum)][szetszedett_penz_fiokok.index(adatok.penz_fiok)] += adatok.ertek
 
         if diagramm == "kör":
-             return kor(kiadasok, szetszedett_penz_fiokok)
+             return "foto.jpg"
         elif diagramm == "vonal":
-             return vonal(datumok, napi_kiad, szetszedett_penz_fiokok)
+             return "foto.jpg"
