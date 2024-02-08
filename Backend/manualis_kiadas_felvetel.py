@@ -100,3 +100,53 @@ class ManualisKiadasFelvetel:
             )
 
         return uj_elemek
+
+
+class ManualisKiadasFelvetelFrontend:
+    def __init__(self, adatok):
+        self.adatok = adatok
+        # pelda_adatok = {
+        #                     'datum': {
+        #                         'nap': 5,
+        #                         'honap': 2,
+        #                         'ev': 2024
+        #                     },
+        #                     'bolt': 'Spar',
+        #                     'tart': 3,
+        #                     '1': {
+        #                         'nev': 'Ktya',
+        #                         'ar': '4',
+        #                         'kat': 'Vga'
+        #                     },
+        #                     '2': {
+        #                         'nev': 'Gshs',
+        #                         'ar': '355',
+        #                         'kat': 'Ggsh'
+        #                     },
+        #                     '3': {
+        #                         'nev': 'Bsh',
+        #                         'ar': '646',
+        #                         'kat': 'Hyh'
+        #                     }
+        #                 }
+
+        tranzakcio_idk = list(map(lambda x: x.tranzakcio_id, adatok_lekerese()))
+        if tranzakcio_idk:
+            kovetkezo_id = max(tranzakcio_idk) + 1
+        else:
+            kovetkezo_id = 0
+
+        tranzakciok = [
+            Tranzakcio(
+                     felhasznalonev=self.adatok[str(i)]['felhasznalonev'],
+                     tranzakcio_id=kovetkezo_id,
+                     tipus=self.adatok[str(i)]['kat'],
+                     ertek=self.adatok[str(i)]['ar'],
+                     datum=date(self.adatok['datum']['ev'], self.adatok['datum']['honap'], self.adatok['datum']['nap']),
+                     bolti_aru_nev=self.adatok[str(i)]['nev'],
+                     sajat_aru_nev=self.adatok[str(i)]['nev'],
+                     bolt=self.adatok[str(i)]['bolt'],
+                 )
+            for i in range(1, self.adatok['tart'])]
+
+        adatok_hozzadasa(tranzakciok)
