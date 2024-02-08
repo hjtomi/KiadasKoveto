@@ -119,9 +119,9 @@ class ManualisKiadasFelvetelFrontend:
         #                     'felhasznalonev': 'Jancsi'
         #                     'fiok': 'kartya'
         #                     '1': {
-        #                         'nev': 'Ktya',
-        #                         'ar': '4',
-        #                         'kat': 'Vga'
+        #                         'nev': 'keksz',
+        #                         'ar': '456',
+        #                         'kat': 'Élelmiszer'
         #                     },
         #                     '2': {
         #                         'nev': 'Gshs',
