@@ -48,9 +48,9 @@ public class UrlKezelo {
                      Button manualis_kiadas_button, Button manualis_kuldes, Button manualis_mentes, Button manualis_tovabb,
                      LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
-                     EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText,
+                     EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText, EditText manualis_fiok_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
-                     TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text, TextView manualis_kategoria_text,
+                     TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text, TextView manualis_kategoria_text, TextView manualis_fiok_text,
                      ImageView kep, DatePicker manualis_datum_pick){
 
         this.context = context;
@@ -59,9 +59,9 @@ public class UrlKezelo {
                 manualis_kiadas_button, manualis_kuldes, manualis_mentes, manualis_tovabb,
                 nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_layout, manualis_bolt_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
-                manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText, manualis_kategoria_editText,
+                manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText, manualis_kategoria_editText, manualis_fiok_editText,
                 regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
-                manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text, manualis_kategoria_text,
+                manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text, manualis_kategoria_text, manualis_fiok_text,
                 kep, manualis_datum_pick);
 
         frontend.futas = true;

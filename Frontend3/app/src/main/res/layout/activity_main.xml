@@ -429,7 +429,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="35dp">
 
         <TextView
             android:layout_width="fill_parent"
@@ -437,7 +437,7 @@
             android:id="@+id/manualis_bolt_text"
             android:text="Bolt:"
             android:gravity="center"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="10dp"/>
 
         <EditText
             android:id="@+id/manualis_bolt_editText"
@@ -445,17 +445,35 @@
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:inputType="textPersonName"
             android:hint="Bolt"/>
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/manualis_fiok_text"
+            android:text="Pénz fiók:"
+            android:gravity="center"
+            android:layout_marginTop="15dp"/>
+
+        <EditText
+            android:id="@+id/manualis_fiok_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:hint="Pénz fiók"/>
+
+        <!--<TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/manualis_datum_text"
             android:text="Dátum:"
             android:gravity="center"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="5dp"/>!-->
 
         <DatePicker
             android:id="@+id/manualis_datum_pick"

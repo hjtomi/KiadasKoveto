@@ -43,9 +43,9 @@ public class Frontend1 extends Thread {
     Button manualis_tovabb, manualis_kiadas_button, manualis_mentes, manualis_kuldes;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
-    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText;
+    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText;
     TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
-    TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text;
+    TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text, manualis_fiok_text;
     DatePicker manualis_datum_pick;
     ImageView kep;
 
@@ -62,9 +62,9 @@ public class Frontend1 extends Thread {
                      Button manualis_kiadas_button, Button manualis_kuldes, Button manualis_mentes, Button manualis_tovabb,
                      LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
-                     EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText,
+                     EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText, EditText manualis_fiok_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
-                     TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text, TextView manualis_kategoria_text,
+                     TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text, TextView manualis_kategoria_text, TextView manualis_fiok_text,
                      ImageView kep, DatePicker manualis_datum_pick){
 
 
@@ -118,6 +118,7 @@ public class Frontend1 extends Thread {
         this.manualis_ar_editText = manualis_ar_editText;
         this.manualis_nev_editText = manualis_nev_editText;
         this.manualis_kategoria_editText = manualis_kategoria_editText;
+        this.manualis_fiok_editText = manualis_fiok_editText;
 
         this.regisztracio_felhasznalonev_text = regisztracio_felhasznalonev_text;
         this.regisztracio_email_text = regisztracio_email_text;
@@ -132,11 +133,13 @@ public class Frontend1 extends Thread {
         this.manualis_bolt_text = manualis_bolt_text;
         this.manualis_datum_text = manualis_datum_text;
         this.manualis_kategoria_text = manualis_kategoria_text;
+        this.manualis_fiok_text = manualis_fiok_text;
 
         this.kep = kep;
         this.manualis_datum_pick = manualis_datum_pick;
 
         home();
+        nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
 
         manualis_kuldeni = new JSONObject();
 
@@ -148,7 +151,7 @@ public class Frontend1 extends Thread {
 
     public void home(){
         nincs_bejelentkezve_layout.setVisibility(View.INVISIBLE);
-        fooldal_layout.setVisibility(View.VISIBLE);
+        fooldal_layout.setVisibility(View.INVISIBLE);
         bejelentkezes_layout.setVisibility(View.INVISIBLE);
         regisztracio_layout.setVisibility(View.INVISIBLE);
         nyugtas_kiadas_layout.setVisibility(View.INVISIBLE);
@@ -166,6 +169,7 @@ public class Frontend1 extends Thread {
                 public void onClick(View v) {
                     if (!(nincs_bejelentkezve_layout.getVisibility() == View.VISIBLE || bejelentkezes_layout.getVisibility() == View.VISIBLE || regisztracio_layout.getVisibility() == View.VISIBLE)) {
                         home();
+                        fooldal_layout.setVisibility(View.VISIBLE);
                     }
                     else if (regisztracio_layout.getVisibility() == View.VISIBLE){
                         nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
@@ -268,25 +272,30 @@ public class Frontend1 extends Thread {
                         Log.d("datum", manualis_kuldeni.getJSONObject(Integer.toString(i)).get("ar").toString());
                         Log.d("datum", manualis_kuldeni.getJSONObject(Integer.toString(i)).get("kat").toString());
                     }*/
-                    String vissza = urlKezelo.manualis(manualis_kuldeni);
-                    Log.d("ASD", vissza);
-                    if (vissza.equals("internet:1")){
-                        Toast.makeText(context, "Hiba a szerverkapcsolattal", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        if (vissza.contains("1"))
-                            Toast.makeText(context, "Hiba a felvétel során", Toast.LENGTH_LONG).show();
-                        else{
-                            Toast.makeText(context, "Sikeres felvétel", Toast.LENGTH_LONG).show();
-                            manualis_layout.setVisibility(View.INVISIBLE);
-                            fooldal_layout.setVisibility(View.VISIBLE);
+                    if (!manualis_kuldeni.get("tart").toString().equals("0")) {
+                        String vissza = urlKezelo.manualis(manualis_kuldeni);
+                        Log.d("ASD", vissza);
+                        if (vissza.equals("internet:1")) {
+                            Toast.makeText(context, "Hiba a szerverkapcsolattal", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (vissza.equals("hiba:1"))
+                                Toast.makeText(context, "Hiba a felvétel során", Toast.LENGTH_LONG).show();
+                            else {
+                                Toast.makeText(context, "Sikeres felvétel", Toast.LENGTH_LONG).show();
+                                manualis_layout.setVisibility(View.INVISIBLE);
+                                fooldal_layout.setVisibility(View.VISIBLE);
+                            }
+
+
                         }
 
-
+                        manualis_kuldeni = new JSONObject();
+                        manualis_kuldeni.put("tart", 0);
                     }
 
-                    manualis_kuldeni = new JSONObject();
-                    manualis_kuldeni.put("tart", 0);
+                    else {
+                        Toast.makeText(context, "Adjon meg treméket!", Toast.LENGTH_SHORT).show();
+                    }
 
 
                 } catch (JSONException e) {
@@ -320,7 +329,9 @@ public class Frontend1 extends Thread {
                     datum.put("ev", year);
                     manualis_kuldeni.put("datum", datum);
                     manualis_kuldeni.put("bolt", manualis_bolt_editText.getText().toString());
+                    manualis_kuldeni.put("fiok", manualis_fiok_editText.getText().toString());
                     manualis_kuldeni.put("tart", 0);
+                    manualis_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
 
                     Log.d("datum", manualis_kuldeni.get("bolt").toString());
 

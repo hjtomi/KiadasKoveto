@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
-    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText;
+    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText;
     TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
-    TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text;
+    TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text, manualis_fiok_text;
     DatePicker manualis_datum_pick;
     ImageView kep;
 
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         manualis_ar_editText = findViewById(R.id.manualis_ar_editText);
         manualis_bolt_editText = findViewById(R.id.manualis_bolt_editText);
         manualis_kategoria_editText = findViewById(R.id.manualis_kategoria_editText);
+        manualis_fiok_editText = findViewById(R.id.manualis_fiok_editText);
 
         regisztracio_felhasznalonev_text = findViewById(R.id.regisztracio_felhasznalonev_text);
         regisztracio_email_text = findViewById(R.id.regisztracio_email_text);
@@ -117,9 +118,10 @@ public class MainActivity extends AppCompatActivity {
         kategoria_text = findViewById(R.id.kategoria_text);
         manualis_ar_text = findViewById(R.id.manualis_ar_text);
         manualis_bolt_text = findViewById(R.id.manualis_bolt_text);
-        manualis_datum_text = findViewById(R.id.manualis_datum_text);
+        manualis_datum_text = findViewById(R.id.manualis_bolt_text); //a manualis datum text ki lett véve, így nincs HIBA
         manualis_nev_text = findViewById(R.id.manualis_nev_text);
         manualis_kategoria_text = findViewById(R.id.manualis_kategoria_text);
+        manualis_fiok_text = findViewById(R.id.manualis_fiok_text);
 
         kep = findViewById(R.id.kep);
         manualis_datum_pick = findViewById(R.id.manualis_datum_pick);
@@ -131,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 manualis_kiadas_button, manualis_kuldes, manualis_mentes, manualis_tovabb,
                 nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_layout, manualis_bolt_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
-                manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText, manualis_kategoria_editText,
+                manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText, manualis_kategoria_editText, manualis_fiok_editText,
                 regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
-                manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text, manualis_kategoria_text,
+                manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text, manualis_kategoria_text, manualis_fiok_text,
                 kep, manualis_datum_pick);
 
     }
