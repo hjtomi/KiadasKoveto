@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.core.content.FileProvider;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
@@ -24,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private UrlKezelo urlKezelo;
@@ -137,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void foto(View view){
-        felvetel_valaszto_layout.setVisibility(View.INVISIBLE);
         nyugtas_kiadas_layout.setVisibility(View.VISIBLE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},REQUEST_CAMERA_PERMISSION_CODE);
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String filename = Environment.getExternalStorageDirectory().getPath() + "/test/testfile.jpg";
-        Uri imageUri = Uri.fromFile(new File(filename));
+        Uri imageUri = FileProvider.getUriForFile(this, "com.example.frontend.fileprovider", new File(filename));
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);

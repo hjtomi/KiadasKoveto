@@ -34,8 +34,8 @@ public class UrlKezelo {
 
     Context context;
     RequestQueue queue;
-    //String url= "http://10.0.2.2:5000/";
-    String url= "http://157.181.201.13:52349/";
+    String url= "http://10.0.2.2:5000/";
+    //String url= "http://157.181.201.13:52349/";
 
     public String vissza = "";
     public JSONArray vissza_1;
