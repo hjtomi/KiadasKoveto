@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private UrlKezelo urlKezelo;
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private File photoFile;
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
     Button maunalis_tovabb, maunalis_mentes, maunalis_kuldes;
@@ -148,12 +149,29 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String filename = Environment.getExternalStorageDirectory().getPath() + "/test/testfile.jpg";
-        Uri imageUri = FileProvider.getUriForFile(this, "com.example.frontend.fileprovider", new File(filename));
+        photoFile = getPhotoFileUri("photo.jpg");
+        Uri imageUri = FileProvider.getUriForFile(this, "com.example.frontend.fileprovider", photoFile);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
+    }
+
+    private File getPhotoFileUri(String fileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "photo");
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d("photo", "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+
+        return file;
     }
 
     @Override
@@ -161,9 +179,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //Bundle extras = data.getExtras();
 
+            //Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Bitmap imageBitmap = BitmapFactory.decodeFile(photoFile.getPath());
             urlKezelo.frontend.kep_bitmap(imageBitmap);
 
             kep.setImageBitmap(imageBitmap);
