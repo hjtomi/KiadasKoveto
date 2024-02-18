@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/var_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/var_text"
+        android:text="Kép küldése folyamatban"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/home"
         android:layout_width="wrap_content"
@@ -272,7 +292,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="5dp">
+        <Button
+            android:id="@+id/kep_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Küldés"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="150dp"
+            />
 
     <ImageView
         android:layout_width="match_parent"
@@ -287,7 +316,7 @@
             android:id="@+id/nyugtas_bolt_text"
             android:text="Bolt:"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
         <EditText
             android:id="@+id/nyugtas_bolt_editText"
@@ -297,16 +326,23 @@
             android:layout_marginLeft="50dp"
             android:inputType="textPersonName"
             android:hint="Bolt"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nyugtas_fiok_text"
+            android:text="Pénzfiók:"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/kep_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Küldés"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="50dp"
-        />
+        <EditText
+            android:id="@+id/nyugtas_fiok_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:inputType="textPersonName"
+            android:hint="Pénzfiók"/>
+
 
     </LinearLayout>
 
@@ -322,7 +358,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/kategoria_text"
-            android:text="Válasszon kategóriát"
+            android:text="Kép feldolgozása"
+            android:textColor="@color/red"
             android:gravity="center"
             android:layout_marginTop="15dp"/>
 
@@ -330,7 +367,7 @@
             android:id="@+id/kategora_1_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -339,7 +376,7 @@
             android:id="@+id/kategora_2_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -348,7 +385,7 @@
             android:id="@+id/kategora_3_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -357,7 +394,7 @@
             android:id="@+id/kategora_4_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="4"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -367,7 +404,7 @@
             android:id="@+id/kategora_5_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -376,7 +413,7 @@
             android:id="@+id/kategora_6_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -385,7 +422,7 @@
             android:id="@+id/kategora_7_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="7"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
@@ -394,7 +431,7 @@
             android:id="@+id/kategora_8_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="8"
+            android:text="Betöltés ..."
             android:layout_marginTop="15dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
