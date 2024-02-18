@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///kiadaskoveto.db'
 Adatbazis.app_(app)
 Adatbazis.db_creater(app)
 
+adatok = {}
 
 @app.route("/")
 def hello_world():
@@ -168,6 +169,27 @@ def manualis():
 
     return json.dumps({"hiba":"0"})
 
+@app.route("/adatok_", methods=['GET'])
+def adatok_():
+    nev = str(request.args['nev'])
+    print(nev)
+
+    try:
+        adat = []
+        adat.append(json.dumps({"varj":"0"}))
+        for k, v in adatok[nev].items():
+            adat.append(json.dumps({k:v}))
+
+        print(adat)
+
+        adatok.pop(nev)
+        print(adatok)
+    except:
+        print("Várjon")
+        return json.dumps([json.dumps({"varj":"1"}), json.dumps({"hiba":"0"})])
+
+    return json.dumps(adat)
+
 @app.route("/nyugta", methods=['POST'])
 def nyugta():
     # Fogadd el a POST kérést
@@ -183,7 +205,7 @@ def nyugta():
     #     'hiba': 0,
     # }
 
-    adatok = NyugtasKiadas().fronted_felvetel(photo=image_data, felhasznalonev=nev, bolt=bolt, debug=False)
+    adatok[nev] = NyugtasKiadas().fronted_felvetel(photo=image_data, felhasznalonev=nev, bolt=bolt, debug=False)
 
     # Itt végezd el azokat a műveleteket, amiket szeretnél az adattal
     # például elmenteni a képet vagy végrehajtani egy feldolgozást
@@ -193,8 +215,8 @@ def nyugta():
     print(f"Received an image with length: {image_length}")
 
     # Itt válaszolj a kérésre, például egy egyszerű üzenettel
-    return json.dumps(adatok)
-
+    #return json.dumps(adatok)
+    return json.dumps({"Sikeres kuldes":"1"})
 
 class User:
     def __init__(self, nev, jelszo, email_cim):

@@ -267,7 +267,7 @@ class NyugtasKiadas:
 
             # megmutatja a kepet
 
-            Image.open(BytesIO(photo)).show()
+            #Image.open(BytesIO(photo)).show()
 
             adatok = self._nyugta_adatfeldolgozas(photo)
 
@@ -275,8 +275,8 @@ class NyugtasKiadas:
                 kategoria_kezelo.uj_ajanlas(bolt, termek_nev) for (bolt, termek_nev) in zip(adatok['bolti_termek_nevek'],
                                                                                             adatok['bolti_termek_arak'])
             ]
-
             adatok['hiba'] = 0
+
 
             print(adatok)
 
