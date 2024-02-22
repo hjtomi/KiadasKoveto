@@ -177,8 +177,13 @@ def adatok_():
     try:
         adat = []
         adat.append(json.dumps({"varj":"0"}))
-        for k, v in adatok[nev].items():
-            adat.append(json.dumps({k:v}))
+        adat.append(json.dumps({"hossz":len(adatok[nev]["bolti_termek_nevek"])}))
+        print(adatok)
+        #for k, v in adatok[nev].items():
+        #    adat.append(json.dumps({k:v}))
+
+        for i in range(len(adatok[nev]["bolti_termek_nevek"])):
+            adat.append(json.dumps({f"{i}ar":adatok[nev]["bolti_termek_arak"][i], f"{i}nev":adatok[nev]["bolti_termek_nevek"][i], f"{i}kat":adatok[nev]["kategoria_javaslatok"][i]}))
 
         print(adat)
 
@@ -196,7 +201,8 @@ def nyugta():
     image_data = request.form['kep']
     nev = request.form['nev']
     bolt = request.form['bolt']
-    print(nev, bolt)
+    fiok = request.form['fiok']
+    print(nev, bolt, fiok)
 
     # {
     #     'bolti_aru_nevek': List[str],
