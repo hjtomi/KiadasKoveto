@@ -363,12 +363,32 @@
             android:gravity="center"
             android:layout_marginTop="15dp"/>
 
+        <EditText
+            android:id="@+id/ny_termeknev_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:hint="Termék név: Betöltés ..."/>
+
+        <EditText
+            android:id="@+id/ny_termekar_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:inputType="textPersonName"
+            android:hint="Termék ár: Betöltés ..."/>
+
         <Button
             android:id="@+id/kategora_1_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -377,7 +397,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -386,7 +406,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -395,7 +415,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -405,7 +425,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -414,7 +434,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -423,7 +443,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -432,7 +452,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Betöltés ..."
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -443,16 +463,17 @@
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:inputType="textPersonName"
             android:hint="Egyéb kategória"/>
+
 
         <Button
             android:id="@+id/kategora_kuldes_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Küldés"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
@@ -616,6 +637,46 @@
             android:layout_marginLeft="50dp"
             />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/kategoria_hozzaadasa_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/kategoria_hozzaadasa_text"
+            android:text="Kategória:"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/kategoria_hozzaadasa_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="textPersonName"
+            android:hint="Kategória"/>
+
+
+
+        <Button
+            android:id="@+id/kategoria_hozzaadasa_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kategória hozzáadása"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            />
 
     </LinearLayout>
 
