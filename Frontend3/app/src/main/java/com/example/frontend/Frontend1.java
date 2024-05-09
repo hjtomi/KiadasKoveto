@@ -35,15 +35,17 @@ public class Frontend1 extends Thread {
 
     public Context context;
 
-    String currentPhotoPath;
+
 
     UrlKezelo urlKezelo;
 
     int xyz = 1;
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home_;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
-    Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button;
-    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout, var_layout, kategoria_hozzaadasa_layout;
+    Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button, bevetel_button;
+    Button fooldal_fiok_button;
+    LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout, var_layout, kategoria_hozzaadasa_layout, bevetel_hozzaadasa_layout;
+    LinearLayout fiok_hozzaadasa_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
     EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText;
     TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
@@ -52,7 +54,7 @@ public class Frontend1 extends Thread {
     ImageView kep;
 
     public int tart = 0;
-    //public int hossz = 0;
+    public int hossz = 0;
     public HashMap<String, String> kategoriak_vissza = new HashMap<>();
     public JSONArray adatok;
 
@@ -62,12 +64,15 @@ public class Frontend1 extends Thread {
 
     public boolean futas = false;
     public JSONObject manualis_kuldeni;
+    public JSONObject nyugtas_kuldeni;
 
 
     public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home_,
                      Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
-                     Button manualis_kiadas_button, Button manualis_kuldes, Button manualis_mentes, Button manualis_tovabb, Button kategoria_hozzaadasa_button,
-                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout, LinearLayout var_layout, LinearLayout kategoria_hozzaadasa_layout,
+                     Button manualis_kiadas_button, Button manualis_kuldes, Button manualis_mentes, Button manualis_tovabb, Button kategoria_hozzaadasa_button, Button bevetel_button,
+                     Button fooldal_fiok_button,
+                     LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout, LinearLayout var_layout, LinearLayout kategoria_hozzaadasa_layout, LinearLayout bevetel_hozzaadasa_layout,
+                     LinearLayout fiok_hozzaadasa_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
                      EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText, EditText manualis_fiok_editText, EditText nyugtas_fiok_editText, EditText kategoria_hozzaadasa_editText, EditText ny_termekar_editText, EditText ny_termeknev_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
@@ -102,6 +107,8 @@ public class Frontend1 extends Thread {
         this.manualis_tovabb = manualis_tovabb;
         this.manualis_mentes = manualis_mentes;
         this.manualis_kuldes = manualis_kuldes;
+        this.bevetel_button = bevetel_button;
+        this.fooldal_fiok_button = fooldal_fiok_button;
 
         this.nincs_bejelentkezve_layout = nincs_bejelentkezve_layout;
         this.bejelentkezes_layout = bejelentkezes_layout;
@@ -114,6 +121,8 @@ public class Frontend1 extends Thread {
         this.manualis_layout = manualis_layout;
         this.var_layout = var_layout;
         this.kategoria_hozzaadasa_layout = kategoria_hozzaadasa_layout;
+        this.bevetel_hozzaadasa_layout = bevetel_hozzaadasa_layout;
+        this.fiok_hozzaadasa_layout = fiok_hozzaadasa_layout;
 
         this.regisztracio_felhasznalonev_editText = regisztracio_felhasznalonev_editText;
         this.regisztracio_jelszo_editText = regisztracio_jelszo_editText;
@@ -155,11 +164,13 @@ public class Frontend1 extends Thread {
         this.manualis_datum_pick = manualis_datum_pick;
 
         home();
+        //bevetel_hozzaadasa_layout.setVisibility(View.VISIBLE);
         nincs_bejelentkezve_layout.setVisibility(View.VISIBLE);
         //kategoria_layout.setVisibility(View.VISIBLE);
         //nyugtas_kiadas_layout.setVisibility(View.VISIBLE);
 
         manualis_kuldeni = new JSONObject();
+        nyugtas_kuldeni = new JSONObject();
 
 
     }
@@ -177,6 +188,8 @@ public class Frontend1 extends Thread {
         manualis_bolt_layout.setVisibility(View.INVISIBLE);
         var_layout.setVisibility(View.INVISIBLE);
         kategoria_hozzaadasa_layout.setVisibility(View.INVISIBLE);
+        bevetel_hozzaadasa_layout.setVisibility(View.INVISIBLE);
+        fiok_hozzaadasa_layout.setVisibility(View.INVISIBLE);
 
     }
 
@@ -197,6 +210,7 @@ public class Frontend1 extends Thread {
                         CharSequence charSequence = new StringBuffer("Válasszon kategóriát");
                         kategoria_text.setText(charSequence);
                         kategoria_text.setTextColor(Color.BLACK);
+                        //nyugtas_kuldeni.put("tart", 0);
                         kategoria_megjelenites();
 
 
@@ -218,7 +232,7 @@ public class Frontend1 extends Thread {
 
             }
             xyz++;
-            if (xyz == 100000000) {var = false; Log.d("ADATOK156", "internet");}
+            if (xyz == 300000000) {var = false; Log.d("ADATOK156", "internet");}
             }
 
         if (home_.getVisibility() == View.VISIBLE){
@@ -272,7 +286,8 @@ public class Frontend1 extends Thread {
     private void kategoria_megjelenites() {
         try {
 
-            //hossz = adatok.getJSONObject(1).getInt("hossz");
+            JSONObject ho = new JSONObject(adatok.get(1).toString());
+            hossz = ho.getInt("hossz");
             JSONObject json = new JSONObject(adatok.get(tart+2).toString());
             CharSequence nev = new StringBuffer(json.getString(tart+"nev"));
             ny_termeknev_editText.setText(nev);
@@ -328,7 +343,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_1.getText().toString());
+
+                        try {
+                            JSONObject termek = new JSONObject();
+                            termek.put("nev", nev);
+                            termek.put("ar", ar);
+                            termek.put("kat", kategoria_1.getText().toString());
+                            nyugtas_kuldeni.put("tart", tart);
+                            nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                     //if (tart == hossz){Log.d("ADATOK559", "VÉGE");}
                 }
@@ -337,7 +391,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_2.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_2.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -345,7 +438,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_3.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_3.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -353,7 +485,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_4.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_4.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -361,7 +532,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_5.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_5.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -369,7 +579,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_6.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_6.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -377,7 +626,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_7.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_7.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -385,7 +673,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_8.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_8.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
                 }
             });
@@ -394,7 +721,46 @@ public class Frontend1 extends Thread {
                 @Override
                 public void onClick(View v) {
                     tart ++;
-                    kategoriak_vissza.put(ny_termeknev_editText.getText().toString(), kategoria_egyeb_editText.getText().toString());
+
+                    try {
+                        JSONObject termek = new JSONObject();
+                        termek.put("nev", nev);
+                        termek.put("ar", ar);
+                        termek.put("kat", kategoria_egyeb_editText.getText().toString());
+                        nyugtas_kuldeni.put("tart", tart);
+                        nyugtas_kuldeni.put(Integer.toString(tart), termek);
+                    } catch (JSONException e) {
+                        Log.d("ADATOK223", "HIBA");
+
+                    }
+
+                    if (tart == hossz){
+                        Log.d("ADATOK556", nyugtas_kuldeni.toString());
+                        JSONObject datum = new JSONObject();
+                        try {
+                            datum.put("ev", 2024);
+                            datum.put("honap", 2);
+                            datum.put("nap", 24);
+                            nyugtas_kuldeni.put("datum", datum);
+                            nyugtas_kuldeni.put("bolt", nyugtas_bolt_editText.getText().toString());
+                            nyugtas_kuldeni.put("fiok", nyugtas_fiok_editText.getText().toString());
+                            nyugtas_kuldeni.put("felhasznalonev", bejelentkezes_felhasznalonev_editText.getText().toString());
+                            Log.d("ADATOK557", nyugtas_kuldeni.toString());
+                            String vissza = urlKezelo.manualis(nyugtas_kuldeni);
+                            Log.d("ADATOK5567", vissza);
+                            nyugtas_kuldeni = new JSONObject();
+                            nyugtas_kuldeni.put("tart", 0);
+
+                            home();
+                            fooldal_layout.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.d("ADATOK335", "HIba");
+                        }
+                    }
+
+
+
+
                     kategoria_megjelenites();
 
                 }
@@ -422,6 +788,7 @@ public class Frontend1 extends Thread {
                     termek.put("nev", nev);
                     termek.put("ar", ar);
                     termek.put("kat", kat);
+
                     manualis_kuldeni.put("tart", manualis_kuldeni.getInt("tart") + 1);
                     manualis_kuldeni.put(manualis_kuldeni.get("tart").toString(), termek);
 
@@ -552,6 +919,21 @@ public class Frontend1 extends Thread {
 
             }
         });
+
+        bevetel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bevetel();
+            }
+        });
+
+    }
+
+    private void bevetel() {
+
+        home();
+        bevetel_hozzaadasa_layout.setVisibility(View.VISIBLE);
+
     }
 
     private void kategoria() {
@@ -778,7 +1160,8 @@ public class Frontend1 extends Thread {
 
         fooldal_kategoria_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                home();
+                kategoria_hozzaadasa_layout.setVisibility(View.VISIBLE);
             }
         });
 
@@ -787,6 +1170,15 @@ public class Frontend1 extends Thread {
 
             }
         });
+
+        fooldal_fiok_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                home();
+                fiok_hozzaadasa_layout.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     public void nincs_bejelentkezve() {

@@ -164,7 +164,7 @@
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:hint="E-mail cím"/>
 
         <TextView
@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/regisztracio_egyenleg_text"
-            android:text="Egyenleg:"
+            android:text="Készpénz:"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"/>
 
@@ -199,7 +199,7 @@
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             android:inputType="number"
-            android:hint="Egyenleg"/>
+            android:hint="Készpénz"/>
 
         <Button
             android:id="@+id/regisztracio_button"
@@ -238,6 +238,15 @@
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             android:text="Kategóriák" />
+
+        <Button
+            android:id="@+id/fooldal_fiok_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Pénzfiókok" />
 
         <Button
             android:id="@+id/fooldal_statisztika_button"
@@ -279,6 +288,16 @@
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             android:text="Manuális"
+            />
+
+        <Button
+            android:id="@+id/bevetel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:text="Bevétel"
             />
 
 
@@ -673,6 +692,121 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Kategória hozzáadása"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bevetel_hozzaadasa_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bevetel_fiok_text"
+            android:text="Pénzfiók:"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/bevetel_fiok_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="textPersonName"
+            android:hint="Pénzfiók"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bevetel_hozzaadasa_text"
+            android:text="Bevetél:"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/bevetel_hozzaadasa_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="number"
+            android:hint="Bevétel"/>
+
+
+        <Button
+            android:id="@+id/bevetel_hozzaadasa_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bevétel hozzáadása"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fiok_hozzaadasa_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fiok_hozzaadasa_text"
+            android:text="Pénzfiók:"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/fiok_hozzaadasa_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="textPersonName"
+            android:hint="Pénzfiók"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fiok_osszeg_text"
+            android:text="Egyenleg:"
+            android:gravity="center"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/fiok_osszeg_editText"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:inputType="number"
+            android:hint="Egyenleg"/>
+
+
+        <Button
+            android:id="@+id/fiok_hozzaadasa_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fiók hozzáadása"
             android:layout_marginTop="30dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"

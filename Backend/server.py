@@ -140,6 +140,14 @@ def kategoriak():
     nev = str(request.args['nev'])
     return json.dumps(alap_kategoriak)
 
+@app.route("/kategoria_hozzaadasa", methods=['POST'])
+def kategoria_hozzaadasa():
+    adatok = request.json
+    nev = adatok['nev']
+    kategoria = adatok['kategoria']
+    print(nev, kategoria)
+    return json.dumps({'hiba':0})
+
 @app.route("/manualis", methods=['POST'])
 def manualis():
     """Adatszerkezet a frontendből:
