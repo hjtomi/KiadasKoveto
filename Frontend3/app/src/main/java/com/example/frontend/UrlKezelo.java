@@ -37,7 +37,7 @@ public class UrlKezelo {
     Context context;
     RequestQueue queue;
     //String url= "http://10.0.2.2:5000/";
-    String url= "http://192.168.0.112:52349/";
+    String url= "http://192.168.0.110:52349/";
 
     public String vissza = "";
     public JSONArray vissza_1;
@@ -199,6 +199,58 @@ public class UrlKezelo {
 
     public String be(String nev, String jelszo){
         bejelentkezes(nev, jelszo);
+        int timer1 = 0;
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
+            timer1 ++;
+        }
+        String a = vissza;
+        vissza = "";
+
+        if (a.contains("0") || a.contains("1"))
+            return a;
+        else
+            return "{internet:1}";
+    }
+
+    public void kategoria_hozzaadasa(String felhasznalonev, String kategoria){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String requestBody = "{\"nev\": \""+felhasznalonev+"\", \"kategoria\": \""+kategoria+"\"}";
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "kategoria_hozzaadasa", requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("kategoria", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vissza = "HIBA";
+                Log.d("kategoria", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
+
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
+
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+
+                Log.d("kategoria", "HTTP request OK " + response.headers);
+                Log.d("kategoria", responseText);
+
+                vissza=responseText;
+
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
+
+    }
+
+    public String kategoria(String nev, String kategoria){
+        kategoria_hozzaadasa(nev, kategoria);
         int timer1 = 0;
         while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
             timer1 ++;

@@ -109,6 +109,7 @@ public class Frontend1 extends Thread {
         this.manualis_kuldes = manualis_kuldes;
         this.bevetel_button = bevetel_button;
         this.fooldal_fiok_button = fooldal_fiok_button;
+        this.kategoria_hozzaadasa_button = kategoria_hozzaadasa_button;
 
         this.nincs_bejelentkezve_layout = nincs_bejelentkezve_layout;
         this.bejelentkezes_layout = bejelentkezes_layout;
@@ -271,17 +272,35 @@ public class Frontend1 extends Thread {
         if (nyugtas_kiadas_layout.getVisibility() == View.VISIBLE)
             nyugtas_kiadas();
 
-        if (kategoria_layout.getVisibility() == View.VISIBLE)
-            kategoria();
-
         if (felvetel_valaszto_layout.getVisibility() == View.VISIBLE)
             felvetel_valaszto();
 
         if (manualis_layout.getVisibility() == View.VISIBLE)
             manualis_termek_hozzaadas();
 
-
+        if (kategoria_hozzaadasa_layout.getVisibility() == View.VISIBLE)
+            kategoria_hozzaadasa();
     }
+
+    private void kategoria_hozzaadasa() {
+        Log.d("Kategoria", "itt");
+        kategoria_hozzaadasa_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String adat = urlKezelo.kategoria(bejelentkezes_felhasznalonev_editText.getText().toString(),
+                        kategoria_hozzaadasa_editText.getText().toString());
+
+                    if (adat.equals("{internet:1}")){
+                        Toast.makeText(context, "Nem sikerült kapcsolódni a szerverhez", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(context, "A kategória hozzáadva", Toast.LENGTH_LONG).show();
+
+                    }
+            }
+        });
+    }
+
 
     private void kategoria_megjelenites() {
         try {
@@ -771,6 +790,7 @@ public class Frontend1 extends Thread {
         }
     }
 
+
     private void manualis_termek_hozzaadas() {
         manualis_mentes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -934,10 +954,6 @@ public class Frontend1 extends Thread {
         home();
         bevetel_hozzaadasa_layout.setVisibility(View.VISIBLE);
 
-    }
-
-    private void kategoria() {
-        //kategoria_1.setText("Katekória1");
     }
 
     public void kep_bitmap(Bitmap kep){
@@ -1210,9 +1226,6 @@ public class Frontend1 extends Thread {
 
         }
     }
-
-
-
 
 }
 
