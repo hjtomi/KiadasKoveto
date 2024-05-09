@@ -342,7 +342,7 @@ def idoszamitas(kezdet, veg, datum):
     vegho = int(veg[1])
     vegnap = int(veg[2])
 
-    datum = datum.split(".")
+    datum = datum.split("-")
     datev = int(datum[0])
     datho = int(datum[1])
     datnap = int(datum[2])
@@ -437,7 +437,7 @@ class Statisztika():
         for adatok in tranzakcio_adatok:
             if adatok.felhasznalonev == felhasznalo_nev:
                 if idoszamitas(kezdet, veg, adatok.datum) == True:
-                    kiadasok[szetszedett_penz_fiokok.index(adatok.penz_fiokok)] += adatok.ertek
+                    kiadasok[szetszedett_penz_fiokok.index(adatok.penz_fiok)] += adatok.ertek
                     if adatok.datum not in datumok:
                         datumok.append(adatok.datum)
                         napi_kiad.append([])
@@ -447,6 +447,8 @@ class Statisztika():
                     else:
                         napi_kiad[datumok.index(adatok.datum)][szetszedett_penz_fiokok.index(adatok.penz_fiok)] += adatok.ertek
 
+        kor(kiadasok, szetszedett_penz_fiokok)
+        #vonal(datumok, kiadasok, penz_fiokok)
         if diagramm == "kör":
              return "foto.jpg"
         elif diagramm == "vonal":

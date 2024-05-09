@@ -69,9 +69,11 @@ def manualis_kiadas_felvetel():
     ManualisKiadasFelvetel()
     return "<p>Manualis kiadas felveve</p>"
 
-@app.route("/statisztika", methods=['POST'])
+@app.route("/statisztika", methods=['GET'])
 def statisztika():
-    return Statisztika()
+    s = Statisztika()
+    s.statisztika("Jancsi", "2024.01.01", "2024.02.24", "kör")
+    return "<p>ALMA</p>"
 
 @app.route("/proba",methods=['GET'])
 def proba():
