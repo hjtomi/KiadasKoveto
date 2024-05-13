@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private File photoFile;
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
-    Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button, bevetel_button;
+    Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button, bevetel_button, bevetel_hozzaadasa_button;
     Button fooldal_fiok_button;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout, var_layout, kategoria_hozzaadasa_layout, bevetel_hozzaadasa_layout;
     LinearLayout fiok_hozzaadasa_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
-    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText;
-    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
+    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText, bevetel_fiok_editText, bevetel_ar_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text, bevetel_fiok_text;
     TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text, manualis_fiok_text, var_text, nyugtas_fiok_text, kategoria_hozzaadasa_text;
     DatePicker manualis_datum_pick;
     ImageView kep;
@@ -147,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Register the onClick listener with the implementation above
 
+
+
         urlKezelo = new UrlKezelo(this, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home,
                 kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8,
                 manualis_kiadas_button, manualis_kuldes, manualis_mentes, manualis_tovabb, kategoria_hozzaadasa_button, bevetel_button,
@@ -160,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
                 kep, manualis_datum_pick);
 
     }
+
+
         /*Window window = getWindow();
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -294,5 +299,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 }

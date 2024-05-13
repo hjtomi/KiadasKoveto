@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -953,7 +954,6 @@ public class Frontend1 extends Thread {
 
         home();
         bevetel_hozzaadasa_layout.setVisibility(View.VISIBLE);
-
     }
 
     public void kep_bitmap(Bitmap kep){

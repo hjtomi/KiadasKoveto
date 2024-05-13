@@ -692,10 +692,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Kategória hozzáadása"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
+
+
+        <CheckBox android:id="@+id/checkbox_meat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kat1" />
+        <CheckBox android:id="@+id/checkbox_cheese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kat2"/>
 
     </LinearLayout>
 
@@ -714,7 +724,7 @@
             android:id="@+id/bevetel_fiok_text"
             android:text="Pénzfiók:"
             android:gravity="center"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="45dp"/>
 
         <EditText
             android:id="@+id/bevetel_fiok_editText"
@@ -732,7 +742,7 @@
             android:id="@+id/bevetel_hozzaadasa_text"
             android:text="Bevetél:"
             android:gravity="center"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="25dp"/>
 
         <EditText
             android:id="@+id/bevetel_hozzaadasa_editText"
@@ -750,10 +760,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bevétel hozzáadása"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             />
+
+
 
     </LinearLayout>
 
