@@ -43,29 +43,33 @@ public class UrlKezelo {
     public JSONArray vissza_1;
     Frontend1 frontend;
     //public UrlKezelo(Context context, Frontend1 frontend1){
-    public UrlKezelo(Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home,
+    public UrlKezelo(Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home_,
                      Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
                      Button manualis_kiadas_button, Button manualis_kuldes, Button manualis_mentes, Button manualis_tovabb, Button kategoria_hozzaadasa_button, Button bevetel_button,
-                     Button fooldal_fiok_button,
+                     Button fooldal_fiok_button, Button bevetel_hozzaadasa_button,
                      LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout, LinearLayout var_layout, LinearLayout kategoria_hozzaadasa_layout, LinearLayout bevetel_hozzaadasa_layout,
                      LinearLayout fiok_hozzaadasa_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
                      EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText, EditText manualis_fiok_editText, EditText nyugtas_fiok_editText, EditText kategoria_hozzaadasa_editText, EditText ny_termekar_editText, EditText ny_termeknev_editText,
+                     EditText bevetel_fiok_editText, EditText bevetel_ar_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
                      TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text, TextView manualis_kategoria_text, TextView manualis_fiok_text, TextView var_text, TextView nyugtas_fiok_text, TextView kategoria_hozzaadasa_text,
+                     TextView bevetel_fiok_text,
                      ImageView kep, DatePicker manualis_datum_pick){
 
         this.context = context;
-        frontend = new Frontend1(this, context, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home,
+        frontend = new Frontend1(this, context, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home_,
                 kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8,
                 manualis_kiadas_button, manualis_kuldes, manualis_mentes, manualis_tovabb, kategoria_hozzaadasa_button, bevetel_button,
-                fooldal_fiok_button,
+                fooldal_fiok_button, bevetel_hozzaadasa_button,
                 nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_layout, manualis_bolt_layout, var_layout, kategoria_hozzaadasa_layout, bevetel_hozzaadasa_layout,
                 fiok_hozzaadasa_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
                 manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText,
+                bevetel_fiok_editText, bevetel_ar_editText,
                 regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
                 manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text, manualis_kategoria_text, manualis_fiok_text, var_text, nyugtas_fiok_text, kategoria_hozzaadasa_text,
+                bevetel_fiok_text,
                 kep, manualis_datum_pick);
 
         frontend.futas = true;
@@ -263,6 +267,60 @@ public class UrlKezelo {
         else
             return "{internet:1}";
     }
+
+
+    public void bevetel_hozzaadasa(String felhasznalonev, String fiok, String osszeg){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String requestBody = "{\"nev\": \""+felhasznalonev+"\", \"fiok\": \""+fiok+"\", \"osszeg\": \""+osszeg+"\"}";
+        JsonRequest request = new JsonRequest(Request.Method.POST, url + "bevetel_hozzaadasa", requestBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("bevetel", "HTTP request OK, JSONObject: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                vissza = "HIBA";
+                Log.d("bevetel", "HTTP request failed", error);
+            }
+        }) {
+            @Override
+            public int compareTo(Object o) {
+                return 0;
+            }
+
+            @Override
+            protected Response parseNetworkResponse(NetworkResponse response) {
+
+                String responseText = new String(response.data, StandardCharsets.UTF_8);
+
+                Log.d("bevetel", "HTTP request OK " + response.headers);
+                Log.d("bevetel", responseText);
+
+                vissza=responseText;
+
+                return Response.success(null, null);
+            }
+        };
+        queue.add(request);
+
+    }
+
+    public String bevetel(String nev, String fiok, String osszeg){
+        bevetel_hozzaadasa(nev, fiok, osszeg);
+        int timer1 = 0;
+        while (!vissza.contains("0") && !vissza.contains("1") && timer1 < 50000000){
+            timer1 ++;
+        }
+        String a = vissza;
+        vissza = "";
+
+        if (a.contains("0") || a.contains("1"))
+            return a;
+        else
+            return "{internet:1}";
+    }
+
 
     public String reg(String nev, String email, String jelszo, String egyenleg) {
         regisztral(nev, email, jelszo, egyenleg);

@@ -43,13 +43,13 @@ public class Frontend1 extends Thread {
     int xyz = 1;
     Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home_;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
-    Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button, bevetel_button;
+    Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button, bevetel_button, bevetel_hozzaadasa_button;
     Button fooldal_fiok_button;
     LinearLayout nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_bolt_layout, manualis_layout, var_layout, kategoria_hozzaadasa_layout, bevetel_hozzaadasa_layout;
     LinearLayout fiok_hozzaadasa_layout;
     EditText regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText, manualis_bolt_editText;
-    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText;
-    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text;
+    EditText manualis_nev_editText, manualis_ar_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText, bevetel_fiok_editText, bevetel_ar_editText;
+    TextView regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text, manualis_bolt_text, bevetel_fiok_text;
     TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text, manualis_fiok_text, var_text, nyugtas_fiok_text, kategoria_hozzaadasa_text;
     DatePicker manualis_datum_pick;
     ImageView kep;
@@ -71,13 +71,15 @@ public class Frontend1 extends Thread {
     public Frontend1(UrlKezelo urlKezelo, Context context, Button bejelentkezes_button, Button regisztracios_button, Button bejelentkez_button, Button regisztracio_button, Button fooldal_felvetel_button, Button fooldal_kategoria_button, Button fooldal_statisztika_button, Button nyugtas_kiadas_button, Button kep_button, Button kategoria_kuldes_button, Button home_,
                      Button kategoria_1, Button kategoria_2, Button kategoria_3, Button kategoria_4, Button kategoria_5, Button kategoria_6, Button kategoria_7, Button kategoria_8,
                      Button manualis_kiadas_button, Button manualis_kuldes, Button manualis_mentes, Button manualis_tovabb, Button kategoria_hozzaadasa_button, Button bevetel_button,
-                     Button fooldal_fiok_button,
+                     Button fooldal_fiok_button, Button bevetel_hozzaadasa_button,
                      LinearLayout nincs_bejelentkezve_layout, LinearLayout bejelentkezes_layout, LinearLayout regisztracio_layout, LinearLayout fooldal_layout, LinearLayout felvetel_valaszto_layout, LinearLayout nyugtas_kiadas_layout, LinearLayout kategoria_layout, LinearLayout manualis_layout, LinearLayout manualis_bolt_layout, LinearLayout var_layout, LinearLayout kategoria_hozzaadasa_layout, LinearLayout bevetel_hozzaadasa_layout,
                      LinearLayout fiok_hozzaadasa_layout,
                      EditText regisztracio_felhasznalonev_editText, EditText regisztracio_jelszo_editText, EditText regisztracio_email_editText, EditText bejelentkezes_felhasznalonev_editText, EditText bejelentkezes_jelszo_editText, EditText regisztracio_egyenleg_editText, EditText nyugtas_bolt_editText, EditText kategoria_egyeb_editText,
                      EditText manualis_bolt_editText, EditText manualis_ar_editText, EditText manualis_nev_editText, EditText manualis_kategoria_editText, EditText manualis_fiok_editText, EditText nyugtas_fiok_editText, EditText kategoria_hozzaadasa_editText, EditText ny_termekar_editText, EditText ny_termeknev_editText,
+                     EditText bevetel_fiok_editText, EditText bevetel_ar_editText,
                      TextView regisztracio_felhasznalonev_text, TextView regisztracio_email_text, TextView regisztracio_jelszo_text, TextView bejelentkezes_felhasznalonev_text, TextView bejelentkezes_jelszo_text, TextView regisztracio_egyenleg_text, TextView nyugtas_bolt_text, TextView kategoria_text,
                      TextView manualis_ar_text, TextView manualis_bolt_text, TextView manualis_datum_text, TextView manualis_nev_text, TextView manualis_kategoria_text, TextView manualis_fiok_text, TextView var_text, TextView nyugtas_fiok_text, TextView kategoria_hozzaadasa_text,
+                     TextView bevetel_fiok_text,
                      ImageView kep, DatePicker manualis_datum_pick){
 
 
@@ -94,6 +96,7 @@ public class Frontend1 extends Thread {
         this.kep_button = kep_button;
         this.kategoria_kuldes_button = kategoria_kuldes_button;
         this.home_ = home_;
+        this.bevetel_hozzaadasa_button = bevetel_hozzaadasa_button;
 
         this.kategoria_1 = kategoria_1;
         this.kategoria_2 = kategoria_2;
@@ -143,6 +146,8 @@ public class Frontend1 extends Thread {
         this.kategoria_hozzaadasa_editText = kategoria_hozzaadasa_editText;
         this.ny_termekar_editText = ny_termekar_editText;
         this.ny_termeknev_editText = ny_termeknev_editText;
+        this.bevetel_fiok_editText = bevetel_fiok_editText;
+        this.bevetel_ar_editText = bevetel_ar_editText;
 
         this.regisztracio_felhasznalonev_text = regisztracio_felhasznalonev_text;
         this.regisztracio_email_text = regisztracio_email_text;
@@ -161,6 +166,7 @@ public class Frontend1 extends Thread {
         this.var_text = var_text;
         this.nyugtas_fiok_text = nyugtas_fiok_text;
         this.kategoria_hozzaadasa_text = kategoria_hozzaadasa_text;
+        this.bevetel_fiok_text = bevetel_fiok_text;
 
         this.kep = kep;
         this.manualis_datum_pick = manualis_datum_pick;
@@ -954,6 +960,32 @@ public class Frontend1 extends Thread {
 
         home();
         bevetel_hozzaadasa_layout.setVisibility(View.VISIBLE);
+
+        bevetel_hozzaadasa_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String adatok = urlKezelo.bevetel(bejelentkezes_felhasznalonev_editText.getText().toString(),
+                                                  bevetel_fiok_editText.getText().toString(),
+                                                  bevetel_ar_editText.getText().toString());
+
+                if (adatok.equals("internet:1"))
+                    Toast.makeText(context, "Nem sikerült kapcsolódni a szerverhez", Toast.LENGTH_LONG).show();
+                else{
+                    if (adatok.contains("1"))
+                        {
+                            Toast.makeText(context, "Nem létező fiók", Toast.LENGTH_LONG).show();
+                            bevetel_fiok_text.setTextColor(Color.RED);
+                        }
+                    else
+                    {
+                        Toast.makeText(context, "Bevétel sikeresen hozzáadva", Toast.LENGTH_LONG).show();
+                        bevetel_fiok_text.setTextColor(Color.BLACK);
+                    }
+                }
+            }
+        });
+
+
     }
 
     public void kep_bitmap(Bitmap kep){

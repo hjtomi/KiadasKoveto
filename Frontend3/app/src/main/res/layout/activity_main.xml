@@ -739,13 +739,13 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bevetel_hozzaadasa_text"
+            android:id="@+id/bevetel_ar_text"
             android:text="Bevetél:"
             android:gravity="center"
             android:layout_marginTop="25dp"/>
 
         <EditText
-            android:id="@+id/bevetel_hozzaadasa_editText"
+            android:id="@+id/bevetel_ar_editText"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginRight="50dp"

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private File photoFile;
-    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home;
+    Button bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home_;
     Button kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8;
     Button manualis_kiadas_button, manualis_tovabb, manualis_mentes, manualis_kuldes, kategoria_hozzaadasa_button, bevetel_button, bevetel_hozzaadasa_button;
     Button fooldal_fiok_button;
@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity {
     TextView manualis_nev_text, manualis_ar_text, manualis_datum_text, manualis_kategoria_text, manualis_fiok_text, var_text, nyugtas_fiok_text, kategoria_hozzaadasa_text;
     DatePicker manualis_datum_pick;
     ImageView kep;
-
-    Intent i;
-    Uri mUri;
-    String filename;
-    File folder = null;
-    final static int cameraData = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         nyugtas_kiadas_button = findViewById(R.id.nyugtas_kiadas_button);
         kep_button = findViewById(R.id.kep_button);
         kategoria_kuldes_button = findViewById(R.id.kategora_kuldes_button);
-        home = findViewById(R.id.home);
+        home_ = findViewById(R.id.home);
         kategoria_hozzaadasa_button = findViewById(R.id.kategoria_hozzaadasa_button);
 
         kategoria_1 = findViewById(R.id.kategora_1_button);
@@ -92,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         manualis_tovabb = findViewById(R.id.manualis_tovabb);
         bevetel_button = findViewById(R.id.bevetel_button);
         fooldal_fiok_button = findViewById(R.id.fooldal_fiok_button);
+        bevetel_hozzaadasa_button = findViewById(R.id.bevetel_hozzaadasa_button);
 
         nincs_bejelentkezve_layout = findViewById(R.id.nincs_bejelentkezve_layout);
         bejelentkezes_layout = findViewById(R.id.bejelentkezes_layout);
@@ -124,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         kategoria_hozzaadasa_editText = findViewById(R.id.kategoria_hozzaadasa_editText);
         ny_termekar_editText = findViewById(R.id.ny_termekar_editText);
         ny_termeknev_editText = findViewById(R.id.ny_termeknev_editText);
+        bevetel_fiok_editText = findViewById(R.id.bevetel_fiok_editText);
+        bevetel_ar_editText = findViewById(R.id.bevetel_ar_editText);
 
         regisztracio_felhasznalonev_text = findViewById(R.id.regisztracio_felhasznalonev_text);
         regisztracio_email_text = findViewById(R.id.regisztracio_email_text);
@@ -142,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         var_text = findViewById(R.id.var_text);
         nyugtas_fiok_text = findViewById(R.id.nyugtas_fiok_text);
         kategoria_hozzaadasa_text = findViewById(R.id.kategoria_hozzaadasa_text);
+        bevetel_fiok_text = findViewById(R.id.bevetel_fiok_text);
 
         kep = findViewById(R.id.kep);
         manualis_datum_pick = findViewById(R.id.manualis_datum_pick);
@@ -150,16 +148,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        urlKezelo = new UrlKezelo(this, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home,
+        urlKezelo = new UrlKezelo(this, bejelentkezes_button, regisztracios_button, bejelentkez_button, regisztracio_button, fooldal_felvetel_button, fooldal_kategoria_button, fooldal_statisztika_button, nyugtas_kiadas_button, kep_button, kategoria_kuldes_button, home_,
                 kategoria_1, kategoria_2, kategoria_3, kategoria_4, kategoria_5, kategoria_6, kategoria_7, kategoria_8,
                 manualis_kiadas_button, manualis_kuldes, manualis_mentes, manualis_tovabb, kategoria_hozzaadasa_button, bevetel_button,
-                fooldal_fiok_button,
+                fooldal_fiok_button, bevetel_hozzaadasa_button,
                 nincs_bejelentkezve_layout, bejelentkezes_layout, regisztracio_layout, fooldal_layout, felvetel_valaszto_layout, nyugtas_kiadas_layout, kategoria_layout, manualis_layout, manualis_bolt_layout, var_layout, kategoria_hozzaadasa_layout, bevetel_hozzaadasa_layout,
                 fiok_hozzaadasa_layout,
                 regisztracio_felhasznalonev_editText, regisztracio_jelszo_editText, regisztracio_email_editText, bejelentkezes_felhasznalonev_editText, bejelentkezes_jelszo_editText, regisztracio_egyenleg_editText, nyugtas_bolt_editText, kategoria_egyeb_editText,
                 manualis_bolt_editText, manualis_ar_editText, manualis_nev_editText, manualis_kategoria_editText, manualis_fiok_editText, nyugtas_fiok_editText, kategoria_hozzaadasa_editText, ny_termekar_editText, ny_termeknev_editText,
+                bevetel_fiok_editText, bevetel_ar_editText,
                 regisztracio_felhasznalonev_text, regisztracio_email_text, regisztracio_jelszo_text, bejelentkezes_felhasznalonev_text, bejelentkezes_jelszo_text, regisztracio_egyenleg_text, nyugtas_bolt_text, kategoria_text,
                 manualis_ar_text, manualis_bolt_text, manualis_datum_text, manualis_nev_text, manualis_kategoria_text, manualis_fiok_text, var_text, nyugtas_fiok_text, kategoria_hozzaadasa_text,
+                bevetel_fiok_text,
                 kep, manualis_datum_pick);
 
     }
