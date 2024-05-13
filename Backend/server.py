@@ -138,6 +138,7 @@ def bejelenzkez():
 @app.route("/kategoriak", methods=['GET'])
 def kategoriak():
     nev = str(request.args['nev'])
+    #ToDo nev alapján kiszűrni a kategóriáit és egy listában visszaadni
     return json.dumps(alap_kategoriak)
 
 @app.route("/kategoria_hozzaadasa", methods=['POST'])
@@ -145,7 +146,8 @@ def kategoria_hozzaadasa():
     adatok = request.json
     nev = adatok['nev']
     kategoria = adatok['kategoria']
-    print(nev, kategoria)
+    print(f"{nev} felhasználó {kategoria} kategóriát adott hozzá")
+    # ToDo Hozzáadni a kategóriát a felhasználóhoz az adatbázisban
     return json.dumps({'hiba':0})
 
 @app.route("/manualis", methods=['POST'])
