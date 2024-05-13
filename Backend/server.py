@@ -8,6 +8,7 @@ from manualis_kiadas_felvetel import ManualisKiadasFelvetel, ManualisKiadasFelve
 import json
 import struct
 from typing import List
+import datetime
 
 
 app = Flask(__name__)
@@ -18,6 +19,8 @@ Adatbazis.app_(app)
 Adatbazis.db_creater(app)
 
 adatok = {}
+
+print("A szerver elindult", datetime.datetime.now().strftime("%Y.%m.%d. %H:%M:%S"))
 
 @app.route("/")
 def hello_world():
@@ -148,6 +151,16 @@ def kategoria_hozzaadasa():
     kategoria = adatok['kategoria']
     print(f"{nev} felhasználó {kategoria} kategóriát adott hozzá")
     # ToDo Hozzáadni a kategóriát a felhasználóhoz az adatbázisban
+    return json.dumps({'hiba':0})
+
+@app.route("/bevetel_hozzaadasa", methods=['POST'])
+def bevetel_hozzaadasa():
+    adatok = request.json
+    nev = adatok['nev']
+    fiok = adatok['fiok']
+    osszeg = adatok['osszeg']
+    print(f"{nev} felhasználó {fiok} fiókjához {osszeg} összeget adott hozzá")
+    # ToDo Hozzáadni az adatbázishoz, Ha NEM létezik a FIÓK hiba:1-gyel visszatérni, egyébként hiba:0-val
     return json.dumps({'hiba':0})
 
 @app.route("/manualis", methods=['POST'])
