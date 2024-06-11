@@ -163,6 +163,16 @@ def bevetel_hozzaadasa():
     # ToDo Hozzáadni az adatbázishoz, Ha NEM létezik a FIÓK hiba:1-gyel visszatérni, egyébként hiba:0-val
     return json.dumps({'hiba':0})
 
+@app.route("/fiok_hozzaadasa", methods=['POST'])
+def fiok_hozzaadasa():
+    adatok = request.json
+    nev = adatok['nev']
+    fiok = adatok['fiok']
+    osszeg = adatok['osszeg']
+    print(f"{nev} felhasználó {fiok} fiókot adott hozzá, összeg: {osszeg}")
+    # ToDo A fiókot hozzáadni az adatbázishoz
+    return json.dumps({'hiba':0})
+
 @app.route("/manualis", methods=['POST'])
 def manualis():
     """Adatszerkezet a frontendből:
